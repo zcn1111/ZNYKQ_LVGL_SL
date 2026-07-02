@@ -43,26 +43,63 @@ extern lv_ui guider_ui;
 
 #define MR_FONT               (&lv_customer_font_PingFangHeavy_16)
 #define MR_TITLE_FONT         (&lv_customer_font_PingFangHeavy_20)
+#define MR_DEBUG_ITEM_LOG_LIMIT 20
 
 typedef struct {
     char mileage_text[32];
     bool reminded;
 } mileage_reminder_item_t;
 
+static const char *json_type_name(const cJSON *j)
+{
+    if(!j) return "null";
+    if(cJSON_IsObject(j)) return "object";
+    if(cJSON_IsArray(j)) return "array";
+    if(cJSON_IsString(j)) return "string";
+    if(cJSON_IsNumber(j)) return "number";
+    if(cJSON_IsBool(j)) return "bool";
+    if(cJSON_IsNull(j)) return "null";
+    return "unknown";
+}
+
+static void debug_print_object_keys(const char *prefix, cJSON *obj)
+{
+    if(!cJSON_IsObject(obj)) return;
+
+    printf("[MILEAGE] %s keys:", prefix);
+    int printed = 0;
+    cJSON *child = NULL;
+    cJSON_ArrayForEach(child, obj) {
+        printf(" %s(%s)", child->string ? child->string : "?", json_type_name(child));
+        printed++;
+        if(printed >= 16) {
+            printf(" ...");
+            break;
+        }
+    }
+    printf("\n");
+}
+
 static char *read_text_file_lvfs_limit(const char *path, size_t *out_len)
 {
     if(out_len) *out_len = 0;
-    if(!path) return NULL;
+    if(!path || path[0] == '\0') {
+        printf("[MILEAGE] read abort: empty path\n");
+        return NULL;
+    }
 
+    printf("[MILEAGE] open begin: %s\n", path);
     lv_fs_file_t f;
     lv_fs_res_t rr = lv_fs_open(&f, path, LV_FS_MODE_RD);
     if(rr != LV_FS_RES_OK) {
         printf("[MILEAGE] lv_fs_open failed (%d): %s\n", (int)rr, path);
         return NULL;
     }
+    printf("[MILEAGE] open ok: %s\n", path);
 
     char *buf = (char *)lv_malloc(MR_JSON_MAX_SIZE + 1);
     if(!buf) {
+        printf("[MILEAGE] lv_malloc failed: %u bytes\n", (unsigned)(MR_JSON_MAX_SIZE + 1));
         lv_fs_close(&f);
         return NULL;
     }
@@ -74,7 +111,7 @@ static char *read_text_file_lvfs_limit(const char *path, size_t *out_len)
 
         rr = lv_fs_read(&f, buf + total, want, &br);
         if(rr != LV_FS_RES_OK) {
-            printf("[MILEAGE] lv_fs_read failed (%d)\n", (int)rr);
+            printf("[MILEAGE] lv_fs_read failed (%d), total=%u\n", (int)rr, (unsigned)total);
             lv_free(buf);
             lv_fs_close(&f);
             return NULL;
@@ -86,20 +123,35 @@ static char *read_text_file_lvfs_limit(const char *path, size_t *out_len)
 
     lv_fs_close(&f);
 
-    if(total == 0 || total >= MR_JSON_MAX_SIZE) {
+    if(total == 0) {
+        printf("[MILEAGE] read empty file: %s\n", path);
+        lv_free(buf);
+        return NULL;
+    }
+
+    if(total >= MR_JSON_MAX_SIZE) {
+        printf("[MILEAGE] read too large or clipped: total=%u limit=%u path=%s\n",
+               (unsigned)total, (unsigned)MR_JSON_MAX_SIZE, path);
         lv_free(buf);
         return NULL;
     }
 
     buf[total] = '\0';
     if(out_len) *out_len = total;
+    printf("[MILEAGE] read ok: %u bytes from %s\n", (unsigned)total, path);
     return buf;
 }
 
 static cJSON *json_get_items_array(cJSON *root)
 {
-    if(cJSON_IsArray(root)) return root;
+    printf("[MILEAGE] root type: %s\n", json_type_name(root));
+    if(cJSON_IsArray(root)) {
+        printf("[MILEAGE] use root array\n");
+        return root;
+    }
+
     if(!cJSON_IsObject(root)) return NULL;
+    debug_print_object_keys("root", root);
 
     static const char *keys[] = {
         "items",
@@ -116,12 +168,18 @@ static cJSON *json_get_items_array(cJSON *root)
 
     for(size_t i = 0; i < sizeof(keys) / sizeof(keys[0]); i++) {
         cJSON *arr = cJSON_GetObjectItem(root, keys[i]);
-        if(cJSON_IsArray(arr)) return arr;
+        if(cJSON_IsArray(arr)) {
+            printf("[MILEAGE] use array key: %s\n", keys[i]);
+            return arr;
+        }
     }
 
     cJSON *child = NULL;
     cJSON_ArrayForEach(child, root) {
-        if(cJSON_IsArray(child)) return child;
+        if(cJSON_IsArray(child)) {
+            printf("[MILEAGE] fallback array key: %s\n", child->string ? child->string : "?");
+            return child;
+        }
     }
 
     return NULL;
@@ -162,28 +220,42 @@ static int parse_mileage_items(const char *json_path,
                                mileage_reminder_item_t *items,
                                int max_items)
 {
-    if(!items || max_items <= 0) return 0;
+    printf("[MILEAGE] parse begin: path=%s max_items=%d\n",
+           json_path ? json_path : "(null)", max_items);
+
+    if(!items || max_items <= 0) {
+        printf("[MILEAGE] parse abort: invalid output buffer or max_items\n");
+        return 0;
+    }
 
     size_t len = 0;
     char *txt = read_text_file_lvfs_limit(json_path, &len);
-    if(!txt) return 0;
+    if(!txt) {
+        printf("[MILEAGE] parse abort: read file returned NULL\n");
+        return 0;
+    }
+    printf("[MILEAGE] parse input length=%u\n", (unsigned)len);
 
     cJSON *root = cJSON_Parse(txt);
     lv_free(txt);
     if(!root) {
-        printf("[MILEAGE] cJSON_Parse failed: %s\n", json_path);
+        const char *err = cJSON_GetErrorPtr();
+        printf("[MILEAGE] cJSON_Parse failed: %s, error=%s\n",
+               json_path ? json_path : "(null)", err ? err : "(null)");
         return 0;
     }
 
     cJSON *arr = json_get_items_array(root);
     if(!cJSON_IsArray(arr)) {
-        printf("[MILEAGE] no items array: %s\n", json_path);
+        printf("[MILEAGE] no items array: %s\n", json_path ? json_path : "(null)");
         cJSON_Delete(root);
         return 0;
     }
 
     int out = 0;
     int n = cJSON_GetArraySize(arr);
+    printf("[MILEAGE] array size=%d max_items=%d\n", n, max_items);
+
     for(int i = 0; i < n && out < max_items; i++) {
         cJSON *it = cJSON_GetArrayItem(arr, i);
         mileage_reminder_item_t *r = &items[out];
@@ -192,18 +264,40 @@ static int parse_mileage_items(const char *json_path,
         if(cJSON_IsString(it) && it->valuestring && it->valuestring[0] != '\0') {
             strncpy(r->mileage_text, it->valuestring, sizeof(r->mileage_text) - 1);
             r->mileage_text[sizeof(r->mileage_text) - 1] = '\0';
+            if(i < MR_DEBUG_ITEM_LOG_LIMIT) {
+                printf("[MILEAGE] accept item[%d] string -> row[%d], mileage=%s\n",
+                       i, out, r->mileage_text);
+            }
             out++;
             continue;
         }
 
-        if(!cJSON_IsObject(it)) continue;
+        if(!cJSON_IsObject(it)) {
+            if(i < MR_DEBUG_ITEM_LOG_LIMIT) {
+                printf("[MILEAGE] skip item[%d]: type=%s\n", i, json_type_name(it));
+            }
+            continue;
+        }
 
         cJSON *j_mileage = json_get_first(it, "mileage_text", "mileage", "text");
         if(!j_mileage) j_mileage = json_get_first(it, "mileageText", "mileage_value", "name");
         if(!j_mileage) j_mileage = json_get_first(it, "mileage_no", "mileageNo", "mileage_num");
         if(!j_mileage) j_mileage = json_get_first(it, "line_mileage", "km_text", "kilometer");
         if(!j_mileage) j_mileage = json_get_first(it, "k", "km", "value");
+        if(!j_mileage) {
+            if(i < MR_DEBUG_ITEM_LOG_LIMIT) {
+                printf("[MILEAGE] skip item[%d]: missing mileage field\n", i);
+                debug_print_object_keys("item", it);
+            }
+            continue;
+        }
+
         if(!cJSON_IsString(j_mileage) || !j_mileage->valuestring || j_mileage->valuestring[0] == '\0') {
+            if(i < MR_DEBUG_ITEM_LOG_LIMIT) {
+                printf("[MILEAGE] skip item[%d]: mileage type=%s empty=%d\n",
+                       i, json_type_name(j_mileage),
+                       (cJSON_IsString(j_mileage) && j_mileage->valuestring && j_mileage->valuestring[0] == '\0') ? 1 : 0);
+            }
             continue;
         }
 
@@ -215,10 +309,23 @@ static int parse_mileage_items(const char *json_path,
         if(!j_reminded) j_reminded = json_get_first(it, "is_remind", "isRemind", "has_reminded");
         if(!j_reminded) j_reminded = cJSON_GetObjectItem(it, "status");
         r->reminded = json_value_is_reminded(j_reminded);
+
+        if(i < MR_DEBUG_ITEM_LOG_LIMIT) {
+            printf("[MILEAGE] accept item[%d] -> row[%d], mileage=%s, reminded=%d, status_type=%s",
+                   i, out, r->mileage_text, r->reminded ? 1 : 0, json_type_name(j_reminded));
+            if(cJSON_IsString(j_reminded) && j_reminded->valuestring) {
+                printf(", status=%s", j_reminded->valuestring);
+            }
+            printf("\n");
+        }
+
         out++;
     }
 
-    printf("[MILEAGE] parsed %d items from %s\n", out, json_path);
+    if(n > MR_DEBUG_ITEM_LOG_LIMIT) {
+        printf("[MILEAGE] item detail log capped at %d of %d items\n", MR_DEBUG_ITEM_LOG_LIMIT, n);
+    }
+    printf("[MILEAGE] parsed %d items from %s\n", out, json_path ? json_path : "(null)");
     cJSON_Delete(root);
     return out;
 }
@@ -255,6 +362,7 @@ static void set_label_style(lv_obj_t *lbl, lv_color_t color, lv_text_align_t ali
 
 static void show_empty(lv_ui *ui)
 {
+    printf("[MILEAGE] show empty label\n");
     lv_obj_t *list = ui->screen_mileage_reminder_cont_list;
     lv_obj_clean(list);
     fix_list_style(list);
@@ -301,16 +409,30 @@ static void create_row(lv_obj_t *list, const mileage_reminder_item_t *item, int 
 
 void ui_mileage_reminder_render_from_json(lv_ui *ui, const char *json_path)
 {
-    if(!ui || !ui->screen_mileage_reminder_cont_list) return;
+    printf("[MILEAGE] render begin: ui=%p path=%s\n",
+           (void *)ui, json_path ? json_path : "(null)");
+
+    if(!ui) {
+        printf("[MILEAGE] render abort: ui is NULL\n");
+        return;
+    }
+
+    if(!ui->screen_mileage_reminder_cont_list) {
+        printf("[MILEAGE] render abort: screen_mileage_reminder_cont_list is NULL\n");
+        return;
+    }
 
     if(ui->screen_mileage_reminder_label_3) {
-        lv_label_set_text(ui->screen_mileage_reminder_label_3, "提醒里程");
+        lv_label_set_text(ui->screen_mileage_reminder_label_3, "\xE6\x8F\x90\xE9\x86\x92\xE9\x87\x8C\xE7\xA8\x8B");
         lv_obj_set_style_text_font(ui->screen_mileage_reminder_label_3, MR_TITLE_FONT, 0);
+    } else {
+        printf("[MILEAGE] title label is NULL\n");
     }
 
     mileage_reminder_item_t items[MR_MAX_ITEMS];
     memset(items, 0, sizeof(items));
     int count = parse_mileage_items(json_path, items, MR_MAX_ITEMS);
+    printf("[MILEAGE] render parsed count=%d\n", count);
     if(count <= 0) {
         show_empty(ui);
         return;
@@ -332,28 +454,32 @@ void ui_mileage_reminder_render_from_json(lv_ui *ui, const char *json_path)
     }
 
     lv_obj_scroll_to_y(list, 0, LV_ANIM_OFF);
+    printf("[MILEAGE] render rows done: count=%d\n", count);
 }
 
 
 void ui_mileage_reminder_deinit(lv_ui *ui)
 {
+    printf("[MILEAGE] deinit: ui=%p list=%p\n",
+           (void *)ui, ui ? (void *)ui->screen_mileage_reminder_cont_list : NULL);
     if(!ui || !ui->screen_mileage_reminder_cont_list) return;
     lv_obj_clean(ui->screen_mileage_reminder_cont_list);
 }
 
 void ui_mileage_reminder_render_default(lv_ui *ui)
 {
+    printf("[MILEAGE] render default path=%s\n", MILEAGE_REMINDER_JSON_PATH);
     ui_mileage_reminder_render_from_json(ui, MILEAGE_REMINDER_JSON_PATH);
 }
 
 void screen_mileage_reminder_custom_code(lv_event_t *e)
 {
-    (void)e;
+    printf("[MILEAGE] enter custom code: event=%d\n", e ? (int)lv_event_get_code(e) : -1);
     ui_mileage_reminder_render_default(&guider_ui);
 }
 
 void screen_mileage_reminder_deinit_custom_code(lv_event_t *e)
 {
-    (void)e;
+    printf("[MILEAGE] deinit custom code: event=%d\n", e ? (int)lv_event_get_code(e) : -1);
     ui_mileage_reminder_deinit(&guider_ui);
 }
