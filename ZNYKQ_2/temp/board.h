@@ -545,7 +545,7 @@
 
 #define LV_USE_BAR 1
 
-#define LV_USE_BUTTON 0
+#define LV_USE_BUTTON 1
 
 #define LV_USE_BUTTONMATRIX 0
 
