@@ -37,7 +37,7 @@
 
 /* Map S:/... to <cwd> */
 #undef  LV_FS_POSIX_PATH
-#define LV_FS_POSIX_PATH "C:/Users/Administrator/Desktop/SH_LVGL_PRJ/ZNYKQ_2/lvgl-simulator"
+#define LV_FS_POSIX_PATH "C:/Users/Administrator/Desktop/ZNYKQ_LVGL_SL/ZNYKQ_2/lvgl-simulator"
 
 #undef  LV_FS_POSIX_CACHE_SIZE
 #define LV_FS_POSIX_CACHE_SIZE 0
