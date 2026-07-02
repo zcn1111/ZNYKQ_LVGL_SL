@@ -1,0 +1,32 @@
+{
+  "version": 1,
+  "records": [
+    {
+      "boarding_key": "20260122093000",
+      "start_ts": "20260122093000",
+      "route_name": "长治北-新乡",
+      "loco_no": "DF4D12",
+      "train_no": "G1234",
+	  "line_name":"介西线",
+	  "dir":"下"
+    },
+    {
+      "boarding_key": "20260122133000",
+      "start_ts": "20260122133000",
+      "route_name": "长治北-新乡2",
+      "loco_no": "HXD3C8",
+      "train_no": "K88",
+	  "line_name":"介西线",
+	  "dir":"下"
+    },
+    {
+      "boarding_key": "20260122173000",
+      "start_ts": "20260122173000",
+      "route_name": "长治北-新乡3",
+      "loco_no": "SS9G01",
+      "train_no": "D202",
+	  "line_name":"介西线",
+	  "dir":"下"
+    }
+  ]
+}

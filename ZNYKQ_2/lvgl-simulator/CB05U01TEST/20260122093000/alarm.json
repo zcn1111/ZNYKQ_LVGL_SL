@@ -1,0 +1,24 @@
+{
+  "version": 1,
+  "boarding_key": "20260122093000",
+  "items": [
+    {
+      "ts": "20260122093552",
+      "mileage_text": "K1100+579",
+      "speed_kmh": "65",
+      "acc_v": 14,
+      "acc_h": 40,
+      "level_v": "I",
+      "level_h": "IV"
+    },
+    {
+      "ts": "20260122094403",
+      "mileage_text": "K1100+999",
+      "speed_kmh": "78",
+      "acc_v": 2,
+      "acc_h": 35,
+      "level_v": "II",
+      "level_h": "III"
+    }
+  ]
+}

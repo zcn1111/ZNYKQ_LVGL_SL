@@ -1,0 +1,60 @@
+{
+  "version": 1,
+  "boarding_key": "20260122133000",
+  "items": [
+    {
+      "ts": "20260122133513",
+      "mileage_text": "K1110+508",
+      "speed_kmh": "137",
+      "acc_v": 34,
+      "acc_h": 27,
+      "level_v": "III",
+      "level_h": "IV"
+    },
+    {
+      "ts": "20260122134437",
+      "mileage_text": "K1110+945",
+      "speed_kmh": "108",
+      "acc_v": 23,
+      "acc_h": 19,
+      "level_v": "II",
+      "level_h": "II"
+    },
+    {
+      "ts": "20260122135344",
+      "mileage_text": "K1110+798",
+      "speed_kmh": "81",
+      "acc_v": 5,
+      "acc_h": 36,
+      "level_v": "III",
+      "level_h": "IV"
+    },
+    {
+      "ts": "20260122140256",
+      "mileage_text": "K1110+351",
+      "speed_kmh": "143",
+      "acc_v": 28,
+      "acc_h": 18,
+      "level_v": "I",
+      "level_h": "I"
+    },
+    {
+      "ts": "20260122141132",
+      "mileage_text": "K1110+428",
+      "speed_kmh": "71",
+      "acc_v": 21,
+      "acc_h": 9,
+      "level_v": "IV",
+      "level_h": "IV"
+    },
+    {
+      "ts": "20260122142002",
+      "mileage_text": "K1110+985",
+      "speed_kmh": "135",
+      "acc_v": 4,
+      "acc_h": 35,
+      "level_v": "III",
+      "level_h": "III"
+    }
+  ]
+}

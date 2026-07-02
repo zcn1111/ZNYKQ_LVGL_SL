@@ -1,0 +1,1 @@
+GEN_CSRCS += lv_font_PingFangHeavy_20.c lv_font_MicrosoftYaHei_16.c lv_font_PingFangHeavy_24.c lv_font_PingFangHeavy_30.c lv_font_PingFangHeavy_23.c lv_font_PingFangMedium_23.c lv_font_PingFangMedium_18.c lv_font_PingFangHeavy_18.c lv_font_PingFangHeavy_16.c lv_font_PingFangHeavy_26.c

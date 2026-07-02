@@ -1,0 +1,18 @@
+{
+  "version": 1,
+  "boarding_key": "20260122093000",
+  "items": [
+    {
+      "ts": "20260122095002",
+      "mark_type": "普通标记 01",
+      "mileage_text": "K1100+444",
+      "speed_kmh": "107"
+    },
+    {
+      "ts": "20260122100104",
+      "mark_type": "普通标记 01",
+      "mileage_text": "K1100+092",
+      "speed_kmh": "108"
+    }
+  ]
+}
