@@ -52,7 +52,9 @@
 #define TXT_TIME_HEX        0x6D6E71
 #define TXT_VALUE_HEX       0x0444F0
 #define TITLE_BG_HEX        BTN_BG_HEX
-#define TIME_BG_HEX         CARD_BG_HEX
+#define TIME_BG_HEX         0xCED8F8
+#define TITLE_TEXT_PAD_TOP  1
+#define TIME_TEXT_PAD_TOP   2
 #define CARD_DOUBLE_CLICK_MS 450
 
 /* ================= Item layout ================= */
@@ -917,6 +919,7 @@ static void vlist_create(lv_ui *ui)
         lv_obj_set_style_text_color(it->lbl_date, lv_color_hex(TXT_TIME_HEX), LV_PART_MAIN | LV_STATE_DEFAULT);
         lv_obj_set_style_bg_opa(it->lbl_date, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
         lv_obj_set_style_bg_color(it->lbl_date, lv_color_hex(TIME_BG_HEX), LV_PART_MAIN | LV_STATE_DEFAULT);
+        lv_obj_set_style_pad_top(it->lbl_date, TIME_TEXT_PAD_TOP, LV_PART_MAIN | LV_STATE_DEFAULT);
 
         it->lbl_route = lv_label_create(it->root);
         lv_obj_set_pos(it->lbl_route, X_ROUTE, Y_ROUTE);
@@ -926,6 +929,7 @@ static void vlist_create(lv_ui *ui)
         lv_obj_set_style_text_color(it->lbl_route, lv_color_hex(TXT_HEX), LV_PART_MAIN | LV_STATE_DEFAULT);
         lv_obj_set_style_bg_opa(it->lbl_route, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
         lv_obj_set_style_bg_color(it->lbl_route, lv_color_hex(TITLE_BG_HEX), LV_PART_MAIN | LV_STATE_DEFAULT);
+        lv_obj_set_style_pad_top(it->lbl_route, TITLE_TEXT_PAD_TOP, LV_PART_MAIN | LV_STATE_DEFAULT);
 
         it->lbl_train = lv_label_create(it->root);
         lv_obj_set_pos(it->lbl_train, X_TRAIN, Y_TRAIN);
