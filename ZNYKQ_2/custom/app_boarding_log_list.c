@@ -52,7 +52,7 @@
 #define TXT_TIME_HEX        0x6D6E71
 #define TXT_VALUE_HEX       0x0444F0
 #define TITLE_BG_HEX        BTN_BG_HEX
-#define TIME_BG_HEX         0xCED8F8
+#define TIME_BG_HEX         TITLE_BG_HEX
 #define TITLE_TEXT_PAD_TOP  1
 #define TIME_TEXT_PAD_TOP   2
 #define CARD_DOUBLE_CLICK_MS 450
