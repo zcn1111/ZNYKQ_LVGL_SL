@@ -104,6 +104,32 @@ static void debug_probe_lvfs_path(const char *label, const char *path)
     }
 }
 
+static void debug_list_lvfs_dir(const char *path)
+{
+    if(!path || path[0] == '\0') return;
+
+    lv_fs_dir_t dir;
+    lv_fs_res_t rr = lv_fs_dir_open(&dir, path);
+    if(rr != LV_FS_RES_OK) {
+        printf("[MILEAGE] dir open failed (%d): %s\n", (int)rr, path);
+        return;
+    }
+
+    printf("[MILEAGE] dir list begin: %s\n", path);
+    for(int i = 0; i < 32; i++) {
+        char fn[128] = {0};
+        rr = lv_fs_dir_read(&dir, fn, sizeof(fn));
+        if(rr != LV_FS_RES_OK) {
+            printf("[MILEAGE] dir read failed (%d): %s\n", (int)rr, path);
+            break;
+        }
+        if(fn[0] == '\0') break;
+        printf("[MILEAGE] dir item[%d]: %s\n", i, fn);
+    }
+    lv_fs_dir_close(&dir);
+    printf("[MILEAGE] dir list end: %s\n", path);
+}
+
 static char *read_text_file_lvfs_limit(const char *path, size_t *out_len)
 {
     if(out_len) *out_len = 0;
@@ -120,6 +146,7 @@ static char *read_text_file_lvfs_limit(const char *path, size_t *out_len)
         printf("[MILEAGE] expected same folder as boarding: %s\n", MILEAGE_BOARDING_PROBE_JSON_PATH);
         if(strcmp(path, MILEAGE_BOARDING_PROBE_JSON_PATH) != 0) {
             debug_probe_lvfs_path("boarding_probe", MILEAGE_BOARDING_PROBE_JSON_PATH);
+            debug_list_lvfs_dir(QUERY_ROOT_DIR);
         }
         return NULL;
     }
