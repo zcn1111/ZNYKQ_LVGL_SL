@@ -21,7 +21,7 @@
 #endif
 
 #ifndef APP_LOG_TITLE_FONT
-#define APP_LOG_TITLE_FONT (&lv_font_PingFangHeavy_20)
+#define APP_LOG_TITLE_FONT (&lv_customer_font_PingFangHeavy_20)
 #endif
 
 #ifndef APP_LOG_TIME_FONT
@@ -219,21 +219,41 @@ static void parse_ts_14_to_date_time(const char *ts14,
     }
 }
 
+static int json_value_to_int(cJSON *j, int def_val)
+{
+    if(cJSON_IsNumber(j)) return j->valueint;
+    if(cJSON_IsString(j) && j->valuestring) return atoi(j->valuestring);
+    if(cJSON_IsArray(j)) return cJSON_GetArraySize(j);
+
+    if(cJSON_IsObject(j)) {
+        const char *count_keys[] = {"count", "total", "num", "value", "cnt", NULL};
+        for(int i = 0; count_keys[i]; i++) {
+            int v = json_value_to_int(cJSON_GetObjectItem(j, count_keys[i]), -1);
+            if(v >= 0) return v;
+        }
+    }
+
+    return def_val;
+}
+
 static int json_get_int_flexible(cJSON *obj, const char *key, int def_val)
 {
     cJSON *j = obj ? cJSON_GetObjectItem(obj, key) : NULL;
-    if(cJSON_IsNumber(j)) return j->valueint;
-    if(cJSON_IsString(j) && j->valuestring) return atoi(j->valuestring);
-    return def_val;
+    return json_value_to_int(j, def_val);
 }
 
 static int json_get_stat_int(cJSON *record, const char *key, int def_val)
 {
-    cJSON *stats = cJSON_GetObjectItem(record, "stats");
-    if(cJSON_IsObject(stats)) {
-        int v = json_get_int_flexible(stats, key, -1);
-        if(v >= 0) return v;
+    const char *containers[] = {"stats", "counts", "stat", "count", NULL};
+
+    for(int i = 0; containers[i]; i++) {
+        cJSON *stats = cJSON_GetObjectItem(record, containers[i]);
+        if(cJSON_IsObject(stats)) {
+            int v = json_get_int_flexible(stats, key, -1);
+            if(v >= 0) return v;
+        }
     }
+
     return json_get_int_flexible(record, key, def_val);
 }
 static bool build_query_json_path(char *out, size_t out_sz,
@@ -262,6 +282,96 @@ static bool build_query_json_path(char *out, size_t out_sz,
     }
 
     return false;
+}
+
+
+static cJSON *json_get_items_array(cJSON *root)
+{
+    if(cJSON_IsArray(root)) return root;
+    if(!cJSON_IsObject(root)) return NULL;
+
+    cJSON *arr = cJSON_GetObjectItem(root, "items");
+    if(cJSON_IsArray(arr)) return arr;
+
+    arr = cJSON_GetObjectItem(root, "records");
+    if(cJSON_IsArray(arr)) return arr;
+
+    arr = cJSON_GetObjectItem(root, "data");
+    if(cJSON_IsArray(arr)) return arr;
+
+    return NULL;
+}
+
+static bool json_level_is_iii(cJSON *j)
+{
+    if(cJSON_IsNumber(j)) return j->valueint == 3;
+    if(cJSON_IsString(j) && j->valuestring) {
+        return strcmp(j->valuestring, "III") == 0 ||
+               strcmp(j->valuestring, "iii") == 0 ||
+               strcmp(j->valuestring, "3") == 0;
+    }
+    return false;
+}
+
+static bool json_item_has_level3(cJSON *item, bool *has_level_key)
+{
+    const char *level_keys[] = {
+        "level", "level_v", "level_h", "alarm_level",
+        "overlimit_level", "overlimit_type", "type", "data_type",
+        NULL
+    };
+
+    if(has_level_key) *has_level_key = false;
+    if(!cJSON_IsObject(item)) return false;
+
+    for(int i = 0; level_keys[i]; i++) {
+        cJSON *v = cJSON_GetObjectItem(item, level_keys[i]);
+        if(!v) continue;
+        if(has_level_key) *has_level_key = true;
+        if(json_level_is_iii(v)) return true;
+    }
+
+    return false;
+}
+
+static int count_detail_json_items(const char *boarding_key, query_data_type_t type, bool level3_only)
+{
+    char json_path[128];
+    if(!build_query_json_path(json_path, sizeof(json_path), boarding_key, type)) {
+        return -1;
+    }
+
+    char *txt = read_text_file_lvfs_limit(json_path, NULL);
+    if(!txt) return -1;
+
+    cJSON *root = cJSON_Parse(txt);
+    lv_free(txt);
+    if(!root) return -1;
+
+    int count = -1;
+    cJSON *arr = json_get_items_array(root);
+    if(cJSON_IsArray(arr)) {
+        if(level3_only) {
+            bool has_level_any = false;
+            count = 0;
+            int n = cJSON_GetArraySize(arr);
+            for(int i = 0; i < n; i++) {
+                bool has_level_key = false;
+                if(json_item_has_level3(cJSON_GetArrayItem(arr, i), &has_level_key)) {
+                    count++;
+                }
+                if(has_level_key) has_level_any = true;
+            }
+            if(!has_level_any) count = n;
+        } else {
+            count = cJSON_GetArraySize(arr);
+        }
+    } else {
+        count = json_get_int_flexible(root, level3_only ? "level3_count" : "count", -1);
+    }
+
+    cJSON_Delete(root);
+    return count;
 }
 
 static bool boarding_parse_all_records(const char *json_path)
@@ -334,6 +444,7 @@ static bool boarding_parse_all_records(const char *json_path)
     memset(g_records, 0, sizeof(boarding_record_t) * (size_t)n);
 
     int out = 0;
+    bool detail_counts_used = false;
     for(int i = start; i < start + n; i++) {
         cJSON *it = cJSON_GetArrayItem(arr, i);
         if(!cJSON_IsObject(it)) continue;
@@ -382,11 +493,41 @@ static bool boarding_parse_all_records(const char *json_path)
         }
 
         r->level3_count = json_get_stat_int(it, "level3_count", -1);
+        if(r->level3_count < 0) r->level3_count = json_get_stat_int(it, "level3", -1);
         if(r->level3_count < 0) r->level3_count = json_get_stat_int(it, "iii_count", -1);
+        if(r->level3_count < 0) r->level3_count = json_get_stat_int(it, "iii", -1);
+        if(r->level3_count < 0) r->level3_count = json_get_stat_int(it, "III", -1);
         if(r->level3_count < 0) r->level3_count = json_get_stat_int(it, "alarm_count", -1);
-        if(r->level3_count < 0) r->level3_count = json_get_stat_int(it, "overlimit_count", 0);
-        r->mark_count = json_get_stat_int(it, "mark_count", 0);
-        r->audio_count = json_get_stat_int(it, "audio_count", 0);
+        if(r->level3_count < 0) r->level3_count = json_get_stat_int(it, "alarm", -1);
+        if(r->level3_count < 0) r->level3_count = json_get_stat_int(it, "overlimit_count", -1);
+        if(r->level3_count < 0) r->level3_count = json_get_stat_int(it, "overlimit", -1);
+        if(r->level3_count < 0) {
+            detail_counts_used = true;
+            r->level3_count = count_detail_json_items(r->boarding_key, QUERY_DATA_TYPE_OVERLIMIT, true);
+        }
+        if(r->level3_count < 0) r->level3_count = 0;
+
+        r->mark_count = json_get_stat_int(it, "mark_count", -1);
+        if(r->mark_count < 0) r->mark_count = json_get_stat_int(it, "normal_mark_count", -1);
+        if(r->mark_count < 0) r->mark_count = json_get_stat_int(it, "mark", -1);
+        if(r->mark_count < 0) r->mark_count = json_get_stat_int(it, "normal_mark", -1);
+        if(r->mark_count < 0) {
+            detail_counts_used = true;
+            r->mark_count = count_detail_json_items(r->boarding_key, QUERY_DATA_TYPE_NORMAL_MARK, false);
+        }
+        if(r->mark_count < 0) r->mark_count = 0;
+
+        r->audio_count = json_get_stat_int(it, "audio_count", -1);
+        if(r->audio_count < 0) r->audio_count = json_get_stat_int(it, "audio_mark_count", -1);
+        if(r->audio_count < 0) r->audio_count = json_get_stat_int(it, "record_count", -1);
+        if(r->audio_count < 0) r->audio_count = json_get_stat_int(it, "audio", -1);
+        if(r->audio_count < 0) r->audio_count = json_get_stat_int(it, "audio_mark", -1);
+        if(r->audio_count < 0) r->audio_count = json_get_stat_int(it, "record", -1);
+        if(r->audio_count < 0) {
+            detail_counts_used = true;
+            r->audio_count = count_detail_json_items(r->boarding_key, QUERY_DATA_TYPE_AUDIO_MARK, false);
+        }
+        if(r->audio_count < 0) r->audio_count = 0;
 
         if(r->boarding_key[0] == '\0' || r->route_name[0] == '\0') continue;
         out++;
@@ -400,7 +541,7 @@ static bool boarding_parse_all_records(const char *json_path)
         records_free_all();
     }
 
-    s_cache_ok = true;
+    s_cache_ok = !detail_counts_used;
     s_cache_hash = h;
     strncpy(s_cache_path, json_path, sizeof(s_cache_path) - 1);
     s_cache_path[sizeof(s_cache_path) - 1] = '\0';
