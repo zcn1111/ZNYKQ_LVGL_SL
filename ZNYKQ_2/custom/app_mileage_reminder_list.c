@@ -10,6 +10,16 @@
 #include <stdlib.h>
 #include <string.h>
 
+#if LV_USE_GUIDER_SIMULATOR
+#if defined(_WIN32)
+#include <direct.h>
+#define MR_GETCWD _getcwd
+#else
+#include <unistd.h>
+#define MR_GETCWD getcwd
+#endif
+#endif
+
 extern lv_ui guider_ui;
 
 #ifndef QUERY_ROOT_DIR
@@ -88,6 +98,43 @@ static void debug_print_object_keys(const char *prefix, cJSON *obj)
         }
     }
     printf("\n");
+}
+
+static const char *lv_path_without_drive(const char *path)
+{
+    if(path && path[0] != '\0' && path[1] == ':') return path + 2;
+    return path ? path : "";
+}
+
+static void debug_print_fs_mapping(void)
+{
+    static bool printed = false;
+    if(printed) return;
+    printed = true;
+
+    const char *root_no_drive = lv_path_without_drive(QUERY_ROOT_DIR);
+    printf("[MILEAGE] lv root dir=%s\n", QUERY_ROOT_DIR);
+    printf("[MILEAGE] lv json path=%s\n", MILEAGE_REMINDER_JSON_PATH);
+
+#ifdef LV_FS_POSIX_PATH
+    printf("[MILEAGE] LV_FS_POSIX_PATH=%s\n", LV_FS_POSIX_PATH);
+    printf("[MILEAGE] actual dir candidate POSIX=%s%s\n", LV_FS_POSIX_PATH, root_no_drive);
+#endif
+
+#ifdef LV_FS_STDIO_PATH
+    printf("[MILEAGE] LV_FS_STDIO_PATH=%s\n", LV_FS_STDIO_PATH);
+    printf("[MILEAGE] actual dir candidate STDIO=%s%s\n", LV_FS_STDIO_PATH, root_no_drive);
+#endif
+
+#if LV_USE_GUIDER_SIMULATOR
+    char cwd[512] = {0};
+    if(MR_GETCWD(cwd, sizeof(cwd))) {
+        printf("[MILEAGE] process cwd=%s\n", cwd);
+        printf("[MILEAGE] actual dir candidate CWD=%s%s\n", cwd, root_no_drive);
+    } else {
+        printf("[MILEAGE] process cwd unavailable\n");
+    }
+#endif
 }
 
 static void debug_probe_lvfs_path(const char *label, const char *path)
@@ -466,6 +513,7 @@ void ui_mileage_reminder_render_from_json(lv_ui *ui, const char *json_path)
 {
     printf("[MILEAGE] render begin: ui=%p path=%s\n",
            (void *)ui, json_path ? json_path : "(null)");
+    debug_print_fs_mapping();
 
     if(!ui) {
         printf("[MILEAGE] render abort: ui is NULL\n");
