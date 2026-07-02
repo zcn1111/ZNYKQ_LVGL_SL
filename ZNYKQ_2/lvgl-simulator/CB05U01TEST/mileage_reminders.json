@@ -1,0 +1,25 @@
+{
+  "version": 1,
+  "items": [
+    {
+      "mileage_text": "K1206+314",
+      "reminded": false
+    },
+    {
+      "mileage_text": "K1210+056",
+      "reminded": false
+    },
+    {
+      "mileage_text": "K1212+236",
+      "reminded": true
+    },
+    {
+      "mileage_text": "K1223+178",
+      "reminded": true
+    },
+    {
+      "mileage_text": "K1230+145",
+      "reminded": true
+    }
+  ]
+}
