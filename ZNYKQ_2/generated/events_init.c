@@ -20,10 +20,18 @@
 #include "app_nav.h"
 #include "app_overlimt_list.h"
 
-#include "app_mark_list.h"
-#include "app_audio_mark_list.h"
 #include "screen_log_type_actions.h"
+#include "screen_log_type_actions.h"
+#include "screen_log_type_actions.h"
+#include "app_mark_list.h"
+#include "screen_log_type_actions.h"
+#include "screen_log_type_actions.h"
+#include "screen_log_type_actions.h"
+#include "app_audio_mark_list.h"
 
+#include "screen_log_type_actions.h"
+#include "screen_log_type_actions.h"
+#include "screen_log_type_actions.h"
 
 static void screen_main_event_handler (lv_event_t *e)
 {
@@ -331,12 +339,54 @@ static void screen_overlimt_event_handler (lv_event_t *e)
     }
 }
 
+static void screen_overlimt_btn_overlimt_event_handler (lv_event_t *e)
+{
+    lv_event_code_t code = lv_event_get_code(e);
+    switch (code) {
+    case LV_EVENT_CLICKED:
+    {
+        screen_log_type_cont_1_custom_code(e);
+        break;
+    }
+    default:
+        break;
+    }
+}
+
+static void screen_overlimt_btn_mark_event_handler (lv_event_t *e)
+{
+    lv_event_code_t code = lv_event_get_code(e);
+    switch (code) {
+    case LV_EVENT_CLICKED:
+    {
+        screen_log_type_cont_2_custom_code(e);
+        break;
+    }
+    default:
+        break;
+    }
+}
+
+static void screen_overlimt_btn_audiomark_event_handler (lv_event_t *e)
+{
+    lv_event_code_t code = lv_event_get_code(e);
+    switch (code) {
+    case LV_EVENT_CLICKED:
+    {
+        screen_log_type_cont_3_custom_code(e);
+        break;
+    }
+    default:
+        break;
+    }
+}
+
 void events_init_screen_overlimt (lv_ui *ui)
 {
     lv_obj_add_event_cb(ui->screen_overlimt, screen_overlimt_event_handler, LV_EVENT_ALL, ui);
-    lv_obj_add_event_cb(ui->screen_overlimt_btn_overlimt, screen_log_type_cont_1_custom_code, LV_EVENT_CLICKED, ui);
-    lv_obj_add_event_cb(ui->screen_overlimt_btn_mark, screen_log_type_cont_2_custom_code, LV_EVENT_CLICKED, ui);
-    lv_obj_add_event_cb(ui->screen_overlimt_btn_audiomark, screen_log_type_cont_3_custom_code, LV_EVENT_CLICKED, ui);
+    lv_obj_add_event_cb(ui->screen_overlimt_btn_overlimt, screen_overlimt_btn_overlimt_event_handler, LV_EVENT_ALL, ui);
+    lv_obj_add_event_cb(ui->screen_overlimt_btn_mark, screen_overlimt_btn_mark_event_handler, LV_EVENT_ALL, ui);
+    lv_obj_add_event_cb(ui->screen_overlimt_btn_audiomark, screen_overlimt_btn_audiomark_event_handler, LV_EVENT_ALL, ui);
 }
 
 static void screen_mark_event_handler (lv_event_t *e)
@@ -365,12 +415,54 @@ static void screen_mark_event_handler (lv_event_t *e)
     }
 }
 
+static void screen_mark_btn_overlimt_event_handler (lv_event_t *e)
+{
+    lv_event_code_t code = lv_event_get_code(e);
+    switch (code) {
+    case LV_EVENT_CLICKED:
+    {
+        screen_log_type_cont_1_custom_code(e);
+        break;
+    }
+    default:
+        break;
+    }
+}
+
+static void screen_mark_btn_mark_event_handler (lv_event_t *e)
+{
+    lv_event_code_t code = lv_event_get_code(e);
+    switch (code) {
+    case LV_EVENT_CLICKED:
+    {
+        screen_log_type_cont_2_custom_code(e);
+        break;
+    }
+    default:
+        break;
+    }
+}
+
+static void screen_mark_btn_audio_event_handler (lv_event_t *e)
+{
+    lv_event_code_t code = lv_event_get_code(e);
+    switch (code) {
+    case LV_EVENT_CLICKED:
+    {
+        screen_log_type_cont_3_custom_code(e);
+        break;
+    }
+    default:
+        break;
+    }
+}
+
 void events_init_screen_mark (lv_ui *ui)
 {
     lv_obj_add_event_cb(ui->screen_mark, screen_mark_event_handler, LV_EVENT_ALL, ui);
-    lv_obj_add_event_cb(ui->screen_mark_btn_overlimt, screen_log_type_cont_1_custom_code, LV_EVENT_CLICKED, ui);
-    lv_obj_add_event_cb(ui->screen_mark_btn_mark, screen_log_type_cont_2_custom_code, LV_EVENT_CLICKED, ui);
-    lv_obj_add_event_cb(ui->screen_mark_btn_audio, screen_log_type_cont_3_custom_code, LV_EVENT_CLICKED, ui);
+    lv_obj_add_event_cb(ui->screen_mark_btn_overlimt, screen_mark_btn_overlimt_event_handler, LV_EVENT_ALL, ui);
+    lv_obj_add_event_cb(ui->screen_mark_btn_mark, screen_mark_btn_mark_event_handler, LV_EVENT_ALL, ui);
+    lv_obj_add_event_cb(ui->screen_mark_btn_audio, screen_mark_btn_audio_event_handler, LV_EVENT_ALL, ui);
 }
 
 static void screen_audiomark_event_handler (lv_event_t *e)
@@ -399,12 +491,54 @@ static void screen_audiomark_event_handler (lv_event_t *e)
     }
 }
 
+static void screen_audiomark_btn_overlimt_event_handler (lv_event_t *e)
+{
+    lv_event_code_t code = lv_event_get_code(e);
+    switch (code) {
+    case LV_EVENT_CLICKED:
+    {
+        screen_log_type_cont_1_custom_code(e);
+        break;
+    }
+    default:
+        break;
+    }
+}
+
+static void screen_audiomark_btn_mark_event_handler (lv_event_t *e)
+{
+    lv_event_code_t code = lv_event_get_code(e);
+    switch (code) {
+    case LV_EVENT_CLICKED:
+    {
+        screen_log_type_cont_2_custom_code(e);
+        break;
+    }
+    default:
+        break;
+    }
+}
+
+static void screen_audiomark_btn_audio_event_handler (lv_event_t *e)
+{
+    lv_event_code_t code = lv_event_get_code(e);
+    switch (code) {
+    case LV_EVENT_CLICKED:
+    {
+        screen_log_type_cont_3_custom_code(e);
+        break;
+    }
+    default:
+        break;
+    }
+}
+
 void events_init_screen_audiomark (lv_ui *ui)
 {
     lv_obj_add_event_cb(ui->screen_audiomark, screen_audiomark_event_handler, LV_EVENT_ALL, ui);
-    lv_obj_add_event_cb(ui->screen_audiomark_btn_overlimt, screen_log_type_cont_1_custom_code, LV_EVENT_CLICKED, ui);
-    lv_obj_add_event_cb(ui->screen_audiomark_btn_mark, screen_log_type_cont_2_custom_code, LV_EVENT_CLICKED, ui);
-    lv_obj_add_event_cb(ui->screen_audiomark_btn_audio, screen_log_type_cont_3_custom_code, LV_EVENT_CLICKED, ui);
+    lv_obj_add_event_cb(ui->screen_audiomark_btn_overlimt, screen_audiomark_btn_overlimt_event_handler, LV_EVENT_ALL, ui);
+    lv_obj_add_event_cb(ui->screen_audiomark_btn_mark, screen_audiomark_btn_mark_event_handler, LV_EVENT_ALL, ui);
+    lv_obj_add_event_cb(ui->screen_audiomark_btn_audio, screen_audiomark_btn_audio_event_handler, LV_EVENT_ALL, ui);
 }
 
 static void screen_about_event_handler (lv_event_t *e)

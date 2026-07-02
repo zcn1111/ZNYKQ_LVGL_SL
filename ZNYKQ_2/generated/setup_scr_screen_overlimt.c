@@ -43,8 +43,8 @@ void setup_scr_screen_overlimt(lv_ui *ui)
 
     //Write codes screen_overlimt_cont_list
     ui->screen_overlimt_cont_list = lv_obj_create(ui->screen_overlimt);
-    lv_obj_set_pos(ui->screen_overlimt_cont_list, 5, 54);
-    lv_obj_set_size(ui->screen_overlimt_cont_list, 230, 222);
+    lv_obj_set_pos(ui->screen_overlimt_cont_list, 5, 48);
+    lv_obj_set_size(ui->screen_overlimt_cont_list, 230, 227);
     lv_obj_set_scrollbar_mode(ui->screen_overlimt_cont_list, LV_SCROLLBAR_MODE_OFF);
 
     //Write style for screen_overlimt_cont_list, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.

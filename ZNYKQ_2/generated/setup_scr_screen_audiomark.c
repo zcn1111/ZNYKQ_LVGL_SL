@@ -43,8 +43,8 @@ void setup_scr_screen_audiomark(lv_ui *ui)
 
     //Write codes screen_audiomark_cont_list
     ui->screen_audiomark_cont_list = lv_obj_create(ui->screen_audiomark);
-    lv_obj_set_pos(ui->screen_audiomark_cont_list, 5, 53);
-    lv_obj_set_size(ui->screen_audiomark_cont_list, 230, 222);
+    lv_obj_set_pos(ui->screen_audiomark_cont_list, 5, 47);
+    lv_obj_set_size(ui->screen_audiomark_cont_list, 230, 227);
     lv_obj_set_scrollbar_mode(ui->screen_audiomark_cont_list, LV_SCROLLBAR_MODE_OFF);
 
     //Write style for screen_audiomark_cont_list, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.

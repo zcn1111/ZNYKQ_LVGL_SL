@@ -134,7 +134,7 @@ void setup_scr_screen_volume(lv_ui *ui)
 
     //Write codes screen_volume_label_title
     ui->screen_volume_label_title = lv_label_create(ui->screen_volume);
-    lv_obj_set_pos(ui->screen_volume_label_title, 55, 13);
+    lv_obj_set_pos(ui->screen_volume_label_title, 55, 10);
     lv_obj_set_size(ui->screen_volume_label_title, 130, 30);
     lv_label_set_text(ui->screen_volume_label_title, "音量设置");
     lv_label_set_long_mode(ui->screen_volume_label_title, LV_LABEL_LONG_WRAP);
@@ -143,7 +143,7 @@ void setup_scr_screen_volume(lv_ui *ui)
     lv_obj_set_style_border_width(ui->screen_volume_label_title, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_radius(ui->screen_volume_label_title, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_text_color(ui->screen_volume_label_title, lv_color_hex(0xffffff), LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_text_font(ui->screen_volume_label_title, &lv_font_PingFangHeavy_24, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui->screen_volume_label_title, &lv_font_PingFangHeavy_18, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_text_opa(ui->screen_volume_label_title, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_text_letter_space(ui->screen_volume_label_title, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_text_line_space(ui->screen_volume_label_title, 0, LV_PART_MAIN|LV_STATE_DEFAULT);

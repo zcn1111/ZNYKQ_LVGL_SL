@@ -2270,7 +2270,7 @@
 					"id": "bomtwmed",
 					"type": "label",
 					"left": 55,
-					"top": 10,
+					"top": 9,
 					"visible": true,
 					"isLock": false,
 					"rm_flag": [],
@@ -3783,26 +3783,12 @@
 								"condition": [],
 								"action": [
 									{
-										"dst": "load_screen",
-										"bindCondi": "",
-										"actionList": {
-											"load_screen": {
-												"duration": "100",
-												"delay": "100",
-												"scrId": "f70z45ux",
-												"anim_type": "LV_SCR_LOAD_ANIM_NONE",
-												"is_clean": false,
-												"is_del": false
-											}
-										}
-									},
-									{
 										"dst": "custom_code",
 										"bindCondi": "",
 										"actionList": {
 											"custom_code": {
-												"inc_c": "",
-												"code_c": "ui_boarding_log_deinit();",
+												"inc_c": "#include \"screen_log_type_actions.h\"",
+												"code_c": "screen_log_type_cont_3_custom_code(e);",
 												"inc_py": "",
 												"code_py": ""
 											}
@@ -4006,7 +3992,28 @@
 							"text_opa": 255,
 							"text_color": "#000000"
 						}
-					]
+					],
+					"event": {
+						"widget": {
+							"clicked": {
+								"condition": [],
+								"action": [
+									{
+										"dst": "custom_code",
+										"bindCondi": "",
+										"actionList": {
+											"custom_code": {
+												"inc_c": "#include \"screen_log_type_actions.h\"",
+												"code_c": "screen_log_type_cont_2_custom_code(e);",
+												"inc_py": "",
+												"code_py": ""
+											}
+										}
+									}
+								]
+							}
+						}
+					}
 				},
 				{
 					"name": "btn_overlimt",
@@ -4201,20 +4208,41 @@
 							"text_opa": 255,
 							"text_color": "#000000"
 						}
-					]
+					],
+					"event": {
+						"widget": {
+							"clicked": {
+								"condition": [],
+								"action": [
+									{
+										"dst": "custom_code",
+										"bindCondi": "",
+										"actionList": {
+											"custom_code": {
+												"inc_c": "#include \"screen_log_type_actions.h\"",
+												"code_c": "screen_log_type_cont_1_custom_code(e);",
+												"inc_py": "",
+												"code_py": ""
+											}
+										}
+									}
+								]
+							}
+						}
+					}
 				},
 				{
 					"name": "cont_list",
 					"id": "6empx2ki",
 					"type": "cont",
 					"left": 5,
-					"top": 54,
+					"top": 48,
 					"visible": true,
 					"isLock": false,
 					"rm_flag": [],
 					"flag": [],
 					"width": 230,
-					"height": 222,
+					"height": 227,
 					"default_style": false,
 					"scrollbar_mode": "OFF",
 					"child": [],
@@ -4559,7 +4587,28 @@
 							"text_opa": 255,
 							"text_color": "#000000"
 						}
-					]
+					],
+					"event": {
+						"widget": {
+							"clicked": {
+								"condition": [],
+								"action": [
+									{
+										"dst": "custom_code",
+										"bindCondi": "",
+										"actionList": {
+											"custom_code": {
+												"inc_c": "#include \"screen_log_type_actions.h\"",
+												"code_c": "screen_log_type_cont_3_custom_code(e);",
+												"inc_py": "",
+												"code_py": ""
+											}
+										}
+									}
+								]
+							}
+						}
+					}
 				},
 				{
 					"name": "btn_mark",
@@ -4754,7 +4803,28 @@
 							"text_opa": 255,
 							"text_color": "#000000"
 						}
-					]
+					],
+					"event": {
+						"widget": {
+							"clicked": {
+								"condition": [],
+								"action": [
+									{
+										"dst": "custom_code",
+										"bindCondi": "",
+										"actionList": {
+											"custom_code": {
+												"inc_c": "#include \"screen_log_type_actions.h\"",
+												"code_c": "screen_log_type_cont_2_custom_code(e);",
+												"inc_py": "",
+												"code_py": ""
+											}
+										}
+									}
+								]
+							}
+						}
+					}
 				},
 				{
 					"name": "btn_overlimt",
@@ -4949,7 +5019,28 @@
 							"text_opa": 255,
 							"text_color": "#000000"
 						}
-					]
+					],
+					"event": {
+						"widget": {
+							"clicked": {
+								"condition": [],
+								"action": [
+									{
+										"dst": "custom_code",
+										"bindCondi": "",
+										"actionList": {
+											"custom_code": {
+												"inc_c": "#include \"screen_log_type_actions.h\"",
+												"code_c": "screen_log_type_cont_1_custom_code(e);",
+												"inc_py": "",
+												"code_py": ""
+											}
+										}
+									}
+								]
+							}
+						}
+					}
 				},
 				{
 					"name": "label_14",
@@ -5408,7 +5499,28 @@
 							"text_opa": 255,
 							"text_color": "#000000"
 						}
-					]
+					],
+					"event": {
+						"widget": {
+							"clicked": {
+								"condition": [],
+								"action": [
+									{
+										"dst": "custom_code",
+										"bindCondi": "",
+										"actionList": {
+											"custom_code": {
+												"inc_c": "#include \"screen_log_type_actions.h\"",
+												"code_c": "screen_log_type_cont_3_custom_code(e);",
+												"inc_py": "",
+												"code_py": ""
+											}
+										}
+									}
+								]
+							}
+						}
+					}
 				},
 				{
 					"name": "btn_mark",
@@ -5603,7 +5715,28 @@
 							"text_opa": 255,
 							"text_color": "#000000"
 						}
-					]
+					],
+					"event": {
+						"widget": {
+							"clicked": {
+								"condition": [],
+								"action": [
+									{
+										"dst": "custom_code",
+										"bindCondi": "",
+										"actionList": {
+											"custom_code": {
+												"inc_c": "#include \"screen_log_type_actions.h\"",
+												"code_c": "screen_log_type_cont_2_custom_code(e);",
+												"inc_py": "",
+												"code_py": ""
+											}
+										}
+									}
+								]
+							}
+						}
+					}
 				},
 				{
 					"name": "btn_overlimt",
@@ -5798,7 +5931,28 @@
 							"text_opa": 255,
 							"text_color": "#000000"
 						}
-					]
+					],
+					"event": {
+						"widget": {
+							"clicked": {
+								"condition": [],
+								"action": [
+									{
+										"dst": "custom_code",
+										"bindCondi": "",
+										"actionList": {
+											"custom_code": {
+												"inc_c": "#include \"screen_log_type_actions.h\"",
+												"code_c": "screen_log_type_cont_1_custom_code(e);",
+												"inc_py": "",
+												"code_py": ""
+											}
+										}
+									}
+								]
+							}
+						}
+					}
 				},
 				{
 					"name": "label_14",
@@ -5909,13 +6063,13 @@
 					"id": "g5w2wudq",
 					"type": "cont",
 					"left": 5,
-					"top": 53,
+					"top": 47,
 					"visible": true,
 					"isLock": false,
 					"rm_flag": [],
 					"flag": [],
 					"width": 230,
-					"height": 222,
+					"height": 227,
 					"default_style": false,
 					"scrollbar_mode": "OFF",
 					"child": [
@@ -6131,8 +6285,7 @@
 					"bg_img_recolor": "#ffffff",
 					"bg_img_recolor_opa": 0
 				}
-			],
-			"layerName": "screen_audiomark"
+			]
 		},
 		{
 			"name": "screen_about",
@@ -14868,7 +15021,7 @@
 					"id": "xdrk6jku",
 					"type": "label",
 					"left": 55,
-					"top": 13,
+					"top": 10,
 					"visible": true,
 					"isLock": false,
 					"rm_flag": [],
@@ -14894,7 +15047,7 @@
 							"radius": 0,
 							"text_color": "#ffffff",
 							"text_opa": 255,
-							"font": 24,
+							"font": 18,
 							"text_align": "LV_TEXT_ALIGN_CENTER",
 							"font_family": "PingFangHeavy",
 							"letter_space": 0,
@@ -20130,7 +20283,7 @@
 						"rm_flag": [],
 						"pos": [
 							55,
-							10
+							9
 						],
 						"size": [
 							130,
@@ -20810,11 +20963,11 @@
 						"rm_flag": [],
 						"pos": [
 							5,
-							54
+							48
 						],
 						"size": [
 							230,
-							222
+							227
 						],
 						"default_style": false,
 						"event": {
@@ -20873,6 +21026,27 @@
 							34
 						],
 						"default_style": false,
+						"event": {
+							"widget": {
+								"clicked": {
+									"condition": [],
+									"action": [
+										{
+											"dst": "custom_code",
+											"bindCondi": "",
+											"actionList": {
+												"custom_code": {
+													"inc_c": "#include \"screen_log_type_actions.h\"",
+													"code_c": "screen_log_type_cont_1_custom_code(e);",
+													"inc_py": "",
+													"code_py": ""
+												}
+											}
+										}
+									]
+								}
+							}
+						},
 						"text_align": "center",
 						"style": [
 							{
@@ -21072,6 +21246,27 @@
 							34
 						],
 						"default_style": false,
+						"event": {
+							"widget": {
+								"clicked": {
+									"condition": [],
+									"action": [
+										{
+											"dst": "custom_code",
+											"bindCondi": "",
+											"actionList": {
+												"custom_code": {
+													"inc_c": "#include \"screen_log_type_actions.h\"",
+													"code_c": "screen_log_type_cont_2_custom_code(e);",
+													"inc_py": "",
+													"code_py": ""
+												}
+											}
+										}
+									]
+								}
+							}
+						},
 						"text_align": "center",
 						"style": [
 							{
@@ -21277,27 +21472,12 @@
 									"condition": [],
 									"action": [
 										{
-											"dst": "screen_audiomark",
-											"bindCondi": "",
-											"actionList": {
-												"load_screen": {
-													"duration": "100",
-													"delay": "100",
-													"scrId": "f70z45ux",
-													"anim_type": "LV_SCR_LOAD_ANIM_NONE",
-													"is_clean": false,
-													"is_del": false
-												}
-											},
-											"dst_type": "scr"
-										},
-										{
 											"dst": "custom_code",
 											"bindCondi": "",
 											"actionList": {
 												"custom_code": {
-													"inc_c": "",
-													"code_c": "ui_boarding_log_deinit();",
+													"inc_c": "#include \"screen_log_type_actions.h\"",
+													"code_c": "screen_log_type_cont_3_custom_code(e);",
 													"inc_py": "",
 													"code_py": ""
 												}
@@ -21784,6 +21964,27 @@
 							34
 						],
 						"default_style": false,
+						"event": {
+							"widget": {
+								"clicked": {
+									"condition": [],
+									"action": [
+										{
+											"dst": "custom_code",
+											"bindCondi": "",
+											"actionList": {
+												"custom_code": {
+													"inc_c": "#include \"screen_log_type_actions.h\"",
+													"code_c": "screen_log_type_cont_1_custom_code(e);",
+													"inc_py": "",
+													"code_py": ""
+												}
+											}
+										}
+									]
+								}
+							}
+						},
 						"text_align": "center",
 						"style": [
 							{
@@ -21983,6 +22184,27 @@
 							34
 						],
 						"default_style": false,
+						"event": {
+							"widget": {
+								"clicked": {
+									"condition": [],
+									"action": [
+										{
+											"dst": "custom_code",
+											"bindCondi": "",
+											"actionList": {
+												"custom_code": {
+													"inc_c": "#include \"screen_log_type_actions.h\"",
+													"code_c": "screen_log_type_cont_2_custom_code(e);",
+													"inc_py": "",
+													"code_py": ""
+												}
+											}
+										}
+									]
+								}
+							}
+						},
 						"text_align": "center",
 						"style": [
 							{
@@ -22182,6 +22404,27 @@
 							34
 						],
 						"default_style": false,
+						"event": {
+							"widget": {
+								"clicked": {
+									"condition": [],
+									"action": [
+										{
+											"dst": "custom_code",
+											"bindCondi": "",
+											"actionList": {
+												"custom_code": {
+													"inc_c": "#include \"screen_log_type_actions.h\"",
+													"code_c": "screen_log_type_cont_3_custom_code(e);",
+													"inc_py": "",
+													"code_py": ""
+												}
+											}
+										}
+									]
+								}
+							}
+						},
 						"text_align": "center",
 						"style": [
 							{
@@ -22441,7 +22684,6 @@
 						"bg_img_recolor_opa": 0
 					}
 				],
-				"layerName": "screen_audiomark",
 				"size": [
 					240,
 					280
@@ -22493,11 +22735,11 @@
 						"rm_flag": [],
 						"pos": [
 							5,
-							53
+							47
 						],
 						"size": [
 							230,
-							222
+							227
 						],
 						"default_style": false,
 						"child": [
@@ -22754,6 +22996,27 @@
 							34
 						],
 						"default_style": false,
+						"event": {
+							"widget": {
+								"clicked": {
+									"condition": [],
+									"action": [
+										{
+											"dst": "custom_code",
+											"bindCondi": "",
+											"actionList": {
+												"custom_code": {
+													"inc_c": "#include \"screen_log_type_actions.h\"",
+													"code_c": "screen_log_type_cont_1_custom_code(e);",
+													"inc_py": "",
+													"code_py": ""
+												}
+											}
+										}
+									]
+								}
+							}
+						},
 						"text_align": "center",
 						"style": [
 							{
@@ -22953,6 +23216,27 @@
 							34
 						],
 						"default_style": false,
+						"event": {
+							"widget": {
+								"clicked": {
+									"condition": [],
+									"action": [
+										{
+											"dst": "custom_code",
+											"bindCondi": "",
+											"actionList": {
+												"custom_code": {
+													"inc_c": "#include \"screen_log_type_actions.h\"",
+													"code_c": "screen_log_type_cont_2_custom_code(e);",
+													"inc_py": "",
+													"code_py": ""
+												}
+											}
+										}
+									]
+								}
+							}
+						},
 						"text_align": "center",
 						"style": [
 							{
@@ -23152,6 +23436,27 @@
 							34
 						],
 						"default_style": false,
+						"event": {
+							"widget": {
+								"clicked": {
+									"condition": [],
+									"action": [
+										{
+											"dst": "custom_code",
+											"bindCondi": "",
+											"actionList": {
+												"custom_code": {
+													"inc_c": "#include \"screen_log_type_actions.h\"",
+													"code_c": "screen_log_type_cont_3_custom_code(e);",
+													"inc_py": "",
+													"code_py": ""
+												}
+											}
+										}
+									]
+								}
+							}
+						},
 						"text_align": "center",
 						"style": [
 							{
@@ -32969,7 +33274,7 @@
 						"rm_flag": [],
 						"pos": [
 							55,
-							13
+							10
 						],
 						"size": [
 							130,
@@ -32994,7 +33299,7 @@
 								"radius": 0,
 								"text_color": "#ffffff",
 								"text_opa": 255,
-								"font": 24,
+								"font": 18,
 								"text_align": "LV_TEXT_ALIGN_CENTER",
 								"font_family": "PingFangHeavy",
 								"letter_space": 0,
