@@ -40,7 +40,7 @@
 /* ================= VList config ================= */
 #define VLIST_ITEM_H        200
 #define VLIST_GAP_PX        7
-#define VLIST_CACHE_EXTRA   2
+#define VLIST_CACHE_EXTRA   5
 
 /* ================= Card style（按你最新 screen_log 参考） ================= */
 #define CARD_RADIUS         10
@@ -734,6 +734,7 @@ static void fix_list_style_for_target(lv_obj_t *list)
     lv_obj_set_style_shadow_width(list, 0, 0);
     lv_obj_set_scroll_dir(list, LV_DIR_VER);
     lv_obj_set_scrollbar_mode(list, LV_SCROLLBAR_MODE_OFF);
+    lv_obj_clear_flag(list, LV_OBJ_FLAG_SCROLL_ELASTIC);
 }
 
 static void set_label_common_style(lv_obj_t *lbl)
