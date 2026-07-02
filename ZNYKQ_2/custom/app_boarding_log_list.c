@@ -44,13 +44,15 @@
 
 /* ================= Card style（按你最新 screen_log 参考） ================= */
 #define CARD_RADIUS         10
-#define CARD_BG_HEX         0xFFFFFF
-#define CARD_BG_OPA         0
+#define CARD_BG_HEX         0xDCE8FF
+#define CARD_BG_OPA         255
 
 #define TXT_HEX             0x191E52
 #define BTN_BG_HEX          0xB5BAF0
 #define TXT_TIME_HEX        0x6D6E71
 #define TXT_VALUE_HEX       0x0444F0
+#define TITLE_BG_HEX        BTN_BG_HEX
+#define TIME_BG_HEX         CARD_BG_HEX
 #define CARD_DOUBLE_CLICK_MS 450
 
 /* ================= Item layout ================= */
@@ -913,6 +915,8 @@ static void vlist_create(lv_ui *ui)
         set_label_common_style(it->lbl_date);
         lv_obj_set_style_text_font(it->lbl_date, APP_LOG_TIME_FONT, LV_PART_MAIN | LV_STATE_DEFAULT);
         lv_obj_set_style_text_color(it->lbl_date, lv_color_hex(TXT_TIME_HEX), LV_PART_MAIN | LV_STATE_DEFAULT);
+        lv_obj_set_style_bg_opa(it->lbl_date, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
+        lv_obj_set_style_bg_color(it->lbl_date, lv_color_hex(TIME_BG_HEX), LV_PART_MAIN | LV_STATE_DEFAULT);
 
         it->lbl_route = lv_label_create(it->root);
         lv_obj_set_pos(it->lbl_route, X_ROUTE, Y_ROUTE);
@@ -920,6 +924,8 @@ static void vlist_create(lv_ui *ui)
         set_label_common_style(it->lbl_route);
         lv_obj_set_style_text_font(it->lbl_route, APP_LOG_TITLE_FONT, LV_PART_MAIN | LV_STATE_DEFAULT);
         lv_obj_set_style_text_color(it->lbl_route, lv_color_hex(TXT_HEX), LV_PART_MAIN | LV_STATE_DEFAULT);
+        lv_obj_set_style_bg_opa(it->lbl_route, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
+        lv_obj_set_style_bg_color(it->lbl_route, lv_color_hex(TITLE_BG_HEX), LV_PART_MAIN | LV_STATE_DEFAULT);
 
         it->lbl_train = lv_label_create(it->root);
         lv_obj_set_pos(it->lbl_train, X_TRAIN, Y_TRAIN);
