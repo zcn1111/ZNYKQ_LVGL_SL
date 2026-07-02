@@ -12,9 +12,19 @@
 
 extern lv_ui guider_ui;
 
-#ifndef MILEAGE_REMINDER_JSON_PATH
-#define MILEAGE_REMINDER_JSON_PATH "S:/CB05U01TEST/mileage_reminders.json"
+#ifndef QUERY_ROOT_DIR
+#define QUERY_ROOT_DIR "S:/CB05U01TEST"
 #endif
+
+#ifndef MILEAGE_REMINDER_JSON_NAME
+#define MILEAGE_REMINDER_JSON_NAME "mileage_reminders.json"
+#endif
+
+#ifndef MILEAGE_REMINDER_JSON_PATH
+#define MILEAGE_REMINDER_JSON_PATH QUERY_ROOT_DIR "/" MILEAGE_REMINDER_JSON_NAME
+#endif
+
+#define MILEAGE_BOARDING_PROBE_JSON_PATH QUERY_ROOT_DIR "/boarding_records.json"
 
 #define MR_JSON_MAX_SIZE      (16 * 1024)
 #define MR_MAX_ITEMS          100
@@ -80,6 +90,20 @@ static void debug_print_object_keys(const char *prefix, cJSON *obj)
     printf("\n");
 }
 
+static void debug_probe_lvfs_path(const char *label, const char *path)
+{
+    if(!path || path[0] == '\0') return;
+
+    lv_fs_file_t f;
+    lv_fs_res_t rr = lv_fs_open(&f, path, LV_FS_MODE_RD);
+    if(rr == LV_FS_RES_OK) {
+        printf("[MILEAGE] probe ok: %s=%s\n", label ? label : "path", path);
+        lv_fs_close(&f);
+    } else {
+        printf("[MILEAGE] probe failed (%d): %s=%s\n", (int)rr, label ? label : "path", path);
+    }
+}
+
 static char *read_text_file_lvfs_limit(const char *path, size_t *out_len)
 {
     if(out_len) *out_len = 0;
@@ -93,6 +117,10 @@ static char *read_text_file_lvfs_limit(const char *path, size_t *out_len)
     lv_fs_res_t rr = lv_fs_open(&f, path, LV_FS_MODE_RD);
     if(rr != LV_FS_RES_OK) {
         printf("[MILEAGE] lv_fs_open failed (%d): %s\n", (int)rr, path);
+        printf("[MILEAGE] expected same folder as boarding: %s\n", MILEAGE_BOARDING_PROBE_JSON_PATH);
+        if(strcmp(path, MILEAGE_BOARDING_PROBE_JSON_PATH) != 0) {
+            debug_probe_lvfs_path("boarding_probe", MILEAGE_BOARDING_PROBE_JSON_PATH);
+        }
         return NULL;
     }
     printf("[MILEAGE] open ok: %s\n", path);
