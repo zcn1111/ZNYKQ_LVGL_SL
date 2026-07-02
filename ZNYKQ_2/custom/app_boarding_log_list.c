@@ -20,6 +20,14 @@
 #define APP_LOG_FONT (&lv_customer_font_PingFangHeavy_16)
 #endif
 
+#ifndef APP_LOG_TITLE_FONT
+#define APP_LOG_TITLE_FONT (&lv_font_PingFangHeavy_20)
+#endif
+
+#ifndef APP_LOG_TIME_FONT
+#define APP_LOG_TIME_FONT (&lv_font_PingFangMedium_18)
+#endif
+
 /* ================= JSON 限制 ================= */
 #define BOARDING_JSON_MAX_SIZE   (64 * 1024)
 #define BOARDING_MAX_RECORDS     (200)
@@ -30,55 +38,58 @@
 #endif
 
 /* ================= VList config ================= */
-#define VLIST_ITEM_H        96
+#define VLIST_ITEM_H        200
 #define VLIST_GAP_PX        7
 #define VLIST_CACHE_EXTRA   2
 
 /* ================= Card style（按你最新 screen_log 参考） ================= */
 #define CARD_RADIUS         10
 #define CARD_BG_HEX         0xFFFFFF
-#define CARD_BG_OPA         56
+#define CARD_BG_OPA         0
 
-#define TXT_HEX             0xFFFFFF
-#define BTN_BG_HEX          0x2195F6
+#define TXT_HEX             0x191E52
+#define BTN_BG_HEX          0xB5BAF0
+#define TXT_TIME_HEX        0x6D6E71
+#define TXT_VALUE_HEX       0x0444F0
+#define CARD_DOUBLE_CLICK_MS 450
 
 /* ================= Item layout ================= */
-#define ITEM_X              4
+#define ITEM_X              3
 #define ITEM_Y0             7
-#define ITEM_W              222
+#define ITEM_W              224
 
-#define X_DATE              10
-#define Y_DATE              8
-#define W_DATE              96
-#define H_DATE              17
+#define X_DATE              12
+#define Y_DATE              36
+#define W_DATE              200
+#define H_DATE              24
 
-#define X_ROUTE             117
-#define Y_ROUTE             7
-#define W_ROUTE             94
-#define H_ROUTE             18
+#define X_ROUTE             12
+#define Y_ROUTE             10
+#define W_ROUTE             200
+#define H_ROUTE             24
 
-#define X_TRAIN             10
-#define Y_TRAIN             32
-#define W_TRAIN             80
-#define H_TRAIN             17
+#define X_TRAIN             152
+#define Y_TRAIN             75
+#define W_TRAIN             60
+#define H_TRAIN             24
 
-#define X_LOCO              119
-#define Y_LOCO              32
-#define W_LOCO              76
-#define H_LOCO              17
+#define X_LOCO              152
+#define Y_LOCO              118
+#define W_LOCO              60
+#define H_LOCO              24
 
-#define X_BTN1              10
-#define Y_BTN               60
-#define W_BTN               55
+#define X_BTN1              152
+#define Y_BTN               162
+#define W_BTN               60
 #define H_BTN               24
 
 #define X_BTN2              81
 #define X_BTN3              152
 
 #define X_REL1              0
-#define Y_REL1              2
-#define W_REL               67
-#define H_REL               89
+#define Y_REL1              0
+#define W_REL               ITEM_W
+#define H_REL               VLIST_ITEM_H
 
 #define X_REL2              74
 #define Y_REL2              2
@@ -99,6 +110,10 @@ typedef struct {
     char train_no[24];
     char line_name[32];
     char dir[8];
+
+    int level3_count;
+    int mark_count;
+    int audio_count;
 } boarding_record_t;
 
 /* ================= 全局数据 ================= */
@@ -204,6 +219,23 @@ static void parse_ts_14_to_date_time(const char *ts14,
     }
 }
 
+static int json_get_int_flexible(cJSON *obj, const char *key, int def_val)
+{
+    cJSON *j = obj ? cJSON_GetObjectItem(obj, key) : NULL;
+    if(cJSON_IsNumber(j)) return j->valueint;
+    if(cJSON_IsString(j) && j->valuestring) return atoi(j->valuestring);
+    return def_val;
+}
+
+static int json_get_stat_int(cJSON *record, const char *key, int def_val)
+{
+    cJSON *stats = cJSON_GetObjectItem(record, "stats");
+    if(cJSON_IsObject(stats)) {
+        int v = json_get_int_flexible(stats, key, -1);
+        if(v >= 0) return v;
+    }
+    return json_get_int_flexible(record, key, def_val);
+}
 static bool build_query_json_path(char *out, size_t out_sz,
                                   const char *boarding_key,
                                   query_data_type_t type)
@@ -311,6 +343,8 @@ static bool boarding_parse_all_records(const char *json_path)
         cJSON *j_route_name   = cJSON_GetObjectItem(it, "route_name");
         cJSON *j_loco_no      = cJSON_GetObjectItem(it, "loco_no");
         cJSON *j_train_no     = cJSON_GetObjectItem(it, "train_no");
+        cJSON *j_line_name    = cJSON_GetObjectItem(it, "line_name");
+        cJSON *j_dir          = cJSON_GetObjectItem(it, "dir");
 
         if(!cJSON_IsString(j_start_ts) || !cJSON_IsString(j_route_name) || !cJSON_IsString(j_boarding_key)) {
             continue;
@@ -338,6 +372,21 @@ static bool boarding_parse_all_records(const char *json_path)
             strncpy(r->train_no, j_train_no->valuestring, sizeof(r->train_no) - 1);
             r->train_no[sizeof(r->train_no) - 1] = '\0';
         }
+        if(cJSON_IsString(j_line_name)) {
+            strncpy(r->line_name, j_line_name->valuestring, sizeof(r->line_name) - 1);
+            r->line_name[sizeof(r->line_name) - 1] = '\0';
+        }
+        if(cJSON_IsString(j_dir)) {
+            strncpy(r->dir, j_dir->valuestring, sizeof(r->dir) - 1);
+            r->dir[sizeof(r->dir) - 1] = '\0';
+        }
+
+        r->level3_count = json_get_stat_int(it, "level3_count", -1);
+        if(r->level3_count < 0) r->level3_count = json_get_stat_int(it, "iii_count", -1);
+        if(r->level3_count < 0) r->level3_count = json_get_stat_int(it, "alarm_count", -1);
+        if(r->level3_count < 0) r->level3_count = json_get_stat_int(it, "overlimit_count", 0);
+        r->mark_count = json_get_stat_int(it, "mark_count", 0);
+        r->audio_count = json_get_stat_int(it, "audio_count", 0);
 
         if(r->boarding_key[0] == '\0' || r->route_name[0] == '\0') continue;
         out++;
@@ -482,7 +531,21 @@ static void boarding_btn_overlimit_cb(lv_event_t *e)
     if(!it) return;
     const boarding_record_t *r = records_get(it->record_index);
     if(!r) return;
-    jump_to_target_page(r, QUERY_DATA_TYPE_OVERLIMIT);
+
+    static int last_record_index = -1;
+    static uint32_t last_tick = 0;
+    uint32_t now = lv_tick_get();
+
+    if(last_record_index == it->record_index &&
+       (uint32_t)(now - last_tick) <= CARD_DOUBLE_CLICK_MS) {
+        last_record_index = -1;
+        last_tick = 0;
+        jump_to_target_page(r, QUERY_DATA_TYPE_OVERLIMIT);
+        return;
+    }
+
+    last_record_index = it->record_index;
+    last_tick = now;
 }
 
 static void boarding_btn_mark_cb(lv_event_t *e)
@@ -550,18 +613,29 @@ static void set_label_common_style(lv_obj_t *lbl)
     lv_obj_set_style_shadow_width(lbl, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
 }
 
+static void set_count_label_style(lv_obj_t *lbl)
+{
+    set_label_common_style(lbl);
+    lv_obj_set_style_text_color(lbl, lv_color_hex(TXT_VALUE_HEX), LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(lbl, APP_LOG_TITLE_FONT, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_text_align(lbl, LV_TEXT_ALIGN_LEFT, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_opa(lbl, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_color(lbl, lv_color_hex(BTN_BG_HEX), LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_left(lbl, 2, LV_PART_MAIN | LV_STATE_DEFAULT);
+}
+
 static void set_small_btn_style(lv_obj_t *btn)
 {
     lv_obj_set_style_bg_opa(btn, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_bg_color(btn, lv_color_hex(BTN_BG_HEX), LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_bg_grad_dir(btn, LV_GRAD_DIR_NONE, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_border_width(btn, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_radius(btn, 5, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_radius(btn, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_shadow_width(btn, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_text_color(btn, lv_color_hex(0xFFFFFF), LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_text_font(btn, APP_LOG_FONT, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_text_color(btn, lv_color_hex(TXT_VALUE_HEX), LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(btn, APP_LOG_TITLE_FONT, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_text_opa(btn, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_text_align(btn, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_text_align(btn, LV_TEXT_ALIGN_LEFT, LV_PART_MAIN | LV_STATE_DEFAULT);
 }
 
 static void set_transparent_rel_btn_style(lv_obj_t *btn)
@@ -596,10 +670,23 @@ static void vlist_bind_item(vlist_item_t *it, int rec_index)
     it->record_index = rec_index;
     lv_obj_clear_flag(it->root, LV_OBJ_FLAG_HIDDEN);
 
-    lv_label_set_text(it->lbl_date,  r->date[0]       ? r->date       : "--");
+    char time_buf[32];
+    if(r->date[0] && r->time[0]) {
+        lv_snprintf(time_buf, sizeof(time_buf), "%s %.5s", r->date, r->time);
+    } else {
+        lv_snprintf(time_buf, sizeof(time_buf), "--");
+    }
+
+    char count_buf[16];
     lv_label_set_text(it->lbl_route, r->route_name[0] ? r->route_name : "--");
-    lv_label_set_text(it->lbl_train, r->train_no[0]   ? r->train_no   : "--");
-    lv_label_set_text(it->lbl_loco,  r->loco_no[0]    ? r->loco_no    : "--");
+    lv_label_set_text(it->lbl_date, time_buf);
+
+    lv_snprintf(count_buf, sizeof(count_buf), "%d", r->level3_count);
+    lv_label_set_text(it->lbl_train, count_buf);
+    lv_snprintf(count_buf, sizeof(count_buf), "%d", r->mark_count);
+    lv_label_set_text(it->lbl_loco, count_buf);
+    lv_snprintf(count_buf, sizeof(count_buf), "%d", r->audio_count);
+    lv_label_set_text(it->btn_1_label, count_buf);
 }
 
 static void vlist_scroll_cb(lv_event_t *e)
@@ -668,25 +755,39 @@ static void vlist_create(lv_ui *ui)
         lv_obj_set_style_shadow_width(it->root, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
         lv_obj_set_layout(it->root, LV_LAYOUT_NONE);
 
+        lv_obj_t *img_bg = lv_image_create(it->root);
+        lv_obj_set_pos(img_bg, 0, 0);
+        lv_obj_set_size(img_bg, ITEM_W, VLIST_ITEM_H);
+        lv_obj_clear_flag(img_bg, LV_OBJ_FLAG_CLICKABLE);
+        lv_image_set_src(img_bg, &_tccard_RGB565A8_224x200);
+        lv_image_set_pivot(img_bg, 50, 50);
+        lv_image_set_rotation(img_bg, 0);
+        lv_obj_set_style_image_recolor_opa(img_bg, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
+        lv_obj_set_style_image_opa(img_bg, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
+
         it->lbl_date = lv_label_create(it->root);
         lv_obj_set_pos(it->lbl_date, X_DATE, Y_DATE);
         lv_obj_set_size(it->lbl_date, W_DATE, H_DATE);
         set_label_common_style(it->lbl_date);
+        lv_obj_set_style_text_font(it->lbl_date, APP_LOG_TIME_FONT, LV_PART_MAIN | LV_STATE_DEFAULT);
+        lv_obj_set_style_text_color(it->lbl_date, lv_color_hex(TXT_TIME_HEX), LV_PART_MAIN | LV_STATE_DEFAULT);
 
         it->lbl_route = lv_label_create(it->root);
         lv_obj_set_pos(it->lbl_route, X_ROUTE, Y_ROUTE);
         lv_obj_set_size(it->lbl_route, W_ROUTE, H_ROUTE);
         set_label_common_style(it->lbl_route);
+        lv_obj_set_style_text_font(it->lbl_route, APP_LOG_TITLE_FONT, LV_PART_MAIN | LV_STATE_DEFAULT);
+        lv_obj_set_style_text_color(it->lbl_route, lv_color_hex(TXT_HEX), LV_PART_MAIN | LV_STATE_DEFAULT);
 
         it->lbl_train = lv_label_create(it->root);
         lv_obj_set_pos(it->lbl_train, X_TRAIN, Y_TRAIN);
         lv_obj_set_size(it->lbl_train, W_TRAIN, H_TRAIN);
-        set_label_common_style(it->lbl_train);
+        set_count_label_style(it->lbl_train);
 
         it->lbl_loco = lv_label_create(it->root);
         lv_obj_set_pos(it->lbl_loco, X_LOCO, Y_LOCO);
         lv_obj_set_size(it->lbl_loco, W_LOCO, H_LOCO);
-        set_label_common_style(it->lbl_loco);
+        set_count_label_style(it->lbl_loco);
 
         /* 视觉按钮 */
         it->btn_1 = lv_button_create(it->root);
@@ -694,10 +795,12 @@ static void vlist_create(lv_ui *ui)
         lv_obj_set_size(it->btn_1, W_BTN, H_BTN);
         set_small_btn_style(it->btn_1);
         it->btn_1_label = lv_label_create(it->btn_1);
-        lv_label_set_text(it->btn_1_label, "超限");
-        lv_label_set_long_mode(it->btn_1_label, LV_LABEL_LONG_WRAP);
-        lv_obj_align(it->btn_1_label, LV_ALIGN_CENTER, 0, 0);
+        lv_label_set_text(it->btn_1_label, "0");
+        lv_label_set_long_mode(it->btn_1_label, LV_LABEL_LONG_CLIP);
+        lv_obj_align(it->btn_1_label, LV_ALIGN_LEFT_MID, 2, 0);
         lv_obj_set_style_pad_all(it->btn_1, 0, LV_STATE_DEFAULT);
+        lv_obj_set_style_text_color(it->btn_1_label, lv_color_hex(TXT_VALUE_HEX), 0);
+        lv_obj_set_style_text_font(it->btn_1_label, APP_LOG_TITLE_FONT, 0);
         lv_obj_set_width(it->btn_1_label, LV_PCT(100));
         lv_obj_clear_flag(it->btn_1, LV_OBJ_FLAG_CLICKABLE);
 
@@ -712,6 +815,7 @@ static void vlist_create(lv_ui *ui)
         lv_obj_set_style_pad_all(it->btn_2, 0, LV_STATE_DEFAULT);
         lv_obj_set_width(it->btn_2_label, LV_PCT(100));
         lv_obj_clear_flag(it->btn_2, LV_OBJ_FLAG_CLICKABLE);
+        lv_obj_add_flag(it->btn_2, LV_OBJ_FLAG_HIDDEN);
 
         it->btn_3 = lv_button_create(it->root);
         lv_obj_set_pos(it->btn_3, X_BTN3, Y_BTN);
@@ -724,6 +828,7 @@ static void vlist_create(lv_ui *ui)
         lv_obj_set_style_pad_all(it->btn_3, 0, LV_STATE_DEFAULT);
         lv_obj_set_width(it->btn_3_label, LV_PCT(100));
         lv_obj_clear_flag(it->btn_3, LV_OBJ_FLAG_CLICKABLE);
+        lv_obj_add_flag(it->btn_3, LV_OBJ_FLAG_HIDDEN);
 
         /* 透明点击区域 */
         it->btn_overlimit_rel = lv_button_create(it->root);
@@ -748,7 +853,8 @@ static void vlist_create(lv_ui *ui)
         lv_obj_align(it->btn_mark_rel_label, LV_ALIGN_CENTER, 0, 0);
         lv_obj_set_style_pad_all(it->btn_mark_rel, 0, LV_STATE_DEFAULT);
         lv_obj_set_width(it->btn_mark_rel_label, LV_PCT(100));
-        lv_obj_add_event_cb(it->btn_mark_rel, boarding_btn_mark_cb, LV_EVENT_CLICKED, it);
+        lv_obj_clear_flag(it->btn_mark_rel, LV_OBJ_FLAG_CLICKABLE);
+        lv_obj_add_flag(it->btn_mark_rel, LV_OBJ_FLAG_HIDDEN);
 
         it->btn_audio_rel = lv_button_create(it->root);
         lv_obj_set_pos(it->btn_audio_rel, X_REL3, Y_REL3);
@@ -760,12 +866,11 @@ static void vlist_create(lv_ui *ui)
         lv_obj_align(it->btn_audio_rel_label, LV_ALIGN_CENTER, 0, 0);
         lv_obj_set_style_pad_all(it->btn_audio_rel, 0, LV_STATE_DEFAULT);
         lv_obj_set_width(it->btn_audio_rel_label, LV_PCT(100));
-        lv_obj_add_event_cb(it->btn_audio_rel, boarding_btn_audio_cb, LV_EVENT_CLICKED, it);
+        lv_obj_clear_flag(it->btn_audio_rel, LV_OBJ_FLAG_CLICKABLE);
+        lv_obj_add_flag(it->btn_audio_rel, LV_OBJ_FLAG_HIDDEN);
 
         it->record_index = -1;
         lv_obj_move_foreground(it->btn_overlimit_rel);
-        lv_obj_move_foreground(it->btn_mark_rel);
-        lv_obj_move_foreground(it->btn_audio_rel);
     }
 
     lv_obj_add_event_cb(vl->list, vlist_scroll_cb, LV_EVENT_SCROLL, NULL);
