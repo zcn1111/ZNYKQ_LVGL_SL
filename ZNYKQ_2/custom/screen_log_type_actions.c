@@ -10,11 +10,8 @@
 #include "gui_guider.h"
 #include "query_context.h"
 
-/* 全局 UI 对象 */
 extern lv_ui guider_ui;
 
-
-/* 根目录建议统一定义 */
 #ifndef QUERY_ROOT_DIR
 #define QUERY_ROOT_DIR "S:/CB05U01TEST"
 #endif
@@ -47,86 +44,162 @@ static bool build_query_json_path(char *out, size_t out_sz,
     return false;
 }
 
-/* 超限数据查询：Gui Guider 已负责切屏，这里只加载数据 */
+static query_data_type_t active_detail_type(void)
+{
+    lv_obj_t *act = lv_screen_active();
+    if(act == guider_ui.screen_overlimt) return QUERY_DATA_TYPE_OVERLIMIT;
+    if(act == guider_ui.screen_mark) return QUERY_DATA_TYPE_NORMAL_MARK;
+    if(act == guider_ui.screen_audiomark) return QUERY_DATA_TYPE_AUDIO_MARK;
+    return QUERY_DATA_TYPE_NONE;
+}
+
+static bool *active_detail_del_flag(query_data_type_t type)
+{
+    switch(type) {
+    case QUERY_DATA_TYPE_OVERLIMIT:
+        return &guider_ui.screen_overlimt_del;
+    case QUERY_DATA_TYPE_NORMAL_MARK:
+        return &guider_ui.screen_mark_del;
+    case QUERY_DATA_TYPE_AUDIO_MARK:
+        return &guider_ui.screen_audiomark_del;
+    default:
+        break;
+    }
+    return NULL;
+}
+
+static void deinit_detail_type(query_data_type_t type)
+{
+    switch(type) {
+    case QUERY_DATA_TYPE_OVERLIMIT:
+        ui_overlimt_deinit();
+        break;
+    case QUERY_DATA_TYPE_NORMAL_MARK:
+        ui_mark_deinit();
+        break;
+    case QUERY_DATA_TYPE_AUDIO_MARK:
+        audiomark_deinit();
+        break;
+    default:
+        break;
+    }
+}
+
+static void render_detail_type(query_data_type_t type, const char *json_path)
+{
+    switch(type) {
+    case QUERY_DATA_TYPE_OVERLIMIT:
+        ui_overlimt_render_from_json(&guider_ui, json_path);
+        break;
+    case QUERY_DATA_TYPE_NORMAL_MARK:
+        ui_mark_render_from_json(&guider_ui, json_path);
+        break;
+    case QUERY_DATA_TYPE_AUDIO_MARK:
+        ui_audiomark_render_from_json(&guider_ui, json_path);
+        break;
+    default:
+        break;
+    }
+}
+
+static void load_detail_screen(query_data_type_t type, bool *old_scr_del)
+{
+    switch(type) {
+    case QUERY_DATA_TYPE_OVERLIMIT:
+        ui_load_scr_animation(&guider_ui,
+                              &guider_ui.screen_overlimt,
+                              guider_ui.screen_overlimt_del,
+                              old_scr_del,
+                              setup_scr_screen_overlimt,
+                              LV_SCR_LOAD_ANIM_NONE,
+                              100,
+                              100,
+                              false,
+                              false);
+        break;
+
+    case QUERY_DATA_TYPE_NORMAL_MARK:
+        ui_load_scr_animation(&guider_ui,
+                              &guider_ui.screen_mark,
+                              guider_ui.screen_mark_del,
+                              old_scr_del,
+                              setup_scr_screen_mark,
+                              LV_SCR_LOAD_ANIM_NONE,
+                              100,
+                              100,
+                              false,
+                              false);
+        break;
+
+    case QUERY_DATA_TYPE_AUDIO_MARK:
+        ui_load_scr_animation(&guider_ui,
+                              &guider_ui.screen_audiomark,
+                              guider_ui.screen_audiomark_del,
+                              old_scr_del,
+                              setup_scr_screen_audiomark,
+                              LV_SCR_LOAD_ANIM_NONE,
+                              100,
+                              100,
+                              false,
+                              false);
+        break;
+
+    default:
+        break;
+    }
+}
+
+static void switch_detail_type(query_data_type_t target_type)
+{
+    query_context_t ctx;
+    char json_path[128];
+
+    if(!query_context_get(&ctx)) {
+        printf("[LOG_TYPE] switch failed: no query context\r\n");
+        return;
+    }
+
+    if(!build_query_json_path(json_path, sizeof(json_path), ctx.boarding_key, target_type)) {
+        printf("[LOG_TYPE] switch failed: build path failed, type=%d\r\n", (int)target_type);
+        return;
+    }
+
+    query_data_type_t active_type = active_detail_type();
+    query_context_set_data_type(target_type);
+
+    printf("[LOG_TYPE] switch boarding_key=%s type=%d json=%s\r\n",
+           ctx.boarding_key,
+           (int)target_type,
+           json_path);
+
+    if(active_type == target_type) {
+        render_detail_type(target_type, json_path);
+        return;
+    }
+
+    bool dummy_old_del = false;
+    bool *old_scr_del = active_detail_del_flag(active_type);
+    if(!old_scr_del) old_scr_del = &dummy_old_del;
+
+    deinit_detail_type(active_type);
+    load_detail_screen(target_type, old_scr_del);
+    render_detail_type(target_type, json_path);
+}
+
 void screen_log_type_cont_1_custom_code(lv_event_t *e)
 {
     (void)e;
-
-    query_context_t ctx;
-    char json_path[128];
-
-    query_context_set_data_type(QUERY_DATA_TYPE_OVERLIMIT);
-
-    if(!query_context_get(&ctx)) {
-        printf("[LOG_TYPE] overlimit: no query context\r\n");
-        return;
-    }
-
-    if(!build_query_json_path(json_path, sizeof(json_path),
-                              ctx.boarding_key,
-                              QUERY_DATA_TYPE_OVERLIMIT)) {
-        printf("[LOG_TYPE] overlimit: build path failed\r\n");
-        return;
-    }
-
-    printf("[LOG_TYPE] overlimit boarding_key=%s\r\n", ctx.boarding_key);
-    printf("[LOG_TYPE] overlimit json=%s\r\n", json_path);
-
-    ui_overlimt_render_from_json(&guider_ui, json_path);
+    switch_detail_type(QUERY_DATA_TYPE_OVERLIMIT);
 }
 
-/* 普通标记查询：Gui Guider 已负责切屏，这里只加载数据 */
 void screen_log_type_cont_2_custom_code(lv_event_t *e)
 {
     (void)e;
-
-    query_context_t ctx;
-    char json_path[128];
-
-    query_context_set_data_type(QUERY_DATA_TYPE_NORMAL_MARK);
-
-    if(!query_context_get(&ctx)) {
-        printf("[LOG_TYPE] normal mark: no query context\r\n");
-        return;
-    }
-
-    if(!build_query_json_path(json_path, sizeof(json_path),
-                              ctx.boarding_key,
-                              QUERY_DATA_TYPE_NORMAL_MARK)) {
-        printf("[LOG_TYPE] normal mark: build path failed\r\n");
-        return;
-    }
-
-    printf("[LOG_TYPE] normal mark boarding_key=%s\r\n", ctx.boarding_key);
-    printf("[LOG_TYPE] normal mark json=%s\r\n", json_path);
-
-    ui_mark_render_from_json(&guider_ui, json_path);
+    switch_detail_type(QUERY_DATA_TYPE_NORMAL_MARK);
 }
 
-/* 录音标记查询：Gui Guider 已负责切屏，这里只加载数据 */
 void screen_log_type_cont_3_custom_code(lv_event_t *e)
 {
     (void)e;
-
-    query_context_t ctx;
-    char json_path[128];
-
-    query_context_set_data_type(QUERY_DATA_TYPE_AUDIO_MARK);
-
-    if(!query_context_get(&ctx)) {
-        printf("[LOG_TYPE] audio mark: no query context\r\n");
-        return;
-    }
-
-    if(!build_query_json_path(json_path, sizeof(json_path),
-                              ctx.boarding_key,
-                              QUERY_DATA_TYPE_AUDIO_MARK)) {
-        printf("[LOG_TYPE] audio mark: build path failed\r\n");
-        return;
-    }
-
-    printf("[LOG_TYPE] audio mark boarding_key=%s\r\n", ctx.boarding_key);
-    printf("[LOG_TYPE] audio mark json=%s\r\n", json_path);
-
-    ui_audiomark_render_from_json(&guider_ui, json_path);
+    switch_detail_type(QUERY_DATA_TYPE_AUDIO_MARK);
 }

@@ -22,6 +22,7 @@
 
 #include "app_mark_list.h"
 #include "app_audio_mark_list.h"
+#include "screen_log_type_actions.h"
 
 
 static void screen_main_event_handler (lv_event_t *e)
@@ -330,25 +331,12 @@ static void screen_overlimt_event_handler (lv_event_t *e)
     }
 }
 
-static void screen_overlimt_btn_audiomark_event_handler (lv_event_t *e)
-{
-    lv_event_code_t code = lv_event_get_code(e);
-    switch (code) {
-    case LV_EVENT_CLICKED:
-    {
-        ui_load_scr_animation(&guider_ui, &guider_ui.screen_audiomark, guider_ui.screen_audiomark_del, &guider_ui.screen_overlimt_del, setup_scr_screen_audiomark, LV_SCR_LOAD_ANIM_NONE, 100, 100, false, false);
-        ui_boarding_log_deinit();
-        break;
-    }
-    default:
-        break;
-    }
-}
-
 void events_init_screen_overlimt (lv_ui *ui)
 {
     lv_obj_add_event_cb(ui->screen_overlimt, screen_overlimt_event_handler, LV_EVENT_ALL, ui);
-    lv_obj_add_event_cb(ui->screen_overlimt_btn_audiomark, screen_overlimt_btn_audiomark_event_handler, LV_EVENT_ALL, ui);
+    lv_obj_add_event_cb(ui->screen_overlimt_btn_overlimt, screen_log_type_cont_1_custom_code, LV_EVENT_CLICKED, ui);
+    lv_obj_add_event_cb(ui->screen_overlimt_btn_mark, screen_log_type_cont_2_custom_code, LV_EVENT_CLICKED, ui);
+    lv_obj_add_event_cb(ui->screen_overlimt_btn_audiomark, screen_log_type_cont_3_custom_code, LV_EVENT_CLICKED, ui);
 }
 
 static void screen_mark_event_handler (lv_event_t *e)
@@ -380,6 +368,9 @@ static void screen_mark_event_handler (lv_event_t *e)
 void events_init_screen_mark (lv_ui *ui)
 {
     lv_obj_add_event_cb(ui->screen_mark, screen_mark_event_handler, LV_EVENT_ALL, ui);
+    lv_obj_add_event_cb(ui->screen_mark_btn_overlimt, screen_log_type_cont_1_custom_code, LV_EVENT_CLICKED, ui);
+    lv_obj_add_event_cb(ui->screen_mark_btn_mark, screen_log_type_cont_2_custom_code, LV_EVENT_CLICKED, ui);
+    lv_obj_add_event_cb(ui->screen_mark_btn_audio, screen_log_type_cont_3_custom_code, LV_EVENT_CLICKED, ui);
 }
 
 static void screen_audiomark_event_handler (lv_event_t *e)
@@ -411,6 +402,9 @@ static void screen_audiomark_event_handler (lv_event_t *e)
 void events_init_screen_audiomark (lv_ui *ui)
 {
     lv_obj_add_event_cb(ui->screen_audiomark, screen_audiomark_event_handler, LV_EVENT_ALL, ui);
+    lv_obj_add_event_cb(ui->screen_audiomark_btn_overlimt, screen_log_type_cont_1_custom_code, LV_EVENT_CLICKED, ui);
+    lv_obj_add_event_cb(ui->screen_audiomark_btn_mark, screen_log_type_cont_2_custom_code, LV_EVENT_CLICKED, ui);
+    lv_obj_add_event_cb(ui->screen_audiomark_btn_audio, screen_log_type_cont_3_custom_code, LV_EVENT_CLICKED, ui);
 }
 
 static void screen_about_event_handler (lv_event_t *e)
