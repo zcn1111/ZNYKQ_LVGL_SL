@@ -13,6 +13,7 @@
 #include "events_init.h"
 #include "widgets_init.h"
 #include "custom.h"
+#include "app_mileage_reminder_list.h"
 
 
 
@@ -84,7 +85,7 @@ void setup_scr_screen_mileage_reminder(lv_ui *ui)
     lv_obj_set_style_shadow_width(ui->screen_mileage_reminder_cont_list, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
 
     //The custom code of screen_mileage_reminder.
-
+    ui_mileage_reminder_render_default(ui);
 
     //Update current screen layout.
     lv_obj_update_layout(ui->screen_mileage_reminder);

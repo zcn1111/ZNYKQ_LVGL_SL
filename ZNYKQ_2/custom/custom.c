@@ -15,7 +15,6 @@
 #include "lvgl.h"
 #include "custom.h"
 #include "app_nav.h"
-#include "app_mileage_reminder_list.h"
 
 /*********************
  *      DEFINES
@@ -41,6 +40,5 @@ void custom_init(lv_ui *ui)
 {
     /* Add your codes here */
     nav_init();
-    ui_mileage_reminder_render_default(ui);
 }
 
