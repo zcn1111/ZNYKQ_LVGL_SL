@@ -103,8 +103,8 @@ void setup_ui(lv_ui *ui)
     setup_bottom_layer();
     init_scr_del_flag(ui);
     init_keyboard(ui);
-    setup_scr_screen_main(ui);
-    lv_screen_load(ui->screen_main);
+    setup_scr_screen_mileage_reminder(ui);
+    lv_screen_load(ui->screen_mileage_reminder);
 }
 
 void video_play(lv_ui *ui)

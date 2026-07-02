@@ -167,6 +167,7 @@ static void screen_mileage_reminder_event_handler (lv_event_t *e)
         {
             lv_indev_wait_release(lv_indev_active());
             ui_load_scr_animation(&guider_ui, &guider_ui.screen_main, guider_ui.screen_main_del, &guider_ui.screen_mileage_reminder_del, setup_scr_screen_main, LV_SCR_LOAD_ANIM_MOVE_LEFT, 200, 200, false, false);
+
             break;
         }
         default:

@@ -313,8 +313,7 @@
 								]
 							}
 						}
-					},
-					"layerName": "screen_main"
+					}
 				},
 				{
 					"name": "img_kjjm",
@@ -555,8 +554,7 @@
 							"shadow_ofs_x": 0,
 							"shadow_ofs_y": 0
 						}
-					],
-					"layerName": "screen_main"
+					]
 				},
 				{
 					"name": "label_1",
@@ -732,8 +730,7 @@
 								]
 							}
 						}
-					},
-					"layerName": "screen_main"
+					}
 				},
 				{
 					"name": "img_play_run",
@@ -805,8 +802,7 @@
 								]
 							}
 						}
-					},
-					"layerName": "screen_main"
+					}
 				},
 				{
 					"name": "img_voickey",
@@ -896,8 +892,7 @@
 								]
 							}
 						}
-					},
-					"layerName": "screen_main"
+					}
 				},
 				{
 					"name": "img_battery10",
@@ -1648,8 +1643,7 @@
 							"shadow_ofs_x": 0,
 							"shadow_ofs_y": 0
 						}
-					],
-					"layerName": "screen_main"
+					]
 				},
 				{
 					"name": "label_time",
@@ -1959,8 +1953,7 @@
 					"bg_img_recolor": "#ffffff",
 					"bg_img_recolor_opa": 0
 				}
-			],
-			"layerName": "screen_main"
+			]
 		},
 		{
 			"name": "screen_mileage_reminder",
@@ -1986,13 +1979,13 @@
 					"id": "delx6pxf",
 					"type": "cont",
 					"left": 5,
-					"top": 54,
+					"top": 47,
 					"visible": true,
 					"isLock": false,
 					"rm_flag": [],
 					"flag": [],
 					"width": 230,
-					"height": 222,
+					"height": 227,
 					"default_style": false,
 					"scrollbar_mode": "OFF",
 					"child": [],
@@ -2219,6 +2212,18 @@
 										"is_del": false
 									}
 								}
+							},
+							{
+								"dst": "custom_code",
+								"bindCondi": "",
+								"actionList": {
+									"custom_code": {
+										"inc_c": "",
+										"code_c": "",
+										"inc_py": "",
+										"code_py": ""
+									}
+								}
 							}
 						]
 					}
@@ -2243,8 +2248,7 @@
 					"bg_img_recolor": "#ffffff",
 					"bg_img_recolor_opa": 0
 				}
-			],
-			"layerName": "screen_mileage_reminder"
+			]
 		},
 		{
 			"name": "screen_set",
@@ -3127,8 +3131,7 @@
 					"bg_img_recolor": "#ffffff",
 					"bg_img_recolor_opa": 0
 				}
-			],
-			"layerName": "screen_set"
+			]
 		},
 		{
 			"name": "screen_log",
@@ -3561,8 +3564,7 @@
 					"bg_img_recolor": "#ffffff",
 					"bg_img_recolor_opa": 0
 				}
-			],
-			"layerName": "screen_log"
+			]
 		},
 		{
 			"name": "screen_overlimt",
@@ -7984,8 +7986,7 @@
 							"image_recolor_opa": 0,
 							"image_opa": 255
 						}
-					],
-					"layerName": "screen_audio_Tag"
+					]
 				},
 				{
 					"name": "label_type",
@@ -8471,8 +8472,7 @@
 								]
 							}
 						}
-					},
-					"layerName": "screen_audio_Tag"
+					}
 				},
 				{
 					"name": "img_back",
@@ -9354,8 +9354,7 @@
 							"shadow_ofs_x": 0,
 							"shadow_ofs_y": 0
 						}
-					],
-					"layerName": "screen_warn1"
+					]
 				},
 				{
 					"name": "img_voic",
@@ -11029,8 +11028,7 @@
 							"shadow_ofs_x": 0,
 							"shadow_ofs_y": 0
 						}
-					],
-					"layerName": "screen_warn2"
+					]
 				},
 				{
 					"name": "img_voic",
@@ -12392,8 +12390,7 @@
 							"shadow_ofs_x": 0,
 							"shadow_ofs_y": 0
 						}
-					],
-					"layerName": "screen_warn3"
+					]
 				},
 				{
 					"name": "img_voic",
@@ -13755,8 +13752,7 @@
 							"shadow_ofs_x": 0,
 							"shadow_ofs_y": 0
 						}
-					],
-					"layerName": "screen_warn4"
+					]
 				},
 				{
 					"name": "img_voic",
@@ -17316,7 +17312,7 @@
 			"keyboard_font_type": "SourceHanSerifSC_Regular",
 			"keyboard_font_size": 18
 		},
-		"default_scr": "screen_main",
+		"default_scr": "screen_mileage_reminder",
 		"theme": "LV_THEME_MATERIAL_FLAG_LIGHT",
 		"screen": [
 			{
@@ -19228,6 +19224,18 @@
 										}
 									},
 									"dst_type": "scr"
+								},
+								{
+									"dst": "custom_code",
+									"bindCondi": "",
+									"actionList": {
+										"custom_code": {
+											"inc_c": "",
+											"code_c": "",
+											"inc_py": "",
+											"code_py": ""
+										}
+									}
 								}
 							]
 						}
@@ -19412,11 +19420,11 @@
 						"rm_flag": [],
 						"pos": [
 							5,
-							54
+							47
 						],
 						"size": [
 							230,
-							222
+							227
 						],
 						"default_style": false,
 						"child": [],
