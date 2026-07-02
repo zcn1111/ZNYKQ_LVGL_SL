@@ -101,14 +101,28 @@ static cJSON *json_get_items_array(cJSON *root)
     if(cJSON_IsArray(root)) return root;
     if(!cJSON_IsObject(root)) return NULL;
 
-    cJSON *arr = cJSON_GetObjectItem(root, "items");
-    if(cJSON_IsArray(arr)) return arr;
+    static const char *keys[] = {
+        "items",
+        "records",
+        "data",
+        "list",
+        "rows",
+        "reminders",
+        "mileage_reminders",
+        "mileageReminders",
+        "mileage_list",
+        "mileageList"
+    };
 
-    arr = cJSON_GetObjectItem(root, "records");
-    if(cJSON_IsArray(arr)) return arr;
+    for(size_t i = 0; i < sizeof(keys) / sizeof(keys[0]); i++) {
+        cJSON *arr = cJSON_GetObjectItem(root, keys[i]);
+        if(cJSON_IsArray(arr)) return arr;
+    }
 
-    arr = cJSON_GetObjectItem(root, "data");
-    if(cJSON_IsArray(arr)) return arr;
+    cJSON *child = NULL;
+    cJSON_ArrayForEach(child, root) {
+        if(cJSON_IsArray(child)) return child;
+    }
 
     return NULL;
 }
@@ -133,9 +147,12 @@ static bool json_value_is_reminded(cJSON *j)
                strcmp(s, "true") == 0 ||
                strcmp(s, "TRUE") == 0 ||
                strcmp(s, "yes") == 0 ||
+               strcmp(s, "YES") == 0 ||
+               strcmp(s, "Y") == 0 ||
+               strcmp(s, "on") == 0 ||
                strcmp(s, "reminded") == 0 ||
                strcmp(s, "done") == 0 ||
-               strcmp(s, "已提醒") == 0;
+               strcmp(s, "\xE5\xB7\xB2\xE6\x8F\x90\xE9\x86\x92") == 0;
     }
 
     return false;
@@ -153,10 +170,14 @@ static int parse_mileage_items(const char *json_path,
 
     cJSON *root = cJSON_Parse(txt);
     lv_free(txt);
-    if(!root) return 0;
+    if(!root) {
+        printf("[MILEAGE] cJSON_Parse failed: %s\n", json_path);
+        return 0;
+    }
 
     cJSON *arr = json_get_items_array(root);
     if(!cJSON_IsArray(arr)) {
+        printf("[MILEAGE] no items array: %s\n", json_path);
         cJSON_Delete(root);
         return 0;
     }
@@ -165,24 +186,39 @@ static int parse_mileage_items(const char *json_path,
     int n = cJSON_GetArraySize(arr);
     for(int i = 0; i < n && out < max_items; i++) {
         cJSON *it = cJSON_GetArrayItem(arr, i);
+        mileage_reminder_item_t *r = &items[out];
+        memset(r, 0, sizeof(*r));
+
+        if(cJSON_IsString(it) && it->valuestring && it->valuestring[0] != '\0') {
+            strncpy(r->mileage_text, it->valuestring, sizeof(r->mileage_text) - 1);
+            r->mileage_text[sizeof(r->mileage_text) - 1] = '\0';
+            out++;
+            continue;
+        }
+
         if(!cJSON_IsObject(it)) continue;
 
         cJSON *j_mileage = json_get_first(it, "mileage_text", "mileage", "text");
+        if(!j_mileage) j_mileage = json_get_first(it, "mileageText", "mileage_value", "name");
+        if(!j_mileage) j_mileage = json_get_first(it, "mileage_no", "mileageNo", "mileage_num");
+        if(!j_mileage) j_mileage = json_get_first(it, "line_mileage", "km_text", "kilometer");
+        if(!j_mileage) j_mileage = json_get_first(it, "k", "km", "value");
         if(!cJSON_IsString(j_mileage) || !j_mileage->valuestring || j_mileage->valuestring[0] == '\0') {
             continue;
         }
 
-        mileage_reminder_item_t *r = &items[out];
-        memset(r, 0, sizeof(*r));
         strncpy(r->mileage_text, j_mileage->valuestring, sizeof(r->mileage_text) - 1);
         r->mileage_text[sizeof(r->mileage_text) - 1] = '\0';
 
         cJSON *j_reminded = json_get_first(it, "reminded", "is_reminded", "done");
+        if(!j_reminded) j_reminded = json_get_first(it, "isReminded", "remind", "warned");
+        if(!j_reminded) j_reminded = json_get_first(it, "is_remind", "isRemind", "has_reminded");
         if(!j_reminded) j_reminded = cJSON_GetObjectItem(it, "status");
         r->reminded = json_value_is_reminded(j_reminded);
         out++;
     }
 
+    printf("[MILEAGE] parsed %d items from %s\n", out, json_path);
     cJSON_Delete(root);
     return out;
 }
