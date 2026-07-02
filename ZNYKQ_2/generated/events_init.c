@@ -16,8 +16,12 @@
 #endif
 
 #include "app_boarding_log_list.h"
+#include "app_mileage_reminder_list.h"
 #include "app_boarding_log_list.h"
+#include "app_mileage_reminder_list.h"
+#include "app_mileage_reminder_list.h"
 #include "app_nav.h"
+#include "app_mileage_reminder_list.h"
 #include "app_overlimt_list.h"
 
 #include "screen_log_type_actions.h"
@@ -28,7 +32,6 @@
 #include "screen_log_type_actions.h"
 #include "screen_log_type_actions.h"
 #include "app_audio_mark_list.h"
-#include "app_mileage_reminder_list.h"
 
 #include "screen_log_type_actions.h"
 #include "screen_log_type_actions.h"
@@ -59,8 +62,7 @@ static void screen_main_event_handler (lv_event_t *e)
         {
             lv_indev_wait_release(lv_indev_active());
             ui_load_scr_animation(&guider_ui, &guider_ui.screen_mileage_reminder, guider_ui.screen_mileage_reminder_del, &guider_ui.screen_main_del, setup_scr_screen_mileage_reminder, LV_SCR_LOAD_ANIM_MOVE_RIGHT, 200, 200, false, false);
-            ui_mileage_reminder_render_default(&guider_ui);
-
+            screen_mileage_reminder_custom_code(e);
             break;
         }
         default:
@@ -162,16 +164,15 @@ static void screen_mileage_reminder_event_handler (lv_event_t *e)
         {
             lv_indev_wait_release(lv_indev_active());
             ui_load_scr_animation(&guider_ui, &guider_ui.screen_log, guider_ui.screen_log_del, &guider_ui.screen_mileage_reminder_del, setup_scr_screen_log, LV_SCR_LOAD_ANIM_MOVE_RIGHT, 200, 200, false, false);
-            ui_mileage_reminder_deinit(&guider_ui);
             ui_boarding_log_render_from_json(&guider_ui, "S:/CB05U01TEST/boarding_records.json");
+            screen_mileage_reminder_deinit_custom_code(e);
             break;
         }
         case LV_DIR_LEFT:
         {
             lv_indev_wait_release(lv_indev_active());
             ui_load_scr_animation(&guider_ui, &guider_ui.screen_main, guider_ui.screen_main_del, &guider_ui.screen_mileage_reminder_del, setup_scr_screen_main, LV_SCR_LOAD_ANIM_MOVE_LEFT, 200, 200, false, false);
-            ui_mileage_reminder_deinit(&guider_ui);
-
+            screen_mileage_reminder_deinit_custom_code(e);
             break;
         }
         default:
@@ -293,8 +294,8 @@ static void screen_log_event_handler (lv_event_t *e)
         {
             lv_indev_wait_release(lv_indev_active());
             ui_load_scr_animation(&guider_ui, &guider_ui.screen_mileage_reminder, guider_ui.screen_mileage_reminder_del, &guider_ui.screen_log_del, setup_scr_screen_mileage_reminder, LV_SCR_LOAD_ANIM_MOVE_LEFT, 200, 200, false, false);
-            ui_mileage_reminder_render_default(&guider_ui);
             ui_boarding_log_deinit();
+            screen_mileage_reminder_custom_code(e);
             break;
         }
         case LV_DIR_RIGHT:

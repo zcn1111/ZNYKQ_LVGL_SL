@@ -313,7 +313,8 @@
 								]
 							}
 						}
-					}
+					},
+					"layerName": "screen_main"
 				},
 				{
 					"name": "img_kjjm",
@@ -554,7 +555,8 @@
 							"shadow_ofs_x": 0,
 							"shadow_ofs_y": 0
 						}
-					]
+					],
+					"layerName": "screen_main"
 				},
 				{
 					"name": "label_1",
@@ -730,7 +732,8 @@
 								]
 							}
 						}
-					}
+					},
+					"layerName": "screen_main"
 				},
 				{
 					"name": "img_play_run",
@@ -802,7 +805,8 @@
 								]
 							}
 						}
-					}
+					},
+					"layerName": "screen_main"
 				},
 				{
 					"name": "img_voickey",
@@ -892,7 +896,8 @@
 								]
 							}
 						}
-					}
+					},
+					"layerName": "screen_main"
 				},
 				{
 					"name": "img_battery10",
@@ -1643,7 +1648,8 @@
 							"shadow_ofs_x": 0,
 							"shadow_ofs_y": 0
 						}
-					]
+					],
+					"layerName": "screen_main"
 				},
 				{
 					"name": "label_time",
@@ -1923,8 +1929,8 @@
 								"bindCondi": "",
 								"actionList": {
 									"custom_code": {
-										"inc_c": "",
-										"code_c": "",
+										"inc_c": "#include \"app_mileage_reminder_list.h\"",
+										"code_c": "screen_mileage_reminder_custom_code(e);",
 										"inc_py": "",
 										"code_py": ""
 									}
@@ -1953,7 +1959,8 @@
 					"bg_img_recolor": "#ffffff",
 					"bg_img_recolor_opa": 0
 				}
-			]
+			],
+			"layerName": "screen_main"
 		},
 		{
 			"name": "screen_mileage_reminder",
@@ -2187,8 +2194,8 @@
 								"bindCondi": "",
 								"actionList": {
 									"custom_code": {
-										"inc_c": "#include \"app_boarding_log_list.h\"",
-										"code_c": "ui_boarding_log_render_from_json(&guider_ui, \"S:/CB05U01TEST/boarding_records.json\");",
+										"inc_c": "#include \"app_boarding_log_list.h\"\r\n#include \"app_mileage_reminder_list.h\"",
+										"code_c": "ui_boarding_log_render_from_json(&guider_ui, \"S:/CB05U01TEST/boarding_records.json\");\r\nscreen_mileage_reminder_deinit_custom_code(e);",
 										"inc_py": "",
 										"code_py": ""
 									}
@@ -2218,8 +2225,8 @@
 								"bindCondi": "",
 								"actionList": {
 									"custom_code": {
-										"inc_c": "",
-										"code_c": "",
+										"inc_c": "#include \"app_mileage_reminder_list.h\"",
+										"code_c": "screen_mileage_reminder_deinit_custom_code(e);",
 										"inc_py": "",
 										"code_py": ""
 									}
@@ -2248,7 +2255,8 @@
 					"bg_img_recolor": "#ffffff",
 					"bg_img_recolor_opa": 0
 				}
-			]
+			],
+			"layerName": "screen_mileage_reminder"
 		},
 		{
 			"name": "screen_set",
@@ -3131,7 +3139,8 @@
 					"bg_img_recolor": "#ffffff",
 					"bg_img_recolor_opa": 0
 				}
-			]
+			],
+			"layerName": "screen_set"
 		},
 		{
 			"name": "screen_log",
@@ -3503,8 +3512,8 @@
 								"bindCondi": "",
 								"actionList": {
 									"custom_code": {
-										"inc_c": "",
-										"code_c": "ui_boarding_log_deinit();",
+										"inc_c": "#include \"app_mileage_reminder_list.h\"",
+										"code_c": "ui_boarding_log_deinit();\r\nscreen_mileage_reminder_custom_code(e);",
 										"inc_py": "",
 										"code_py": ""
 									}
@@ -3564,7 +3573,8 @@
 					"bg_img_recolor": "#ffffff",
 					"bg_img_recolor_opa": 0
 				}
-			]
+			],
+			"layerName": "screen_log"
 		},
 		{
 			"name": "screen_overlimt",
@@ -7986,7 +7996,8 @@
 							"image_recolor_opa": 0,
 							"image_opa": 255
 						}
-					]
+					],
+					"layerName": "screen_audio_Tag"
 				},
 				{
 					"name": "label_type",
@@ -8472,7 +8483,8 @@
 								]
 							}
 						}
-					}
+					},
+					"layerName": "screen_audio_Tag"
 				},
 				{
 					"name": "img_back",
@@ -9354,7 +9366,8 @@
 							"shadow_ofs_x": 0,
 							"shadow_ofs_y": 0
 						}
-					]
+					],
+					"layerName": "screen_warn1"
 				},
 				{
 					"name": "img_voic",
@@ -11028,7 +11041,8 @@
 							"shadow_ofs_x": 0,
 							"shadow_ofs_y": 0
 						}
-					]
+					],
+					"layerName": "screen_warn2"
 				},
 				{
 					"name": "img_voic",
@@ -12390,7 +12404,8 @@
 							"shadow_ofs_x": 0,
 							"shadow_ofs_y": 0
 						}
-					]
+					],
+					"layerName": "screen_warn3"
 				},
 				{
 					"name": "img_voic",
@@ -13752,7 +13767,8 @@
 							"shadow_ofs_x": 0,
 							"shadow_ofs_y": 0
 						}
-					]
+					],
+					"layerName": "screen_warn4"
 				},
 				{
 					"name": "img_voic",
@@ -17312,7 +17328,7 @@
 			"keyboard_font_type": "SourceHanSerifSC_Regular",
 			"keyboard_font_size": 18
 		},
-		"default_scr": "screen_mileage_reminder",
+		"default_scr": "screen_main",
 		"theme": "LV_THEME_MATERIAL_FLAG_LIGHT",
 		"screen": [
 			{
@@ -17410,8 +17426,8 @@
 									"bindCondi": "",
 									"actionList": {
 										"custom_code": {
-											"inc_c": "",
-											"code_c": "",
+											"inc_c": "#include \"app_mileage_reminder_list.h\"",
+											"code_c": "screen_mileage_reminder_custom_code(e);",
 											"inc_py": "",
 											"code_py": ""
 										}
@@ -19198,8 +19214,8 @@
 									"bindCondi": "",
 									"actionList": {
 										"custom_code": {
-											"inc_c": "#include \"app_boarding_log_list.h\"",
-											"code_c": "ui_boarding_log_render_from_json(&guider_ui, \"S:/CB05U01TEST/boarding_records.json\");",
+											"inc_c": "#include \"app_boarding_log_list.h\"\r\n#include \"app_mileage_reminder_list.h\"",
+											"code_c": "ui_boarding_log_render_from_json(&guider_ui, \"S:/CB05U01TEST/boarding_records.json\");\r\nscreen_mileage_reminder_deinit_custom_code(e);",
 											"inc_py": "",
 											"code_py": ""
 										}
@@ -19230,8 +19246,8 @@
 									"bindCondi": "",
 									"actionList": {
 										"custom_code": {
-											"inc_c": "",
-											"code_c": "",
+											"inc_c": "#include \"app_mileage_reminder_list.h\"",
+											"code_c": "screen_mileage_reminder_deinit_custom_code(e);",
 											"inc_py": "",
 											"code_py": ""
 										}
@@ -20434,8 +20450,8 @@
 									"bindCondi": "",
 									"actionList": {
 										"custom_code": {
-											"inc_c": "",
-											"code_c": "ui_boarding_log_deinit();",
+											"inc_c": "#include \"app_mileage_reminder_list.h\"",
+											"code_c": "ui_boarding_log_deinit();\r\nscreen_mileage_reminder_custom_code(e);",
 											"inc_py": "",
 											"code_py": ""
 										}
