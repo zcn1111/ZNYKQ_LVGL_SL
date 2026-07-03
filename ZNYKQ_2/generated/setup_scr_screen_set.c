@@ -233,7 +233,7 @@ void setup_scr_screen_set(lv_ui *ui)
 
     //Write codes screen_set_label_7
     ui->screen_set_label_7 = lv_label_create(ui->screen_set);
-    lv_obj_set_pos(ui->screen_set_label_7, 55, 9);
+    lv_obj_set_pos(ui->screen_set_label_7, 55, 10);
     lv_obj_set_size(ui->screen_set_label_7, 130, 30);
     lv_label_set_text(ui->screen_set_label_7, "设置");
     lv_label_set_long_mode(ui->screen_set_label_7, LV_LABEL_LONG_WRAP);

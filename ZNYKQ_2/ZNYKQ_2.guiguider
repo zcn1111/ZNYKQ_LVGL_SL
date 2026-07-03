@@ -2282,7 +2282,7 @@
 					"id": "bomtwmed",
 					"type": "label",
 					"left": 55,
-					"top": 9,
+					"top": 10,
 					"visible": true,
 					"isLock": false,
 					"rm_flag": [],
@@ -20307,7 +20307,7 @@
 						"rm_flag": [],
 						"pos": [
 							55,
-							9
+							10
 						],
 						"size": [
 							130,
