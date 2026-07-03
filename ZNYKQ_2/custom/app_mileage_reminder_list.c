@@ -39,29 +39,29 @@ extern lv_ui guider_ui;
 #define MR_JSON_MAX_SIZE      (16 * 1024)
 #define MR_MAX_ITEMS          100
 
-#define MR_ROW_X              7
+#define MR_ROW_X              3
 #define MR_ROW_Y0             4
-#define MR_ROW_W              216
-#define MR_ROW_H              29
-#define MR_ROW_GAP            7
+#define MR_ROW_W              224
+#define MR_ROW_H              36
+#define MR_ROW_GAP            5
 #define MR_ROW_RADIUS         3
 
 #define MR_MILEAGE_X          8
-#define MR_MILEAGE_Y          3
-#define MR_MILEAGE_W          128
-#define MR_MILEAGE_H          22
+#define MR_MILEAGE_Y          5
+#define MR_MILEAGE_W          140
+#define MR_MILEAGE_H          26
 
-#define MR_STATUS_X           151
-#define MR_STATUS_Y           5
-#define MR_STATUS_W           58
-#define MR_STATUS_H           18
+#define MR_STATUS_X           154
+#define MR_STATUS_Y           7
+#define MR_STATUS_W           62
+#define MR_STATUS_H           24
 
 #define MR_ROW_BG_HEX         0x7661D8
 #define MR_TXT_HEX            0xFFFFFF
 #define MR_STATUS_HEX         0xFFF32B
 #define MR_EMPTY_HEX          0xFFFFFF
 
-#define MR_FONT               (&lv_customer_font_PingFangHeavy_16)
+#define MR_FONT               (&lv_customer_font_PingFangHeavy_20)
 #define MR_TITLE_FONT         (&lv_customer_font_PingFangHeavy_20)
 #define MR_DEBUG_ITEM_LOG_LIMIT 20
 
