@@ -47,7 +47,7 @@ extern lv_ui guider_ui;
 #define MR_ROW_RADIUS         3
 
 #define MR_MILEAGE_X          8
-#define MR_MILEAGE_Y          5
+#define MR_MILEAGE_Y          9
 #define MR_MILEAGE_W          140
 #define MR_MILEAGE_H          26
 
@@ -563,10 +563,8 @@ void ui_mileage_reminder_render_from_json(lv_ui *ui, const char *json_path)
 
 void ui_mileage_reminder_deinit(lv_ui *ui)
 {
-    printf("[MILEAGE] deinit: ui=%p list=%p\n",
-           (void *)ui, ui ? (void *)ui->screen_mileage_reminder_cont_list : NULL);
-    if(!ui || !ui->screen_mileage_reminder_cont_list) return;
-    lv_obj_clean(ui->screen_mileage_reminder_cont_list);
+    printf("[MILEAGE] deinit skipped: keep rows during screen animation, ui=%p\n", (void *)ui);
+    (void)ui;
 }
 
 void ui_mileage_reminder_render_default(lv_ui *ui)
