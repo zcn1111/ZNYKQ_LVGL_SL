@@ -56,6 +56,12 @@ static ui_page_t nav_get_current_page(lv_ui *ui)
     if(act == ui->screen_bledata) {
         return nav_make_page(ui, screen_bledata, setup_scr_screen_bledata);
     }
+    if(act == ui->screen_bledata) {
+        return nav_make_page(ui, screen_sleep_set, setup_scr_screen_sleep_set);
+    }
+    if(act == ui->screen_bledata) {
+        return nav_make_page(ui, screen_Instructions, setup_scr_screen_Instructions);
+    }
 
 
 

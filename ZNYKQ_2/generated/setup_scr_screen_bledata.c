@@ -26,23 +26,23 @@ void setup_scr_screen_bledata(lv_ui *ui)
     //Write style for screen_bledata, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
     lv_obj_set_style_bg_opa(ui->screen_bledata, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
 
-    //Write codes screen_bledata_img_1
-    ui->screen_bledata_img_1 = lv_image_create(ui->screen_bledata);
-    lv_obj_set_pos(ui->screen_bledata_img_1, 0, 0);
-    lv_obj_set_size(ui->screen_bledata_img_1, 240, 280);
-    lv_obj_add_flag(ui->screen_bledata_img_1, LV_OBJ_FLAG_CLICKABLE);
-    lv_image_set_src(ui->screen_bledata_img_1, &_bg_RGB565A8_240x280);
-    lv_image_set_pivot(ui->screen_bledata_img_1, 50,50);
-    lv_image_set_rotation(ui->screen_bledata_img_1, 0);
+    //Write codes screen_bledata_img_bg
+    ui->screen_bledata_img_bg = lv_image_create(ui->screen_bledata);
+    lv_obj_set_pos(ui->screen_bledata_img_bg, 0, 0);
+    lv_obj_set_size(ui->screen_bledata_img_bg, 240, 280);
+    lv_obj_add_flag(ui->screen_bledata_img_bg, LV_OBJ_FLAG_CLICKABLE);
+    lv_image_set_src(ui->screen_bledata_img_bg, &_bg_new_RGB565_240x280_tresh);
+    lv_image_set_pivot(ui->screen_bledata_img_bg, 50,50);
+    lv_image_set_rotation(ui->screen_bledata_img_bg, 0);
 
-    //Write style for screen_bledata_img_1, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
-    lv_obj_set_style_image_recolor_opa(ui->screen_bledata_img_1, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_image_opa(ui->screen_bledata_img_1, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
+    //Write style for screen_bledata_img_bg, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
+    lv_obj_set_style_image_recolor_opa(ui->screen_bledata_img_bg, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_image_opa(ui->screen_bledata_img_bg, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
 
     //Write codes screen_bledata_cont_ble_data
     ui->screen_bledata_cont_ble_data = lv_obj_create(ui->screen_bledata);
-    lv_obj_set_pos(ui->screen_bledata_cont_ble_data, 10, 60);
-    lv_obj_set_size(ui->screen_bledata_cont_ble_data, 219, 210);
+    lv_obj_set_pos(ui->screen_bledata_cont_ble_data, 10, 54);
+    lv_obj_set_size(ui->screen_bledata_cont_ble_data, 219, 216);
     lv_obj_set_scrollbar_mode(ui->screen_bledata_cont_ble_data, LV_SCROLLBAR_MODE_OFF);
 
     //Write style for screen_bledata_cont_ble_data, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
@@ -107,7 +107,7 @@ void setup_scr_screen_bledata(lv_ui *ui)
     //Write codes screen_bledata_label_blenamedata
     ui->screen_bledata_label_blenamedata = lv_label_create(ui->screen_bledata_cont_ble_data);
     lv_obj_set_pos(ui->screen_bledata_label_blenamedata, 25, 39);
-    lv_obj_set_size(ui->screen_bledata_label_blenamedata, 184, 20);
+    lv_obj_set_size(ui->screen_bledata_label_blenamedata, 184, 23);
     lv_label_set_text(ui->screen_bledata_label_blenamedata, "xxxxxxxxxxxx");
     lv_label_set_long_mode(ui->screen_bledata_label_blenamedata, LV_LABEL_LONG_WRAP);
 
@@ -130,7 +130,7 @@ void setup_scr_screen_bledata(lv_ui *ui)
     //Write codes screen_bledata_label_blemacdata
     ui->screen_bledata_label_blemacdata = lv_label_create(ui->screen_bledata_cont_ble_data);
     lv_obj_set_pos(ui->screen_bledata_label_blemacdata, 25, 104);
-    lv_obj_set_size(ui->screen_bledata_label_blemacdata, 185, 20);
+    lv_obj_set_size(ui->screen_bledata_label_blemacdata, 185, 24);
     lv_label_set_text(ui->screen_bledata_label_blemacdata, "xxxxxxxxxxxx\n");
     lv_label_set_long_mode(ui->screen_bledata_label_blemacdata, LV_LABEL_LONG_WRAP);
 

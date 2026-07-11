@@ -45,6 +45,7 @@ typedef struct
 	lv_obj_t *screen_main_label_2;
 	lv_obj_t *screen_main_img_kjjm;
 	lv_obj_t *screen_main_img_voickey2;
+	lv_obj_t *screen_main_label_audio_toast;
 	lv_obj_t *screen_mileage_reminder;
 	bool screen_mileage_reminder_del;
 	lv_obj_t *screen_mileage_reminder_img_bg;
@@ -63,6 +64,12 @@ typedef struct
 	lv_obj_t *screen_set_cont_9;
 	lv_obj_t *screen_set_img_3;
 	lv_obj_t *screen_set_label_10;
+	lv_obj_t *screen_set_cont_10;
+	lv_obj_t *screen_set_img_4;
+	lv_obj_t *screen_set_label_11;
+	lv_obj_t *screen_set_cont_11;
+	lv_obj_t *screen_set_img_5;
+	lv_obj_t *screen_set_label_12;
 	lv_obj_t *screen_set_label_7;
 	lv_obj_t *screen_log;
 	bool screen_log_del;
@@ -71,6 +78,7 @@ typedef struct
 	lv_obj_t *screen_log_img_list_bg;
 	lv_obj_t *screen_log_label_14;
 	lv_obj_t *screen_log_label_15;
+	lv_obj_t *screen_log_label_16;
 	lv_obj_t *screen_overlimt;
 	bool screen_overlimt_del;
 	lv_obj_t *screen_overlimt_img_bg;
@@ -98,6 +106,7 @@ typedef struct
 	lv_obj_t *screen_audiomark_cont_list;
 	lv_obj_t *screen_audiomark_cont_1;
 	lv_obj_t *screen_audiomark_img_1;
+	lv_obj_t *screen_audiomark_img_2;
 	lv_obj_t *screen_audiomark_label_14;
 	lv_obj_t *screen_audiomark_btn_overlimt;
 	lv_obj_t *screen_audiomark_btn_overlimt_label;
@@ -127,16 +136,18 @@ typedef struct
 	lv_obj_t *screen_Tag_label_speed;
 	lv_obj_t *screen_Tag_label_linenum_mileage;
 	lv_obj_t *screen_Tag_label_1;
+	lv_obj_t *screen_Tag_img_voic;
+	lv_obj_t *screen_Tag_img_voicing;
 	lv_obj_t *screen_audio_Tag;
 	bool screen_audio_Tag_del;
 	lv_obj_t *screen_audio_Tag_img_bg;
 	lv_obj_t *screen_audio_Tag_img_back;
-	lv_obj_t *screen_audio_Tag_img_audio_play;
+	lv_obj_t *screen_audio_Tag_img_audio_playing;
 	lv_obj_t *screen_audio_Tag_label_speed;
 	lv_obj_t *screen_audio_Tag_label_num_mileage;
 	lv_obj_t *screen_audio_Tag_label_time;
 	lv_obj_t *screen_audio_Tag_label_type;
-	lv_obj_t *screen_audio_Tag_img_audio_playing;
+	lv_obj_t *screen_audio_Tag_img_audio_play;
 	lv_obj_t *screen_mark_err;
 	bool screen_mark_err_del;
 	lv_obj_t *screen_mark_err_img_bg;
@@ -165,6 +176,7 @@ typedef struct
 	lv_obj_t *screen_warn1_label_3;
 	lv_obj_t *screen_warn1_img_voic;
 	lv_obj_t *screen_warn1_label_tip;
+	lv_obj_t *screen_warn1_img_voicing;
 	lv_obj_t *screen_warn2;
 	bool screen_warn2_del;
 	lv_obj_t *screen_warn2_img_bg;
@@ -181,6 +193,7 @@ typedef struct
 	lv_obj_t *screen_warn2_label_type;
 	lv_obj_t *screen_warn2_img_voic;
 	lv_obj_t *screen_warn2_label_tip;
+	lv_obj_t *screen_warn2_img_voicing;
 	lv_obj_t *screen_warn3;
 	bool screen_warn3_del;
 	lv_obj_t *screen_warn3_img_bg;
@@ -197,6 +210,7 @@ typedef struct
 	lv_obj_t *screen_warn3_label_type;
 	lv_obj_t *screen_warn3_img_voic;
 	lv_obj_t *screen_warn3_label_tip;
+	lv_obj_t *screen_warn3_img_voicing;
 	lv_obj_t *screen_warn4;
 	bool screen_warn4_del;
 	lv_obj_t *screen_warn4_img_bg;
@@ -213,9 +227,10 @@ typedef struct
 	lv_obj_t *screen_warn4_label_type;
 	lv_obj_t *screen_warn4_img_voic;
 	lv_obj_t *screen_warn4_label_tip;
+	lv_obj_t *screen_warn4_img_voicing;
 	lv_obj_t *screen_volume;
 	bool screen_volume_del;
-	lv_obj_t *screen_volume_img_1;
+	lv_obj_t *screen_volume_img_bg;
 	lv_obj_t *screen_volume_cont_list;
 	lv_obj_t *screen_volume_slider_1;
 	lv_obj_t *screen_volume_label_vol_num;
@@ -223,7 +238,7 @@ typedef struct
 	lv_obj_t *screen_volume_label_title;
 	lv_obj_t *screen_bledata;
 	bool screen_bledata_del;
-	lv_obj_t *screen_bledata_img_1;
+	lv_obj_t *screen_bledata_img_bg;
 	lv_obj_t *screen_bledata_cont_ble_data;
 	lv_obj_t *screen_bledata_label_blemac;
 	lv_obj_t *screen_bledata_label_blename;
@@ -232,19 +247,32 @@ typedef struct
 	lv_obj_t *screen_bledata_label_title;
 	lv_obj_t *screen_record;
 	bool screen_record_del;
-	lv_obj_t *screen_record_img_1;
+	lv_obj_t *screen_record_img_bg;
 	lv_obj_t *screen_record_animimg_1;
 	lv_obj_t *screen_record_label_5;
 	lv_obj_t *screen_record_animimg_2;
+	lv_obj_t *screen_record_label_6;
 	lv_obj_t *screen_ota;
 	bool screen_ota_del;
-	lv_obj_t *screen_ota_img_1;
+	lv_obj_t *screen_ota_img_bg;
 	lv_obj_t *screen_ota_bar_ota;
 	lv_obj_t *screen_ota_label_1;
 	lv_obj_t *screen_ota_label_ota;
 	lv_obj_t *screen_ota_label_3;
 	lv_obj_t *screen_ota_label_4;
 	lv_obj_t *screen_ota_label_5;
+	lv_obj_t *screen_sleep_set;
+	bool screen_sleep_set_del;
+	lv_obj_t *screen_sleep_set_img_bg;
+	lv_obj_t *screen_sleep_set_cont_data;
+	lv_obj_t *screen_sleep_set_label_1;
+	lv_obj_t *screen_sleep_set_label_title;
+	lv_obj_t *screen_sleep_set_ddlist_1;
+	lv_obj_t *screen_Instructions;
+	bool screen_Instructions_del;
+	lv_obj_t *screen_Instructions_img_bg;
+	lv_obj_t *screen_Instructions_cont_data;
+	lv_obj_t *screen_Instructions_label_title;
 }lv_ui;
 
 typedef void (*ui_setup_scr_t)(lv_ui * ui);
@@ -291,7 +319,9 @@ void setup_scr_screen_volume(lv_ui *ui);
 void setup_scr_screen_bledata(lv_ui *ui);
 void setup_scr_screen_record(lv_ui *ui);
 void setup_scr_screen_ota(lv_ui *ui);
-LV_IMAGE_DECLARE(_mainbg_RGB565A8_240x280);
+void setup_scr_screen_sleep_set(lv_ui *ui);
+void setup_scr_screen_Instructions(lv_ui *ui);
+LV_IMAGE_DECLARE(_mainbg_RGB565_240x280_tresh);
 LV_IMAGE_DECLARE(_ly_disconnected_RGB565A8_23x23);
 LV_IMAGE_DECLARE(_ly_connected_RGB565A8_23x23);
 LV_IMAGE_DECLARE(_100_RGB565A8_30x20);
@@ -306,41 +336,34 @@ LV_IMAGE_DECLARE(_play_RGB565A8_75x75);
 LV_IMAGE_DECLARE(_pause_RGB565A8_75x75);
 LV_IMAGE_DECLARE(_kjjm_RGB565A8_240x280);
 LV_IMAGE_DECLARE(_volum2_RGB565A8_75x75);
-LV_IMAGE_DECLARE(_bg_RGB565A8_240x280);
-LV_IMAGE_DECLARE(_ly_RGB565A8_30x30);
-LV_IMAGE_DECLARE(_a12_RGB565A8_30x30);
-LV_IMAGE_DECLARE(_voic_RGB565A8_30x30);
-LV_IMAGE_DECLARE(_tcbg_RGB565A8_240x280);
+LV_IMAGE_DECLARE(_bg_new_RGB565_240x280_tresh);
+LV_IMAGE_DECLARE(_tb3_RGB565A8_30x30);
+LV_IMAGE_DECLARE(_tb1_RGB565A8_30x30);
+LV_IMAGE_DECLARE(_tb4_RGB565A8_30x30);
+LV_IMAGE_DECLARE(_tb2_RGB565A8_30x30);
+LV_IMAGE_DECLARE(_tb5_RGB565A8_30x30);
 LV_IMAGE_DECLARE(_tccard_RGB565A8_224x200);
-LV_IMAGE_DECLARE(_sanjibg_RGB565A8_240x280);
-LV_IMAGE_DECLARE(_biaojibg_RGB565A8_240x280);
-LV_IMAGE_DECLARE(_luyingbg_RGB565A8_240x280);
+LV_IMAGE_DECLARE(_chaoxian_RGB565_240x280_tresh);
+LV_IMAGE_DECLARE(_biaoji_RGB565_240x280_tresh);
+LV_IMAGE_DECLARE(_luying_RGB565_240x280_tresh);
 LV_IMAGE_DECLARE(_voc_RGB565A8_50x50);
-LV_IMAGE_DECLARE(_markbg_RGB565A8_240x280);
+LV_IMAGE_DECLARE(_voc2_RGB565A8_50x50);
+LV_IMAGE_DECLARE(_markbg_RGB565_240x280_tresh);
 LV_IMAGE_DECLARE(_close_RGB565A8_50x50);
+LV_IMAGE_DECLARE(_volum_RGB565A8_60x60);
+LV_IMAGE_DECLARE(_volum2_RGB565A8_60x60);
 LV_IMAGE_DECLARE(_voc_RGB565A8_55x55);
 LV_IMAGE_DECLARE(_voc2_RGB565A8_55x55);
-LV_IMAGE_DECLARE(_1bg_RGB565A8_240x280);
-LV_IMAGE_DECLARE(_volum_RGB565A8_60x60);
-LV_IMAGE_DECLARE(_2bg_RGB565A8_240x280);
-LV_IMAGE_DECLARE(_3bg_RGB565A8_240x280);
-LV_IMAGE_DECLARE(_4bg_RGB565A8_240x280);
+LV_IMAGE_DECLARE(_1bg_RGB565_240x280_tresh);
+LV_IMAGE_DECLARE(_2bg_RGB565_240x280_tresh);
+LV_IMAGE_DECLARE(_3bg_RGB565_240x280_tresh);
+LV_IMAGE_DECLARE(_4bg_RGB565_240x280_tresh);
 LV_IMAGE_DECLARE(screen_record_animimg_11_0);
 LV_IMAGE_DECLARE(screen_record_animimg_11_1);
 LV_IMAGE_DECLARE(screen_record_animimg_11_2);
 LV_IMAGE_DECLARE(screen_record_animimg_11_3);
 LV_IMAGE_DECLARE(screen_record_animimg_11_4);
 LV_IMAGE_DECLARE(screen_record_animimg_11_5);
-LV_IMAGE_DECLARE(screen_record_animimg_22_0);
-LV_IMAGE_DECLARE(screen_record_animimg_22_1);
-LV_IMAGE_DECLARE(screen_record_animimg_22_10);
-LV_IMAGE_DECLARE(screen_record_animimg_22_11);
-LV_IMAGE_DECLARE(screen_record_animimg_22_12);
-LV_IMAGE_DECLARE(screen_record_animimg_22_13);
-LV_IMAGE_DECLARE(screen_record_animimg_22_14);
-LV_IMAGE_DECLARE(screen_record_animimg_22_15);
-LV_IMAGE_DECLARE(screen_record_animimg_22_16);
-LV_IMAGE_DECLARE(screen_record_animimg_22_17);
 LV_IMAGE_DECLARE(screen_record_animimg_22_18);
 LV_IMAGE_DECLARE(screen_record_animimg_22_19);
 LV_IMAGE_DECLARE(screen_record_animimg_22_2);
@@ -358,9 +381,9 @@ LV_FONT_DECLARE(lv_font_PingFangHeavy_24)
 LV_FONT_DECLARE(lv_font_PingFangHeavy_30)
 LV_FONT_DECLARE(lv_font_PingFangHeavy_23)
 LV_FONT_DECLARE(lv_font_PingFangMedium_23)
+LV_FONT_DECLARE(lv_font_PingFangHeavy_16)
 LV_FONT_DECLARE(lv_font_PingFangHeavy_18)
 LV_FONT_DECLARE(lv_font_PingFangMedium_18)
-LV_FONT_DECLARE(lv_font_PingFangHeavy_16)
 LV_FONT_DECLARE(lv_font_PingFangHeavy_12)
 LV_FONT_DECLARE(lv_font_PingFangHeavy_26)
 

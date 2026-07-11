@@ -91,6 +91,8 @@ void init_scr_del_flag(lv_ui *ui)
     ui->screen_bledata_del = true;
     ui->screen_record_del = true;
     ui->screen_ota_del = true;
+    ui->screen_sleep_set_del = true;
+    ui->screen_Instructions_del = true;
 }
 
 void setup_bottom_layer(void)
@@ -103,8 +105,8 @@ void setup_ui(lv_ui *ui)
     setup_bottom_layer();
     init_scr_del_flag(ui);
     init_keyboard(ui);
-    setup_scr_screen_main(ui);
-    lv_screen_load(ui->screen_main);
+    setup_scr_screen_set(ui);
+    lv_screen_load(ui->screen_set);
 }
 
 void video_play(lv_ui *ui)
