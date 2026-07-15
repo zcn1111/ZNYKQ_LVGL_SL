@@ -91,6 +91,8 @@ void init_scr_del_flag(lv_ui *ui)
     ui->screen_bledata_del = true;
     ui->screen_record_del = true;
     ui->screen_ota_del = true;
+    ui->screen_sleep_set_del = true;
+    ui->screen_Instructions_del = true;
 }
 
 void setup_bottom_layer(void)

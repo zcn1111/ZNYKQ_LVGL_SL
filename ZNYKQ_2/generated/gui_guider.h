@@ -273,6 +273,7 @@ typedef struct
 	lv_obj_t *screen_Instructions_img_bg;
 	lv_obj_t *screen_Instructions_cont_data;
 	lv_obj_t *screen_Instructions_label_title;
+	lv_obj_t *screen_Instructions_img_1;
 }lv_ui;
 
 typedef void (*ui_setup_scr_t)(lv_ui * ui);
@@ -374,6 +375,7 @@ LV_IMAGE_DECLARE(screen_record_animimg_22_6);
 LV_IMAGE_DECLARE(screen_record_animimg_22_7);
 LV_IMAGE_DECLARE(screen_record_animimg_22_8);
 LV_IMAGE_DECLARE(screen_record_animimg_22_9);
+LV_IMAGE_DECLARE(_shiyongshuoming_RGB565A8_240x1547);
 
 LV_FONT_DECLARE(lv_font_PingFangHeavy_20)
 LV_FONT_DECLARE(lv_font_MicrosoftYaHei_16)

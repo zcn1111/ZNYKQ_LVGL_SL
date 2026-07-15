@@ -43,7 +43,7 @@ void setup_scr_screen_Tag(lv_ui *ui)
 
     //Write codes screen_Tag_img_back
     ui->screen_Tag_img_back = lv_image_create(ui->screen_Tag);
-    lv_obj_set_pos(ui->screen_Tag_img_back, 92, 214);
+    lv_obj_set_pos(ui->screen_Tag_img_back, 136, 216);
     lv_obj_set_size(ui->screen_Tag_img_back, 50, 50);
     lv_obj_add_flag(ui->screen_Tag_img_back, LV_OBJ_FLAG_CLICKABLE);
     lv_image_set_src(ui->screen_Tag_img_back, &_close_RGB565A8_50x50);
@@ -169,6 +169,33 @@ void setup_scr_screen_Tag(lv_ui *ui)
     lv_obj_set_style_pad_bottom(ui->screen_Tag_label_1, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_pad_left(ui->screen_Tag_label_1, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_shadow_width(ui->screen_Tag_label_1, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+
+    //Write codes screen_Tag_img_voic
+    ui->screen_Tag_img_voic = lv_image_create(ui->screen_Tag);
+    lv_obj_set_pos(ui->screen_Tag_img_voic, 45, 205);
+    lv_obj_set_size(ui->screen_Tag_img_voic, 60, 60);
+    lv_obj_add_flag(ui->screen_Tag_img_voic, LV_OBJ_FLAG_CLICKABLE);
+    lv_image_set_src(ui->screen_Tag_img_voic, &_volum_RGB565A8_60x60);
+    lv_image_set_pivot(ui->screen_Tag_img_voic, 50,50);
+    lv_image_set_rotation(ui->screen_Tag_img_voic, 0);
+
+    //Write style for screen_Tag_img_voic, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
+    lv_obj_set_style_image_recolor_opa(ui->screen_Tag_img_voic, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_image_opa(ui->screen_Tag_img_voic, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
+
+    //Write codes screen_Tag_img_voicing
+    ui->screen_Tag_img_voicing = lv_image_create(ui->screen_Tag);
+    lv_obj_set_pos(ui->screen_Tag_img_voicing, 45, 205);
+    lv_obj_set_size(ui->screen_Tag_img_voicing, 60, 60);
+    lv_obj_add_flag(ui->screen_Tag_img_voicing, LV_OBJ_FLAG_HIDDEN);
+    lv_obj_add_flag(ui->screen_Tag_img_voicing, LV_OBJ_FLAG_CLICKABLE);
+    lv_image_set_src(ui->screen_Tag_img_voicing, &_volum2_RGB565A8_60x60);
+    lv_image_set_pivot(ui->screen_Tag_img_voicing, 50,50);
+    lv_image_set_rotation(ui->screen_Tag_img_voicing, 0);
+
+    //Write style for screen_Tag_img_voicing, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
+    lv_obj_set_style_image_recolor_opa(ui->screen_Tag_img_voicing, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_image_opa(ui->screen_Tag_img_voicing, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
 
     //The custom code of screen_Tag.
 

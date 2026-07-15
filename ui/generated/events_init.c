@@ -274,12 +274,54 @@ static void screen_set_cont_9_event_handler (lv_event_t *e)
     }
 }
 
+static void screen_set_cont_10_event_handler (lv_event_t *e)
+{
+    lv_event_code_t code = lv_event_get_code(e);
+    switch (code) {
+    case LV_EVENT_CLICKED:
+    {
+        nav_push_and_load(
+            &guider_ui,
+            nav_make_page(&guider_ui, screen_Instructions, setup_scr_screen_Instructions),
+            LV_SCR_LOAD_ANIM_NONE,
+            0,
+            0
+        );
+        break;
+    }
+    default:
+        break;
+    }
+}
+
+static void screen_set_cont_11_event_handler (lv_event_t *e)
+{
+    lv_event_code_t code = lv_event_get_code(e);
+    switch (code) {
+    case LV_EVENT_CLICKED:
+    {
+        nav_push_and_load(
+            &guider_ui,
+            nav_make_page(&guider_ui, screen_sleep_set, setup_scr_screen_sleep_set),
+            LV_SCR_LOAD_ANIM_NONE,
+            0,
+            0
+        );
+        break;
+    }
+    default:
+        break;
+    }
+}
+
 void events_init_screen_set (lv_ui *ui)
 {
     lv_obj_add_event_cb(ui->screen_set, screen_set_event_handler, LV_EVENT_ALL, ui);
     lv_obj_add_event_cb(ui->screen_set_cont_7, screen_set_cont_7_event_handler, LV_EVENT_ALL, ui);
     lv_obj_add_event_cb(ui->screen_set_cont_8, screen_set_cont_8_event_handler, LV_EVENT_ALL, ui);
     lv_obj_add_event_cb(ui->screen_set_cont_9, screen_set_cont_9_event_handler, LV_EVENT_ALL, ui);
+    lv_obj_add_event_cb(ui->screen_set_cont_10, screen_set_cont_10_event_handler, LV_EVENT_ALL, ui);
+    lv_obj_add_event_cb(ui->screen_set_cont_11, screen_set_cont_11_event_handler, LV_EVENT_ALL, ui);
 }
 
 static void screen_log_event_handler (lv_event_t *e)
@@ -954,6 +996,74 @@ static void screen_bledata_event_handler (lv_event_t *e)
 void events_init_screen_bledata (lv_ui *ui)
 {
     lv_obj_add_event_cb(ui->screen_bledata, screen_bledata_event_handler, LV_EVENT_ALL, ui);
+}
+
+static void screen_sleep_set_event_handler (lv_event_t *e)
+{
+    lv_event_code_t code = lv_event_get_code(e);
+    switch (code) {
+    case LV_EVENT_GESTURE:
+    {
+        lv_dir_t dir = lv_indev_get_gesture_dir(lv_indev_active());
+        switch(dir) {
+        case LV_DIR_RIGHT:
+        {
+            lv_indev_wait_release(lv_indev_active());
+            nav_back(
+                &guider_ui,
+                LV_SCR_LOAD_ANIM_NONE,
+                0,
+                0
+            );
+            break;
+        }
+        default:
+            break;
+        }
+        break;
+    }
+    default:
+        break;
+    }
+}
+
+void events_init_screen_sleep_set (lv_ui *ui)
+{
+    lv_obj_add_event_cb(ui->screen_sleep_set, screen_sleep_set_event_handler, LV_EVENT_ALL, ui);
+}
+
+static void screen_Instructions_event_handler (lv_event_t *e)
+{
+    lv_event_code_t code = lv_event_get_code(e);
+    switch (code) {
+    case LV_EVENT_GESTURE:
+    {
+        lv_dir_t dir = lv_indev_get_gesture_dir(lv_indev_active());
+        switch(dir) {
+        case LV_DIR_RIGHT:
+        {
+            lv_indev_wait_release(lv_indev_active());
+            nav_back(
+                &guider_ui,
+                LV_SCR_LOAD_ANIM_NONE,
+                0,
+                0
+            );
+            break;
+        }
+        default:
+            break;
+        }
+        break;
+    }
+    default:
+        break;
+    }
+}
+
+void events_init_screen_Instructions (lv_ui *ui)
+{
+    lv_obj_add_event_cb(ui->screen_Instructions, screen_Instructions_event_handler, LV_EVENT_ALL, ui);
 }
 
 

@@ -141,22 +141,23 @@ void setup_scr_screen_sleep_set(lv_ui *ui)
     lv_style_set_bg_grad_dir(&style_screen_sleep_set_ddlist_1_extra_list_selected_checked, LV_GRAD_DIR_NONE);
     lv_obj_add_style(lv_dropdown_get_list(ui->screen_sleep_set_ddlist_1), &style_screen_sleep_set_ddlist_1_extra_list_selected_checked, LV_PART_SELECTED|LV_STATE_CHECKED);
 
-    //Write style for screen_sleep_set_ddlist_1, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
-    lv_obj_set_style_text_color(ui->screen_sleep_set_ddlist_1, lv_color_hex(0x0D3055), LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_text_font(ui->screen_sleep_set_ddlist_1, &lv_font_PingFangHeavy_18, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_text_opa(ui->screen_sleep_set_ddlist_1, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_border_width(ui->screen_sleep_set_ddlist_1, 1, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_border_opa(ui->screen_sleep_set_ddlist_1, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_border_color(ui->screen_sleep_set_ddlist_1, lv_color_hex(0xe1e6ee), LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_border_side(ui->screen_sleep_set_ddlist_1, LV_BORDER_SIDE_FULL, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_pad_top(ui->screen_sleep_set_ddlist_1, 8, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_pad_left(ui->screen_sleep_set_ddlist_1, 6, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_pad_right(ui->screen_sleep_set_ddlist_1, 6, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_radius(ui->screen_sleep_set_ddlist_1, 3, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_bg_opa(ui->screen_sleep_set_ddlist_1, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_bg_color(ui->screen_sleep_set_ddlist_1, lv_color_hex(0xffffff), LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_bg_grad_dir(ui->screen_sleep_set_ddlist_1, LV_GRAD_DIR_NONE, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_shadow_width(ui->screen_sleep_set_ddlist_1, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    //Write style state: LV_STATE_DEFAULT for &style_screen_sleep_set_ddlist_1_extra_list_main_default
+    static lv_style_t style_screen_sleep_set_ddlist_1_extra_list_main_default;
+    ui_init_style(&style_screen_sleep_set_ddlist_1_extra_list_main_default);
+
+    lv_style_set_max_height(&style_screen_sleep_set_ddlist_1_extra_list_main_default, 90);
+    lv_style_set_text_color(&style_screen_sleep_set_ddlist_1_extra_list_main_default, lv_color_hex(0x0D3055));
+    lv_style_set_text_font(&style_screen_sleep_set_ddlist_1_extra_list_main_default, &lv_font_PingFangHeavy_18);
+    lv_style_set_text_opa(&style_screen_sleep_set_ddlist_1_extra_list_main_default, 255);
+    lv_style_set_border_width(&style_screen_sleep_set_ddlist_1_extra_list_main_default, 1);
+    lv_style_set_border_opa(&style_screen_sleep_set_ddlist_1_extra_list_main_default, 255);
+    lv_style_set_border_color(&style_screen_sleep_set_ddlist_1_extra_list_main_default, lv_color_hex(0xe1e6ee));
+    lv_style_set_border_side(&style_screen_sleep_set_ddlist_1_extra_list_main_default, LV_BORDER_SIDE_FULL);
+    lv_style_set_radius(&style_screen_sleep_set_ddlist_1_extra_list_main_default, 3);
+    lv_style_set_bg_opa(&style_screen_sleep_set_ddlist_1_extra_list_main_default, 255);
+    lv_style_set_bg_color(&style_screen_sleep_set_ddlist_1_extra_list_main_default, lv_color_hex(0xffffff));
+    lv_style_set_bg_grad_dir(&style_screen_sleep_set_ddlist_1_extra_list_main_default, LV_GRAD_DIR_NONE);
+    lv_obj_add_style(lv_dropdown_get_list(ui->screen_sleep_set_ddlist_1), &style_screen_sleep_set_ddlist_1_extra_list_main_default, LV_PART_MAIN|LV_STATE_DEFAULT);
 
     //Write style state: LV_STATE_DEFAULT for &style_screen_sleep_set_ddlist_1_extra_list_scrollbar_default
     static lv_style_t style_screen_sleep_set_ddlist_1_extra_list_scrollbar_default;

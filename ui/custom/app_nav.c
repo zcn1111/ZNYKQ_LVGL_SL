@@ -56,6 +56,12 @@ static ui_page_t nav_get_current_page(lv_ui *ui)
     if(act == ui->screen_bledata) {
         return nav_make_page(ui, screen_bledata, setup_scr_screen_bledata);
     }
+    if(act == ui->screen_sleep_set) {
+        return nav_make_page(ui, screen_sleep_set, setup_scr_screen_sleep_set);
+    }
+    if(act == ui->screen_Instructions) {
+        return nav_make_page(ui, screen_Instructions, setup_scr_screen_Instructions);
+    }
 
 
 
@@ -87,20 +93,20 @@ void nav_push_and_load(void *ui_ptr,
                        uint32_t delay)
 {
     lv_ui *ui = (lv_ui *)ui_ptr;
-    if(ui == NULL || target.screen == NULL) return;
+    if(ui == NULL || target.screen == NULL || target.screen_del == NULL || target.setup == NULL) return;
 
-    /* 当前页面压栈 */
     ui_page_t current = nav_get_current_page(ui);
+    if(current.screen_del == NULL) return;
+
     if(current.screen && s_nav_top < NAV_STACK_MAX) {
         s_nav_stack[s_nav_top++] = current;
     }
 
-    /* 加载目标页面 */
     ui_load_scr_animation(
         ui,
         target.screen,
-        *target.screen_del,          /* new_scr_del */
-        current.screen_del,          /* ⭐ 旧页面的 del 标志 */
+        *target.screen_del,
+        current.screen_del,
         target.setup,
         anim_type,
         time,
@@ -118,20 +124,18 @@ void nav_back(void *ui_ptr,
     lv_ui *ui = (lv_ui *)ui_ptr;
     if(ui == NULL || s_nav_top <= 0) return;
 
-    /* 出栈 */
-    ui_page_t prev = s_nav_stack[--s_nav_top];
-
-    /* 当前页面（返回前） */
     ui_page_t current = nav_get_current_page(ui);
+    if(current.screen_del == NULL) return;
 
-    if(prev.screen == NULL) return;
+    ui_page_t prev = s_nav_stack[s_nav_top - 1];
+    if(prev.screen == NULL || prev.screen_del == NULL || prev.setup == NULL) return;
+    s_nav_top--;
 
-    /* 返回加载 */
     ui_load_scr_animation(
         ui,
         prev.screen,
-        *prev.screen_del,            /* new_scr_del */
-        current.screen_del,          /* ⭐ 旧页面的 del 标志 */
+        *prev.screen_del,
+        current.screen_del,
         prev.setup,
         anim_type,
         time,

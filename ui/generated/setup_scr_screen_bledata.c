@@ -41,8 +41,8 @@ void setup_scr_screen_bledata(lv_ui *ui)
 
     //Write codes screen_bledata_cont_ble_data
     ui->screen_bledata_cont_ble_data = lv_obj_create(ui->screen_bledata);
-    lv_obj_set_pos(ui->screen_bledata_cont_ble_data, 10, 60);
-    lv_obj_set_size(ui->screen_bledata_cont_ble_data, 219, 210);
+    lv_obj_set_pos(ui->screen_bledata_cont_ble_data, 10, 54);
+    lv_obj_set_size(ui->screen_bledata_cont_ble_data, 219, 216);
     lv_obj_set_scrollbar_mode(ui->screen_bledata_cont_ble_data, LV_SCROLLBAR_MODE_OFF);
 
     //Write style for screen_bledata_cont_ble_data, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.

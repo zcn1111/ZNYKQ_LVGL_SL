@@ -35,6 +35,8 @@ void events_init_screen_warn3(lv_ui *ui);
 void events_init_screen_warn4(lv_ui *ui);
 void events_init_screen_volume(lv_ui *ui);
 void events_init_screen_bledata(lv_ui *ui);
+void events_init_screen_sleep_set(lv_ui *ui);
+void events_init_screen_Instructions(lv_ui *ui);
 
 #ifdef __cplusplus
 }
