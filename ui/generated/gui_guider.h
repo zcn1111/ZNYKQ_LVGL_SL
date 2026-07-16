@@ -131,13 +131,15 @@ typedef struct
 	bool screen_Tag_del;
 	lv_obj_t *screen_Tag_img_bg;
 	lv_obj_t *screen_Tag_img_back;
-	lv_obj_t *screen_Tag_label_type;
+	lv_obj_t *screen_Tag_label_type1;
 	lv_obj_t *screen_Tag_label_time;
 	lv_obj_t *screen_Tag_label_speed;
 	lv_obj_t *screen_Tag_label_linenum_mileage;
 	lv_obj_t *screen_Tag_label_1;
 	lv_obj_t *screen_Tag_img_voic;
 	lv_obj_t *screen_Tag_img_voicing;
+	lv_obj_t *screen_Tag_label_tip;
+	lv_obj_t *screen_Tag_label_type;
 	lv_obj_t *screen_audio_Tag;
 	bool screen_audio_Tag_del;
 	lv_obj_t *screen_audio_Tag_img_bg;
@@ -146,8 +148,9 @@ typedef struct
 	lv_obj_t *screen_audio_Tag_label_speed;
 	lv_obj_t *screen_audio_Tag_label_num_mileage;
 	lv_obj_t *screen_audio_Tag_label_time;
-	lv_obj_t *screen_audio_Tag_label_type;
+	lv_obj_t *screen_audio_Tag_label_type1;
 	lv_obj_t *screen_audio_Tag_img_audio_play;
+	lv_obj_t *screen_audio_Tag_label_type;
 	lv_obj_t *screen_mark_err;
 	bool screen_mark_err_del;
 	lv_obj_t *screen_mark_err_img_bg;
@@ -273,6 +276,7 @@ typedef struct
 	lv_obj_t *screen_Instructions_img_bg;
 	lv_obj_t *screen_Instructions_cont_data;
 	lv_obj_t *screen_Instructions_label_title;
+	lv_obj_t *screen_Instructions_img_1;
 }lv_ui;
 
 typedef void (*ui_setup_scr_t)(lv_ui * ui);
@@ -374,6 +378,7 @@ LV_IMAGE_DECLARE(screen_record_animimg_22_6);
 LV_IMAGE_DECLARE(screen_record_animimg_22_7);
 LV_IMAGE_DECLARE(screen_record_animimg_22_8);
 LV_IMAGE_DECLARE(screen_record_animimg_22_9);
+LV_IMAGE_DECLARE(_shiyongshuoming_RGB565A8_240x1547);
 
 LV_FONT_DECLARE(lv_font_PingFangHeavy_20)
 LV_FONT_DECLARE(lv_font_MicrosoftYaHei_16)

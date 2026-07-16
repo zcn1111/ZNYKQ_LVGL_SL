@@ -41,7 +41,7 @@ void setup_scr_screen_bledata(lv_ui *ui)
 
     //Write codes screen_bledata_cont_ble_data
     ui->screen_bledata_cont_ble_data = lv_obj_create(ui->screen_bledata);
-    lv_obj_set_pos(ui->screen_bledata_cont_ble_data, 10, 54);
+    lv_obj_set_pos(ui->screen_bledata_cont_ble_data, 9, 54);
     lv_obj_set_size(ui->screen_bledata_cont_ble_data, 219, 216);
     lv_obj_set_scrollbar_mode(ui->screen_bledata_cont_ble_data, LV_SCROLLBAR_MODE_OFF);
 
@@ -115,7 +115,7 @@ void setup_scr_screen_bledata(lv_ui *ui)
     lv_obj_set_style_border_width(ui->screen_bledata_label_blenamedata, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_radius(ui->screen_bledata_label_blenamedata, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_text_color(ui->screen_bledata_label_blenamedata, lv_color_hex(0xffffff), LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_text_font(ui->screen_bledata_label_blenamedata, &lv_font_PingFangHeavy_20, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui->screen_bledata_label_blenamedata, &lv_font_PingFangHeavy_16, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_text_opa(ui->screen_bledata_label_blenamedata, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_text_letter_space(ui->screen_bledata_label_blenamedata, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_text_line_space(ui->screen_bledata_label_blenamedata, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
@@ -138,7 +138,7 @@ void setup_scr_screen_bledata(lv_ui *ui)
     lv_obj_set_style_border_width(ui->screen_bledata_label_blemacdata, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_radius(ui->screen_bledata_label_blemacdata, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_text_color(ui->screen_bledata_label_blemacdata, lv_color_hex(0xffffff), LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_text_font(ui->screen_bledata_label_blemacdata, &lv_font_PingFangHeavy_20, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui->screen_bledata_label_blemacdata, &lv_font_PingFangHeavy_16, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_text_opa(ui->screen_bledata_label_blemacdata, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_text_letter_space(ui->screen_bledata_label_blemacdata, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_text_line_space(ui->screen_bledata_label_blemacdata, 0, LV_PART_MAIN|LV_STATE_DEFAULT);

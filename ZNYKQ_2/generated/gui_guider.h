@@ -51,6 +51,10 @@ typedef struct
 	lv_obj_t *screen_mileage_reminder_img_bg;
 	lv_obj_t *screen_mileage_reminder_label_3;
 	lv_obj_t *screen_mileage_reminder_cont_list;
+	lv_obj_t *screen_mileage_reminder_cont_demo;
+	lv_obj_t *screen_mileage_reminder_label_5;
+	lv_obj_t *screen_mileage_reminder_label_4;
+	lv_obj_t *screen_mileage_reminder_label_6;
 	lv_obj_t *screen_set;
 	bool screen_set_del;
 	lv_obj_t *screen_set_img_bg;
@@ -131,13 +135,15 @@ typedef struct
 	bool screen_Tag_del;
 	lv_obj_t *screen_Tag_img_bg;
 	lv_obj_t *screen_Tag_img_back;
-	lv_obj_t *screen_Tag_label_type;
+	lv_obj_t *screen_Tag_label_type1;
 	lv_obj_t *screen_Tag_label_time;
 	lv_obj_t *screen_Tag_label_speed;
 	lv_obj_t *screen_Tag_label_linenum_mileage;
 	lv_obj_t *screen_Tag_label_1;
 	lv_obj_t *screen_Tag_img_voic;
 	lv_obj_t *screen_Tag_img_voicing;
+	lv_obj_t *screen_Tag_label_tip;
+	lv_obj_t *screen_Tag_label_type;
 	lv_obj_t *screen_audio_Tag;
 	bool screen_audio_Tag_del;
 	lv_obj_t *screen_audio_Tag_img_bg;
@@ -146,8 +152,9 @@ typedef struct
 	lv_obj_t *screen_audio_Tag_label_speed;
 	lv_obj_t *screen_audio_Tag_label_num_mileage;
 	lv_obj_t *screen_audio_Tag_label_time;
-	lv_obj_t *screen_audio_Tag_label_type;
+	lv_obj_t *screen_audio_Tag_label_type1;
 	lv_obj_t *screen_audio_Tag_img_audio_play;
+	lv_obj_t *screen_audio_Tag_label_type;
 	lv_obj_t *screen_mark_err;
 	bool screen_mark_err_del;
 	lv_obj_t *screen_mark_err_img_bg;

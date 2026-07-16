@@ -113,7 +113,7 @@ void setup_scr_screen_volume(lv_ui *ui)
     ui->screen_volume_label_1 = lv_label_create(ui->screen_volume_cont_list);
     lv_obj_set_pos(ui->screen_volume_label_1, 29, 113);
     lv_obj_set_size(ui->screen_volume_label_1, 54, 20);
-    lv_label_set_text(ui->screen_volume_label_1, "音量 ：");
+    lv_label_set_text(ui->screen_volume_label_1, "音量 ");
     lv_label_set_long_mode(ui->screen_volume_label_1, LV_LABEL_LONG_WRAP);
 
     //Write style for screen_volume_label_1, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.

@@ -70,7 +70,7 @@ void setup_scr_screen_audio_Tag(lv_ui *ui)
 
     //Write codes screen_audio_Tag_label_speed
     ui->screen_audio_Tag_label_speed = lv_label_create(ui->screen_audio_Tag);
-    lv_obj_set_pos(ui->screen_audio_Tag_label_speed, 34, 156);
+    lv_obj_set_pos(ui->screen_audio_Tag_label_speed, 34, 168);
     lv_obj_set_size(ui->screen_audio_Tag_label_speed, 121, 18);
     lv_label_set_text(ui->screen_audio_Tag_label_speed, "120 km/h");
     lv_label_set_long_mode(ui->screen_audio_Tag_label_speed, LV_LABEL_LONG_WRAP);
@@ -93,7 +93,7 @@ void setup_scr_screen_audio_Tag(lv_ui *ui)
 
     //Write codes screen_audio_Tag_label_num_mileage
     ui->screen_audio_Tag_label_num_mileage = lv_label_create(ui->screen_audio_Tag);
-    lv_obj_set_pos(ui->screen_audio_Tag_label_num_mileage, 34, 106);
+    lv_obj_set_pos(ui->screen_audio_Tag_label_num_mileage, 34, 132);
     lv_obj_set_size(ui->screen_audio_Tag_label_num_mileage, 153, 30);
     lv_label_set_text(ui->screen_audio_Tag_label_num_mileage, "K1111+236");
     lv_label_set_long_mode(ui->screen_audio_Tag_label_num_mileage, LV_LABEL_LONG_WRAP);
@@ -137,28 +137,28 @@ void setup_scr_screen_audio_Tag(lv_ui *ui)
     lv_obj_set_style_pad_left(ui->screen_audio_Tag_label_time, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_shadow_width(ui->screen_audio_Tag_label_time, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
 
-    //Write codes screen_audio_Tag_label_type
-    ui->screen_audio_Tag_label_type = lv_label_create(ui->screen_audio_Tag);
-    lv_obj_set_pos(ui->screen_audio_Tag_label_type, 34, 49);
-    lv_obj_set_size(ui->screen_audio_Tag_label_type, 109, 28);
-    lv_label_set_text(ui->screen_audio_Tag_label_type, "录音标记");
-    lv_label_set_long_mode(ui->screen_audio_Tag_label_type, LV_LABEL_LONG_WRAP);
+    //Write codes screen_audio_Tag_label_type1
+    ui->screen_audio_Tag_label_type1 = lv_label_create(ui->screen_audio_Tag);
+    lv_obj_set_pos(ui->screen_audio_Tag_label_type1, 34, 49);
+    lv_obj_set_size(ui->screen_audio_Tag_label_type1, 109, 28);
+    lv_label_set_text(ui->screen_audio_Tag_label_type1, "录音标记");
+    lv_label_set_long_mode(ui->screen_audio_Tag_label_type1, LV_LABEL_LONG_WRAP);
 
-    //Write style for screen_audio_Tag_label_type, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
-    lv_obj_set_style_border_width(ui->screen_audio_Tag_label_type, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_radius(ui->screen_audio_Tag_label_type, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_text_color(ui->screen_audio_Tag_label_type, lv_color_hex(0x000000), LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_text_font(ui->screen_audio_Tag_label_type, &lv_font_PingFangHeavy_26, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_text_opa(ui->screen_audio_Tag_label_type, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_text_letter_space(ui->screen_audio_Tag_label_type, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_text_line_space(ui->screen_audio_Tag_label_type, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_text_align(ui->screen_audio_Tag_label_type, LV_TEXT_ALIGN_LEFT, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_bg_opa(ui->screen_audio_Tag_label_type, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_pad_top(ui->screen_audio_Tag_label_type, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_pad_right(ui->screen_audio_Tag_label_type, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_pad_bottom(ui->screen_audio_Tag_label_type, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_pad_left(ui->screen_audio_Tag_label_type, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_shadow_width(ui->screen_audio_Tag_label_type, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    //Write style for screen_audio_Tag_label_type1, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
+    lv_obj_set_style_border_width(ui->screen_audio_Tag_label_type1, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_radius(ui->screen_audio_Tag_label_type1, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_color(ui->screen_audio_Tag_label_type1, lv_color_hex(0x000000), LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui->screen_audio_Tag_label_type1, &lv_font_PingFangHeavy_26, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_opa(ui->screen_audio_Tag_label_type1, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_letter_space(ui->screen_audio_Tag_label_type1, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_line_space(ui->screen_audio_Tag_label_type1, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_align(ui->screen_audio_Tag_label_type1, LV_TEXT_ALIGN_LEFT, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_opa(ui->screen_audio_Tag_label_type1, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_top(ui->screen_audio_Tag_label_type1, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_right(ui->screen_audio_Tag_label_type1, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_bottom(ui->screen_audio_Tag_label_type1, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_left(ui->screen_audio_Tag_label_type1, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_shadow_width(ui->screen_audio_Tag_label_type1, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
 
     //Write codes screen_audio_Tag_img_audio_play
     ui->screen_audio_Tag_img_audio_play = lv_image_create(ui->screen_audio_Tag);
@@ -172,6 +172,29 @@ void setup_scr_screen_audio_Tag(lv_ui *ui)
     //Write style for screen_audio_Tag_img_audio_play, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
     lv_obj_set_style_image_recolor_opa(ui->screen_audio_Tag_img_audio_play, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_image_opa(ui->screen_audio_Tag_img_audio_play, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
+
+    //Write codes screen_audio_Tag_label_type
+    ui->screen_audio_Tag_label_type = lv_label_create(ui->screen_audio_Tag);
+    lv_obj_set_pos(ui->screen_audio_Tag_label_type, 34, 98);
+    lv_obj_set_size(ui->screen_audio_Tag_label_type, 182, 24);
+    lv_label_set_text(ui->screen_audio_Tag_label_type, "类型：录音");
+    lv_label_set_long_mode(ui->screen_audio_Tag_label_type, LV_LABEL_LONG_WRAP);
+
+    //Write style for screen_audio_Tag_label_type, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
+    lv_obj_set_style_border_width(ui->screen_audio_Tag_label_type, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_radius(ui->screen_audio_Tag_label_type, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_color(ui->screen_audio_Tag_label_type, lv_color_hex(0x000000), LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui->screen_audio_Tag_label_type, &lv_font_PingFangHeavy_20, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_opa(ui->screen_audio_Tag_label_type, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_letter_space(ui->screen_audio_Tag_label_type, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_line_space(ui->screen_audio_Tag_label_type, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_align(ui->screen_audio_Tag_label_type, LV_TEXT_ALIGN_LEFT, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_opa(ui->screen_audio_Tag_label_type, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_top(ui->screen_audio_Tag_label_type, 3, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_right(ui->screen_audio_Tag_label_type, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_bottom(ui->screen_audio_Tag_label_type, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_left(ui->screen_audio_Tag_label_type, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_shadow_width(ui->screen_audio_Tag_label_type, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
 
     //The custom code of screen_audio_Tag.
 

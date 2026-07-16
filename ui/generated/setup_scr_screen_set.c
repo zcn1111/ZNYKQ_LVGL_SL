@@ -44,7 +44,7 @@ void setup_scr_screen_set(lv_ui *ui)
     //Write codes screen_set_cont_6
     ui->screen_set_cont_6 = lv_obj_create(ui->screen_set);
     lv_obj_set_pos(ui->screen_set_cont_6, 5, 48);
-    lv_obj_set_size(ui->screen_set_cont_6, 230, 220);
+    lv_obj_set_size(ui->screen_set_cont_6, 230, 210);
     lv_obj_set_scrollbar_mode(ui->screen_set_cont_6, LV_SCROLLBAR_MODE_OFF);
 
     //Write style for screen_set_cont_6, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
