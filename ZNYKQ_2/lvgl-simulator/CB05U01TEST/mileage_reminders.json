@@ -1,36 +1,44 @@
 {
-  "version": 1,
+  "version": 2,
   "items": [
     {
       "mileage_text": "K1206+314",
+      "line_name": "\u4ecb\u897f\u7ebf",
       "reminded": false
     },
     {
       "mileage_text": "K1210+056",
+      "line_name": "\u4ecb\u897f\u7ebf",
       "reminded": false
     },
     {
       "mileage_text": "K1212+236",
+      "line_name": "\u4ecb\u897f\u7ebf",
       "reminded": true
     },
     {
       "mileage_text": "K1223+178",
+      "line_name": "\u4ecb\u897f\u7ebf",
       "reminded": true
     },
     {
       "mileage_text": "K1230+145",
+      "line_name": "\u4ecb\u897f\u7ebf",
       "reminded": true
     },
     {
       "mileage_text": "K1220+145",
+      "line_name": "\u4ecb\u897f\u7ebf",
       "reminded": true
     },
     {
       "mileage_text": "K1210+145",
+      "line_name": "\u4ecb\u897f\u7ebf",
       "reminded": true
     },
     {
       "mileage_text": "K1210+145",
+      "line_name": "\u4ecb\u897f\u7ebf",
       "reminded": true
     }
   ]

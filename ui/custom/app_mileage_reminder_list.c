@@ -42,31 +42,40 @@ extern lv_ui guider_ui;
 #define MR_ROW_X              3
 #define MR_ROW_Y0             4
 #define MR_ROW_W              224
-#define MR_ROW_H              36
+#define MR_ROW_H              61
 #define MR_ROW_GAP            5
-#define MR_ROW_RADIUS         3
+#define MR_ROW_RADIUS         8
 
-#define MR_MILEAGE_X          8
-#define MR_MILEAGE_Y          9
-#define MR_MILEAGE_W          140
-#define MR_MILEAGE_H          26
+#define MR_MILEAGE_X          6
+#define MR_MILEAGE_Y          3
+#define MR_MILEAGE_W          158
+#define MR_MILEAGE_H          21
+
+#define MR_LINE_X             6
+#define MR_LINE_Y             31
+#define MR_LINE_W             122
+#define MR_LINE_H             21
 
 #define MR_STATUS_X           154
-#define MR_STATUS_Y           7
-#define MR_STATUS_W           62
-#define MR_STATUS_H           24
+#define MR_STATUS_Y           31
+#define MR_STATUS_W           66
+#define MR_STATUS_H           23
 
-#define MR_ROW_BG_HEX         0x7661D8
+#define MR_ROW_BG_HEX         0xFFFFFF
+#define MR_ROW_BG_OPA         48
 #define MR_TXT_HEX            0xFFFFFF
 #define MR_STATUS_HEX         0xFFF32B
 #define MR_EMPTY_HEX          0xFFFFFF
 
-#define MR_FONT               (&lv_customer_font_PingFangHeavy_20)
+#define MR_MILEAGE_FONT       (&lv_customer_font_PingFangHeavy_20)
+#define MR_LINE_FONT          (&lv_font_PingFangHeavy_18)
+#define MR_STATUS_FONT        (&lv_font_PingFangHeavy_18)
 #define MR_TITLE_FONT         (&lv_customer_font_PingFangHeavy_20)
 #define MR_DEBUG_ITEM_LOG_LIMIT 20
 
 typedef struct {
     char mileage_text[32];
+    char line_name[32];
     bool reminded;
 } mileage_reminder_item_t;
 
@@ -296,6 +305,86 @@ static cJSON *json_get_first(cJSON *obj, const char *k1, const char *k2, const c
     return obj ? cJSON_GetObjectItem(obj, k3) : NULL;
 }
 
+static bool json_value_to_int(cJSON *j, int *out)
+{
+    if(!out) return false;
+    if(cJSON_IsNumber(j)) {
+        *out = j->valueint;
+        return true;
+    }
+
+    if(cJSON_IsString(j) && j->valuestring && j->valuestring[0] != '\0') {
+        char *end = NULL;
+        long v = strtol(j->valuestring, &end, 10);
+        if(end && end != j->valuestring) {
+            *out = (int)v;
+            return true;
+        }
+    }
+
+    return false;
+}
+
+static void copy_json_string(cJSON *j, char *out, size_t out_sz)
+{
+    if(!out || out_sz == 0) return;
+    out[0] = '\0';
+    if(!cJSON_IsString(j) || !j->valuestring || j->valuestring[0] == '\0') return;
+
+    strncpy(out, j->valuestring, out_sz - 1);
+    out[out_sz - 1] = '\0';
+}
+
+static void copy_mileage_text(const char *src, char *out, size_t out_sz)
+{
+    if(!out || out_sz == 0) return;
+    out[0] = '\0';
+    if(!src || src[0] == '\0') return;
+
+    strncpy(out, src, out_sz - 1);
+    out[out_sz - 1] = '\0';
+}
+
+static bool build_mileage_text_from_parts(cJSON *obj, char *out, size_t out_sz)
+{
+    if(!obj || !out || out_sz == 0) return false;
+    out[0] = '\0';
+
+    cJSON *j_km = json_get_first(obj, "mileage_km", "km_no", "kilometer");
+    if(!j_km) j_km = json_get_first(obj, "km", "k", "mileageNo");
+
+    cJSON *j_meter = json_get_first(obj, "mileage_meter", "meter", "meters");
+    if(!j_meter) j_meter = json_get_first(obj, "offset", "plus", "m");
+
+    int km = 0;
+    int meter = 0;
+    if(!json_value_to_int(j_km, &km) || !json_value_to_int(j_meter, &meter)) {
+        return false;
+    }
+
+    if(meter < 0) meter = 0;
+    cJSON *j_prefix = json_get_first(obj, "mileage_prefix", "prefix", "k_prefix");
+    cJSON *j_suffix = json_get_first(obj, "mileage_suffix", "suffix", "dir_suffix");
+    const char *prefix = (cJSON_IsString(j_prefix) && j_prefix->valuestring && j_prefix->valuestring[0] != '\0') ?
+                         j_prefix->valuestring : "K";
+    const char *suffix = (cJSON_IsString(j_suffix) && j_suffix->valuestring) ? j_suffix->valuestring : "";
+
+    lv_snprintf(out, out_sz, "%s%d+%03d%s", prefix, km, meter, suffix);
+    return out[0] != '\0';
+}
+
+static void parse_line_name(cJSON *obj, char *out, size_t out_sz)
+{
+    if(!out || out_sz == 0) return;
+    out[0] = '\0';
+    if(!obj) return;
+
+    cJSON *j_line = json_get_first(obj, "line_name", "lineName", "line");
+    if(!j_line) j_line = json_get_first(obj, "line_text", "route_line", "railway_line");
+    if(!j_line) j_line = json_get_first(obj, "line_no", "lineNo", "rail_line");
+    copy_json_string(j_line, out, out_sz);
+}
+
 static bool json_value_is_reminded(cJSON *j)
 {
     if(cJSON_IsBool(j)) return cJSON_IsTrue(j);
@@ -364,8 +453,7 @@ static int parse_mileage_items(const char *json_path,
         memset(r, 0, sizeof(*r));
 
         if(cJSON_IsString(it) && it->valuestring && it->valuestring[0] != '\0') {
-            strncpy(r->mileage_text, it->valuestring, sizeof(r->mileage_text) - 1);
-            r->mileage_text[sizeof(r->mileage_text) - 1] = '\0';
+            copy_mileage_text(it->valuestring, r->mileage_text, sizeof(r->mileage_text));
             if(i < MR_DEBUG_ITEM_LOG_LIMIT) {
                 printf("[MILEAGE] accept item[%d] string -> row[%d], mileage=%s\n",
                        i, out, r->mileage_text);
@@ -384,27 +472,21 @@ static int parse_mileage_items(const char *json_path,
         cJSON *j_mileage = json_get_first(it, "mileage_text", "mileage", "text");
         if(!j_mileage) j_mileage = json_get_first(it, "mileageText", "mileage_value", "name");
         if(!j_mileage) j_mileage = json_get_first(it, "mileage_no", "mileageNo", "mileage_num");
-        if(!j_mileage) j_mileage = json_get_first(it, "line_mileage", "km_text", "kilometer");
-        if(!j_mileage) j_mileage = json_get_first(it, "k", "km", "value");
-        if(!j_mileage) {
+        if(!j_mileage) j_mileage = json_get_first(it, "line_mileage", "km_text", "value");
+
+        if(cJSON_IsString(j_mileage) && j_mileage->valuestring && j_mileage->valuestring[0] != '\0') {
+            copy_mileage_text(j_mileage->valuestring, r->mileage_text, sizeof(r->mileage_text));
+        } else if(!build_mileage_text_from_parts(it, r->mileage_text, sizeof(r->mileage_text))) {
             if(i < MR_DEBUG_ITEM_LOG_LIMIT) {
-                printf("[MILEAGE] skip item[%d]: missing mileage field\n", i);
+                printf("[MILEAGE] skip item[%d]: missing/invalid mileage field, type=%s empty=%d\n",
+                       i, json_type_name(j_mileage),
+                       (cJSON_IsString(j_mileage) && j_mileage->valuestring && j_mileage->valuestring[0] == '\0') ? 1 : 0);
                 debug_print_object_keys("item", it);
             }
             continue;
         }
 
-        if(!cJSON_IsString(j_mileage) || !j_mileage->valuestring || j_mileage->valuestring[0] == '\0') {
-            if(i < MR_DEBUG_ITEM_LOG_LIMIT) {
-                printf("[MILEAGE] skip item[%d]: mileage type=%s empty=%d\n",
-                       i, json_type_name(j_mileage),
-                       (cJSON_IsString(j_mileage) && j_mileage->valuestring && j_mileage->valuestring[0] == '\0') ? 1 : 0);
-            }
-            continue;
-        }
-
-        strncpy(r->mileage_text, j_mileage->valuestring, sizeof(r->mileage_text) - 1);
-        r->mileage_text[sizeof(r->mileage_text) - 1] = '\0';
+        parse_line_name(it, r->line_name, sizeof(r->line_name));
 
         cJSON *j_reminded = json_get_first(it, "reminded", "is_reminded", "done");
         if(!j_reminded) j_reminded = json_get_first(it, "isReminded", "remind", "warned");
@@ -413,8 +495,9 @@ static int parse_mileage_items(const char *json_path,
         r->reminded = json_value_is_reminded(j_reminded);
 
         if(i < MR_DEBUG_ITEM_LOG_LIMIT) {
-            printf("[MILEAGE] accept item[%d] -> row[%d], mileage=%s, reminded=%d, status_type=%s",
-                   i, out, r->mileage_text, r->reminded ? 1 : 0, json_type_name(j_reminded));
+            printf("[MILEAGE] accept item[%d] -> row[%d], mileage=%s, line=%s, reminded=%d, status_type=%s",
+                   i, out, r->mileage_text, r->line_name[0] ? r->line_name : "--",
+                   r->reminded ? 1 : 0, json_type_name(j_reminded));
             if(cJSON_IsString(j_reminded) && j_reminded->valuestring) {
                 printf(", status=%s", j_reminded->valuestring);
             }
@@ -445,7 +528,7 @@ static void fix_list_style(lv_obj_t *list)
     lv_obj_clear_flag(list, LV_OBJ_FLAG_SCROLL_ELASTIC);
 }
 
-static void set_label_style(lv_obj_t *lbl, lv_color_t color, lv_text_align_t align)
+static void set_label_style(lv_obj_t *lbl, const lv_font_t *font, lv_color_t color, lv_text_align_t align)
 {
     lv_label_set_long_mode(lbl, LV_LABEL_LONG_CLIP);
     lv_obj_clear_flag(lbl, LV_OBJ_FLAG_SCROLLABLE);
@@ -455,7 +538,7 @@ static void set_label_style(lv_obj_t *lbl, lv_color_t color, lv_text_align_t ali
     lv_obj_set_style_shadow_width(lbl, 0, 0);
     lv_obj_set_style_pad_all(lbl, 0, 0);
     lv_obj_set_style_text_color(lbl, color, 0);
-    lv_obj_set_style_text_font(lbl, MR_FONT, 0);
+    lv_obj_set_style_text_font(lbl, font, 0);
     lv_obj_set_style_text_opa(lbl, 255, 0);
     lv_obj_set_style_text_letter_space(lbl, 0, 0);
     lv_obj_set_style_text_line_space(lbl, 0, 0);
@@ -472,8 +555,8 @@ static void show_empty(lv_ui *ui)
     lv_obj_t *lbl = lv_label_create(list);
     lv_obj_set_pos(lbl, 0, 82);
     lv_obj_set_size(lbl, lv_obj_get_width(list), 30);
-    lv_label_set_text(lbl, "暂无数据");
-    set_label_style(lbl, lv_color_hex(MR_EMPTY_HEX), LV_TEXT_ALIGN_CENTER);
+    lv_label_set_text(lbl, "\xE6\x9A\x82\xE6\x97\xA0\xE6\x95\xB0\xE6\x8D\xAE");
+    set_label_style(lbl, MR_MILEAGE_FONT, lv_color_hex(MR_EMPTY_HEX), LV_TEXT_ALIGN_CENTER);
 }
 
 static void create_row(lv_obj_t *list, const mileage_reminder_item_t *item, int row_index)
@@ -486,10 +569,13 @@ static void create_row(lv_obj_t *list, const mileage_reminder_item_t *item, int 
     lv_obj_clear_flag(row, LV_OBJ_FLAG_SCROLLABLE);
     lv_obj_set_scrollbar_mode(row, LV_SCROLLBAR_MODE_OFF);
     lv_obj_set_style_radius(row, MR_ROW_RADIUS, 0);
-    lv_obj_set_style_bg_opa(row, 255, 0);
+    lv_obj_set_style_bg_opa(row, MR_ROW_BG_OPA, 0);
     lv_obj_set_style_bg_color(row, lv_color_hex(MR_ROW_BG_HEX), 0);
     lv_obj_set_style_bg_grad_dir(row, LV_GRAD_DIR_NONE, 0);
-    lv_obj_set_style_border_width(row, 0, 0);
+    lv_obj_set_style_border_width(row, 2, 0);
+    lv_obj_set_style_border_opa(row, 0, 0);
+    lv_obj_set_style_border_color(row, lv_color_hex(0x2195F6), 0);
+    lv_obj_set_style_border_side(row, LV_BORDER_SIDE_FULL, 0);
     lv_obj_set_style_outline_width(row, 0, 0);
     lv_obj_set_style_shadow_width(row, 0, 0);
     lv_obj_set_style_pad_all(row, 0, 0);
@@ -498,14 +584,20 @@ static void create_row(lv_obj_t *list, const mileage_reminder_item_t *item, int 
     lv_obj_set_pos(mileage, MR_MILEAGE_X, MR_MILEAGE_Y);
     lv_obj_set_size(mileage, MR_MILEAGE_W, MR_MILEAGE_H);
     lv_label_set_text(mileage, item->mileage_text);
-    set_label_style(mileage, lv_color_hex(MR_TXT_HEX), LV_TEXT_ALIGN_LEFT);
+    set_label_style(mileage, MR_MILEAGE_FONT, lv_color_hex(MR_TXT_HEX), LV_TEXT_ALIGN_LEFT);
+
+    lv_obj_t *line = lv_label_create(row);
+    lv_obj_set_pos(line, MR_LINE_X, MR_LINE_Y);
+    lv_obj_set_size(line, MR_LINE_W, MR_LINE_H);
+    lv_label_set_text(line, item->line_name[0] ? item->line_name : "--");
+    set_label_style(line, MR_LINE_FONT, lv_color_hex(MR_TXT_HEX), LV_TEXT_ALIGN_LEFT);
 
     if(item->reminded) {
         lv_obj_t *status = lv_label_create(row);
         lv_obj_set_pos(status, MR_STATUS_X, MR_STATUS_Y);
         lv_obj_set_size(status, MR_STATUS_W, MR_STATUS_H);
-        lv_label_set_text(status, "已提醒");
-        set_label_style(status, lv_color_hex(MR_STATUS_HEX), LV_TEXT_ALIGN_RIGHT);
+        lv_label_set_text(status, "\xE5\xB7\xB2\xE6\x8F\x90\xE9\x86\x92");
+        set_label_style(status, MR_STATUS_FONT, lv_color_hex(MR_STATUS_HEX), LV_TEXT_ALIGN_LEFT);
     }
 }
 
