@@ -40,26 +40,26 @@ extern lv_ui guider_ui;
 #define MR_MAX_ITEMS          100
 
 #define MR_ROW_X              3
-#define MR_ROW_Y0             4
+#define MR_ROW_Y0             1
 #define MR_ROW_W              224
-#define MR_ROW_H              61
+#define MR_ROW_H              62
 #define MR_ROW_GAP            5
 #define MR_ROW_RADIUS         8
 
-#define MR_MILEAGE_X          6
-#define MR_MILEAGE_Y          3
-#define MR_MILEAGE_W          158
+#define MR_MILEAGE_X          11
+#define MR_MILEAGE_Y          4
+#define MR_MILEAGE_W          191
 #define MR_MILEAGE_H          21
 
-#define MR_LINE_X             6
-#define MR_LINE_Y             31
-#define MR_LINE_W             122
+#define MR_LINE_X             12
+#define MR_LINE_Y             34
+#define MR_LINE_W             101
 #define MR_LINE_H             21
 
-#define MR_STATUS_X           154
-#define MR_STATUS_Y           31
-#define MR_STATUS_W           66
-#define MR_STATUS_H           23
+#define MR_STATUS_X           162
+#define MR_STATUS_Y           34
+#define MR_STATUS_W           53
+#define MR_STATUS_H           21
 
 #define MR_ROW_BG_HEX         0xFFFFFF
 #define MR_ROW_BG_OPA         48
@@ -67,9 +67,9 @@ extern lv_ui guider_ui;
 #define MR_STATUS_HEX         0xFFF32B
 #define MR_EMPTY_HEX          0xFFFFFF
 
-#define MR_MILEAGE_FONT       (&lv_customer_font_PingFangHeavy_20)
-#define MR_LINE_FONT          (&lv_customer_font_PingFangHeavy_18)
-#define MR_STATUS_FONT        (&lv_customer_font_PingFangHeavy_18)
+#define MR_MILEAGE_FONT       (&lv_font_PingFangHeavy_22)
+#define MR_LINE_FONT          (&lv_font_PingFangHeavy_16)
+#define MR_STATUS_FONT        (&lv_font_PingFangHeavy_16)
 #define MR_TITLE_FONT         (&lv_customer_font_PingFangHeavy_20)
 #define MR_DEBUG_ITEM_LOG_LIMIT 20
 
