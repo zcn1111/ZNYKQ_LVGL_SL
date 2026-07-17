@@ -19,9 +19,9 @@ extern "C" {
 #else
 #include "font/lv_font.h"
 #endif
-
-LV_FONT_DECLARE(lv_customer_font_PingFangHeavy_20)
 LV_FONT_DECLARE(lv_customer_font_PingFangHeavy_16)
+LV_FONT_DECLARE(lv_customer_font_PingFangHeavy_18)
+LV_FONT_DECLARE(lv_customer_font_PingFangHeavy_20)
 
 #ifdef __cplusplus
 }

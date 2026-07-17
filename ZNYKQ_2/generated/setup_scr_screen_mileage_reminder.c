@@ -51,42 +51,42 @@ void setup_scr_screen_mileage_reminder(lv_ui *ui)
     //Write style for screen_mileage_reminder_label_3, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
     lv_obj_set_style_border_width(ui->screen_mileage_reminder_label_3, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_radius(ui->screen_mileage_reminder_label_3, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_text_color(ui->screen_mileage_reminder_label_3, lv_color_hex(0xffffff), LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_text_font(ui->screen_mileage_reminder_label_3, &lv_font_PingFangHeavy_18, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_text_opa(ui->screen_mileage_reminder_label_3, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_text_letter_space(ui->screen_mileage_reminder_label_3, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_text_line_space(ui->screen_mileage_reminder_label_3, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_text_align(ui->screen_mileage_reminder_label_3, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_bg_opa(ui->screen_mileage_reminder_label_3, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_pad_top(ui->screen_mileage_reminder_label_3, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_pad_right(ui->screen_mileage_reminder_label_3, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_pad_bottom(ui->screen_mileage_reminder_label_3, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_pad_left(ui->screen_mileage_reminder_label_3, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_shadow_width(ui->screen_mileage_reminder_label_3, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_color(ui->screen_mileage_reminder_label_3, lv_color_hex(0xffffff), LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui->screen_mileage_reminder_label_3, &lv_font_PingFangHeavy_18, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_opa(ui->screen_mileage_reminder_label_3, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_letter_space(ui->screen_mileage_reminder_label_3, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_line_space(ui->screen_mileage_reminder_label_3, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_align(ui->screen_mileage_reminder_label_3, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN|LV_STATE_DEFAULT);
 
     //Write codes screen_mileage_reminder_cont_list
     ui->screen_mileage_reminder_cont_list = lv_obj_create(ui->screen_mileage_reminder);
-    lv_obj_set_pos(ui->screen_mileage_reminder_cont_list, 5, 47);
+    lv_obj_set_pos(ui->screen_mileage_reminder_cont_list, 5, 44);
     lv_obj_set_size(ui->screen_mileage_reminder_cont_list, 230, 227);
     lv_obj_set_scrollbar_mode(ui->screen_mileage_reminder_cont_list, LV_SCROLLBAR_MODE_OFF);
 
     //Write style for screen_mileage_reminder_cont_list, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
+    lv_obj_set_style_radius(ui->screen_mileage_reminder_cont_list, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_opa(ui->screen_mileage_reminder_cont_list, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_shadow_width(ui->screen_mileage_reminder_cont_list, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_border_width(ui->screen_mileage_reminder_cont_list, 2, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_border_opa(ui->screen_mileage_reminder_cont_list, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_border_color(ui->screen_mileage_reminder_cont_list, lv_color_hex(0x2195f6), LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_border_side(ui->screen_mileage_reminder_cont_list, LV_BORDER_SIDE_NONE, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_radius(ui->screen_mileage_reminder_cont_list, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_bg_opa(ui->screen_mileage_reminder_cont_list, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_pad_top(ui->screen_mileage_reminder_cont_list, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_pad_bottom(ui->screen_mileage_reminder_cont_list, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_pad_left(ui->screen_mileage_reminder_cont_list, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_pad_right(ui->screen_mileage_reminder_cont_list, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_shadow_width(ui->screen_mileage_reminder_cont_list, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
 
     //Write codes screen_mileage_reminder_cont_demo
     ui->screen_mileage_reminder_cont_demo = lv_obj_create(ui->screen_mileage_reminder_cont_list);
     lv_obj_set_pos(ui->screen_mileage_reminder_cont_demo, 3, 1);
-    lv_obj_set_size(ui->screen_mileage_reminder_cont_demo, 224, 61);
+    lv_obj_set_size(ui->screen_mileage_reminder_cont_demo, 224, 62);
     lv_obj_set_scrollbar_mode(ui->screen_mileage_reminder_cont_demo, LV_SCROLLBAR_MODE_OFF);
 
     //Write style for screen_mileage_reminder_cont_demo, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
@@ -106,16 +106,16 @@ void setup_scr_screen_mileage_reminder(lv_ui *ui)
 
     //Write codes screen_mileage_reminder_label_5
     ui->screen_mileage_reminder_label_5 = lv_label_create(ui->screen_mileage_reminder_cont_demo);
-    lv_obj_set_pos(ui->screen_mileage_reminder_label_5, 6, 31);
-    lv_obj_set_size(ui->screen_mileage_reminder_label_5, 122, 21);
-    lv_label_set_text(ui->screen_mileage_reminder_label_5, "线名线名线名");
+    lv_obj_set_pos(ui->screen_mileage_reminder_label_5, 12, 34);
+    lv_obj_set_size(ui->screen_mileage_reminder_label_5, 101, 21);
+    lv_label_set_text(ui->screen_mileage_reminder_label_5, "介西线介西线");
     lv_label_set_long_mode(ui->screen_mileage_reminder_label_5, LV_LABEL_LONG_WRAP);
 
     //Write style for screen_mileage_reminder_label_5, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
     lv_obj_set_style_border_width(ui->screen_mileage_reminder_label_5, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_radius(ui->screen_mileage_reminder_label_5, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_text_color(ui->screen_mileage_reminder_label_5, lv_color_hex(0xffffff), LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_text_font(ui->screen_mileage_reminder_label_5, &lv_font_PingFangHeavy_18, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui->screen_mileage_reminder_label_5, &lv_font_PingFangHeavy_16, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_text_opa(ui->screen_mileage_reminder_label_5, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_text_letter_space(ui->screen_mileage_reminder_label_5, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_text_line_space(ui->screen_mileage_reminder_label_5, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
@@ -129,8 +129,8 @@ void setup_scr_screen_mileage_reminder(lv_ui *ui)
 
     //Write codes screen_mileage_reminder_label_4
     ui->screen_mileage_reminder_label_4 = lv_label_create(ui->screen_mileage_reminder_cont_demo);
-    lv_obj_set_pos(ui->screen_mileage_reminder_label_4, 6, 3);
-    lv_obj_set_size(ui->screen_mileage_reminder_label_4, 158, 21);
+    lv_obj_set_pos(ui->screen_mileage_reminder_label_4, 11, 4);
+    lv_obj_set_size(ui->screen_mileage_reminder_label_4, 191, 21);
     lv_label_set_text(ui->screen_mileage_reminder_label_4, "K-1234+999A");
     lv_label_set_long_mode(ui->screen_mileage_reminder_label_4, LV_LABEL_LONG_WRAP);
 
@@ -138,7 +138,7 @@ void setup_scr_screen_mileage_reminder(lv_ui *ui)
     lv_obj_set_style_border_width(ui->screen_mileage_reminder_label_4, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_radius(ui->screen_mileage_reminder_label_4, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_text_color(ui->screen_mileage_reminder_label_4, lv_color_hex(0xffffff), LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_text_font(ui->screen_mileage_reminder_label_4, &lv_font_PingFangHeavy_20, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui->screen_mileage_reminder_label_4, &lv_font_PingFangHeavy_22, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_text_opa(ui->screen_mileage_reminder_label_4, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_text_letter_space(ui->screen_mileage_reminder_label_4, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_text_line_space(ui->screen_mileage_reminder_label_4, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
@@ -152,16 +152,16 @@ void setup_scr_screen_mileage_reminder(lv_ui *ui)
 
     //Write codes screen_mileage_reminder_label_6
     ui->screen_mileage_reminder_label_6 = lv_label_create(ui->screen_mileage_reminder_cont_demo);
-    lv_obj_set_pos(ui->screen_mileage_reminder_label_6, 158, 31);
-    lv_obj_set_size(ui->screen_mileage_reminder_label_6, 63, 23);
-    lv_label_set_text(ui->screen_mileage_reminder_label_6, "已提醒\n");
+    lv_obj_set_pos(ui->screen_mileage_reminder_label_6, 162, 34);
+    lv_obj_set_size(ui->screen_mileage_reminder_label_6, 53, 21);
+    lv_label_set_text(ui->screen_mileage_reminder_label_6, "已提醒");
     lv_label_set_long_mode(ui->screen_mileage_reminder_label_6, LV_LABEL_LONG_WRAP);
 
     //Write style for screen_mileage_reminder_label_6, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
     lv_obj_set_style_border_width(ui->screen_mileage_reminder_label_6, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_radius(ui->screen_mileage_reminder_label_6, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_text_color(ui->screen_mileage_reminder_label_6, lv_color_hex(0xffd200), LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_text_font(ui->screen_mileage_reminder_label_6, &lv_font_PingFangHeavy_18, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui->screen_mileage_reminder_label_6, &lv_font_PingFangHeavy_16, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_text_opa(ui->screen_mileage_reminder_label_6, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_text_letter_space(ui->screen_mileage_reminder_label_6, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_text_line_space(ui->screen_mileage_reminder_label_6, 0, LV_PART_MAIN|LV_STATE_DEFAULT);

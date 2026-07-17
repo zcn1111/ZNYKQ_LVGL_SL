@@ -68,8 +68,8 @@ extern lv_ui guider_ui;
 #define MR_EMPTY_HEX          0xFFFFFF
 
 #define MR_MILEAGE_FONT       (&lv_customer_font_PingFangHeavy_20)
-#define MR_LINE_FONT          (&lv_font_PingFangHeavy_18)
-#define MR_STATUS_FONT        (&lv_font_PingFangHeavy_18)
+#define MR_LINE_FONT          (&lv_customer_font_PingFangHeavy_18)
+#define MR_STATUS_FONT        (&lv_customer_font_PingFangHeavy_18)
 #define MR_TITLE_FONT         (&lv_customer_font_PingFangHeavy_20)
 #define MR_DEBUG_ITEM_LOG_LIMIT 20
 
